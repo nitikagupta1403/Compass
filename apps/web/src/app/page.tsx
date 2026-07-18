@@ -1,15 +1,29 @@
 export default function Home() {
   return (
-    <main className="min-h-screen flex flex-col items-center justify-center bg-slate-950 text-white">
-      <h1 className="text-6xl font-bold">Compass</h1>
+    <main className="min-h-screen bg-slate-100">
+      <header className="bg-slate-900 text-white p-6 shadow">
+        <h1 className="text-4xl font-bold">Compass</h1>
+        <p className="text-slate-300">
+          Evidence-first Clinical Knowledge System
+        </p>
+      </header>
 
-      <p className="mt-6 text-xl text-gray-300">
-        Evidence-first Clinical Knowledge System
-      </p>
+      <section className="max-w-5xl mx-auto p-8">
+        <div className="bg-white rounded-xl shadow p-8">
+          <h2 className="text-2xl font-semibold">
+            Welcome
+          </h2>
 
-      <div className="mt-12 rounded-xl border border-slate-700 p-6">
-        🚀 Compass is running successfully.
-      </div>
+          <p className="mt-4 text-gray-600">
+            Compass transforms medical records into structured,
+            explainable clinical timelines.
+          </p>
+
+          <button className="mt-8 bg-slate-900 text-white px-6 py-3 rounded-lg">
+            Open Patient
+          </button>
+        </div>
+      </section>
     </main>
   );
 }
