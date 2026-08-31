@@ -59,22 +59,18 @@ export function buildReferralData(
       ? patient.diagnoses[0].name
       : null;
 
-  const therapeuticDrugMonitoring =
-    patient.reports
-      .filter((report) =>
-        report.title
-          .toLowerCase()
-          .includes("phenobarbital")
-      )
-      .map((report) => ({
-        title: report.title,
-        date: report.date,
-        summary: report.summary,
-      }));
+  const therapeuticDrugMonitoring = patient.reports
+    .filter((report) =>
+      report.title.toLowerCase().includes("phenobarbital")
+    )
+    .map((report) => ({
+      title: report.title,
+      date: report.date,
+      summary: report.summary,
+    }));
 
   const unlinkedVideos = videos.filter(
-    (video) =>
-      video.eventLinkStatus === "unlinked"
+    (video) => video.eventLinkStatus === "unlinked"
   ).length;
 
   return {
@@ -90,48 +86,30 @@ export function buildReferralData(
     workingDiagnosis,
 
     seizureDiary: {
-      totalLoggedEvents:
-        metrics.totalLoggedEvents,
-
-      uniqueEventDays:
-        metrics.uniqueEventDays,
-
-      firstEventDate:
-        metrics.firstEventDate,
-
-      lastEventDate:
-        metrics.lastEventDate,
-
-      maxEventsInOneDay:
-        metrics.maxEventsInOneDay,
-
-      multiEventDays:
-        metrics.clusterDays.length,
-
-      symptomaticOnlyEvents:
-        metrics.symptomaticOnlyEvents,
+      totalLoggedEvents: metrics.totalLoggedEvents,
+      uniqueEventDays: metrics.uniqueEventDays,
+      firstEventDate: metrics.firstEventDate,
+      lastEventDate: metrics.lastEventDate,
+      maxEventsInOneDay: metrics.maxEventsInOneDay,
+      multiEventDays: metrics.clusterDays.length,
+      symptomaticOnlyEvents: metrics.symptomaticOnlyEvents,
     },
 
-    medications: patient.medications.map(
-      (medication) => ({
-        name: medication.name,
-        activeIngredient:
-          medication.activeIngredient,
-        dose: medication.dose,
-        frequency: medication.frequency,
-        prescribedOn:
-          medication.prescribedOn,
-        status: medication.status,
-      })
-    ),
+    medications: patient.medications.map((medication) => ({
+      name: medication.name,
+      activeIngredient: medication.activeIngredient,
+      dose: medication.dose,
+      frequency: medication.frequency,
+      prescribedOn: medication.prescribedOn,
+      status: medication.status,
+    })),
 
     therapeuticDrugMonitoring,
 
     videoEvidence: {
       totalVideos: videos.length,
       unlinkedVideos,
-      specialistReviewRequired:
-        videos.length > 0,
+      specialistReviewRequired: videos.length > 0,
     },
 
     unresolvedIssues: [
