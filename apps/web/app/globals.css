@@ -122,4 +122,11 @@ body {
   .paw-cursor {
     cursor: url("/paw-cursor-pink.png") 16 16, pointer !important;
   }
+
+  @media print {
+  .print-avoid-break {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+}
 }

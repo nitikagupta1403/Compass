@@ -4,15 +4,31 @@ import path from "path";
 export type VideoRecord = {
   id: string;
   patientId: string;
-  capturedAt: string;
-  fileName: string;
-  eventLinkStatus: string;
-  clinicalPhase: string;
-  source: string;
+
+  date: string;
+  time: string;
+
+  sourceFile: string;
+  sourceType: string;
   verification: string;
-  observations?: string[];
-  interpretation?: string;
+
+  durationSeconds: number;
+
+  eventLinkStatus: string;
+  linkedSeizureEventId?: string | null;
+
+  clinicalContext?: string;
+
+  observedEvidence?: string;
+
+  seizureOnsetCaptured: boolean;
+  seizureClassificationAssigned: boolean;
+
+  specialistReviewRequired: boolean;
+
+  notes?: string;
 };
+
 export function loadHopeVideos(): VideoRecord[] {
   const filePath = path.join(
     process.cwd(),

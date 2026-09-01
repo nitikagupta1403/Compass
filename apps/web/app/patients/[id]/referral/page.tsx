@@ -1,8 +1,9 @@
-import patients from "@/data/patients";
+import { loadPatient } from "@/data/loadPatient";
 import { loadHopeSeizures } from "@/data/loadSeizures";
 import { loadHopeVideos } from "@/data/loadVideos";
 import { loadMedications } from "@/data/loadMedications";
 import { loadLaboratory } from "@/data/loadLaboratory";
+
 
 import {
   buildReferralData,
@@ -23,11 +24,9 @@ export default async function ReferralPage({
 }: Props) {
   const { id } = await params;
 
-  const patient = patients.find(
-    (patient) => patient.id === id
-  );
+  const patient = loadPatient();
 
-  if (!patient) {
+  if (patient.id !== id) {
     return (
       <main className="flex min-h-screen items-center justify-center">
         <h1 className="text-3xl font-bold text-red-600">
@@ -43,55 +42,105 @@ export default async function ReferralPage({
   const laboratory = loadLaboratory();
 
   const referral = buildReferralData(
-  patient,
-  seizures,
-  videos,
-  medications,
-  laboratory
-);
+    patient,
+    seizures,
+    videos,
+    medications,
+    laboratory
+  );
 
   /*
-   * These groups affect referral presentation only.
-   * The underlying medication history remains unchanged.
+   * Presentation groups only.
+   * Underlying medication evidence remains unchanged.
    */
 
   const levetiracetam = referral.medications.filter(
     (medication) =>
-      medication.name === "Epihat-LC" ||
-      medication.name === "LEVEPIL" ||
-      medication.name === "Levetiracetam"
+      medication.activeIngredient?.toLowerCase() ===
+        "levetiracetam" ||
+      medication.name.toLowerCase() === "levetiracetam"
   );
 
   const phenobarbital = referral.medications.filter(
-    (medication) => medication.name === "Gardenal"
+    (medication) =>
+      medication.activeIngredient?.toLowerCase() ===
+        "phenobarbital"
   );
 
   const clonazepam = referral.medications.filter(
-    (medication) => medication.name === "Rivotril"
+    (medication) =>
+      medication.activeIngredient?.toLowerCase() ===
+        "clonazepam"
   );
 
   const emergencyPlan = referral.medications.filter(
-    (medication) => medication.name === "Medazolam"
+    (medication) =>
+      medication.status === "current-emergency-plan"
   );
 
-  const primaryNames = new Set([
-    "Epihat-LC",
-    "LEVEPIL",
-    "Levetiracetam",
-    "Gardenal",
-    "Rivotril",
-    "Medazolam",
+  const primaryMedications = new Set([
+    ...levetiracetam,
+    ...phenobarbital,
+    ...clonazepam,
+    ...emergencyPlan,
   ]);
 
   const supportiveMedications =
     referral.medications.filter(
       (medication) =>
-        !primaryNames.has(medication.name)
+        !primaryMedications.has(medication)
     );
 
+  /*
+   * Current regimen text is generated from medication evidence.
+   * The UI does not duplicate dose/schedule values.
+   */
+
+  const getCurrentMedication = (
+  medicationRecords: ReferralMedication[],
+  statuses: string[]
+) =>
+  medicationRecords.find(
+    (medication) =>
+      medication.status &&
+      statuses.includes(medication.status)
+  );
+
+  const getCurrentMedicationText = (
+    medicationRecords: ReferralMedication[],
+    statuses: string[]
+  ) => {
+    const current = getCurrentMedication(
+      medicationRecords,
+      statuses
+    );
+
+    if (!current) {
+      return "Current regimen not available.";
+    }
+
+    return current.frequency || current.dose;
+  };
+
+  const currentPhenobarbital = getCurrentMedication(
+    phenobarbital,
+    ["current"]
+  );
+
+  const currentLevetiracetam = getCurrentMedication(
+    levetiracetam,
+    ["current-sos"]
+  );
+
+  const currentEmergencyPlan = getCurrentMedication(
+    emergencyPlan,
+    ["current-emergency-plan"]
+  );
   return (
     <main className="min-h-screen bg-slate-100 px-6 py-10">
       <article className="mx-auto max-w-5xl rounded-xl bg-white p-8 shadow-lg">
+
+        {/* PRINT HEADER */}
 
         <div className="hidden print:block print:mb-4">
           <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">
@@ -202,137 +251,161 @@ export default async function ReferralPage({
             The diary includes both seizure-labelled
             events and symptomatic or SOS-treated entries.
             Compass does not automatically classify every
-            logged episode as a confirmed epileptic
-            seizure.
+            logged episode as a confirmed epileptic seizure.
           </p>
         </section>
 
-        {/* MEDICATION SEMANTIC ZOOM */}
+        {/* ANTISEIZURE TREATMENT */}
 
-          <section className="mt-10">
-            <div>
-              <p className="text-xs font-semibold uppercase tracking-wider text-teal-800">
-                Current treatment map
-              </p>
+        <section className="mt-10">
+          <div>
+            <p className="text-xs font-semibold uppercase tracking-wider text-teal-800">
+              Current treatment map
+            </p>
 
-              <h2 className="mt-1 text-xl font-semibold text-slate-900">
-                💊 Antiseizure treatment
-              </h2>
+            <h2 className="mt-1 text-xl font-semibold text-slate-900">
+              💊 Antiseizure treatment
+            </h2>
 
-              <p className="mt-2 max-w-3xl text-sm leading-6 text-slate-600">
-                Current treatment is shown first. Expand a treatment node
-                to inspect its documented history.
-              </p>
-            </div>
+            <p className="mt-2 max-w-3xl text-sm leading-6 text-slate-600">
+              Current treatment is shown first. Expand a
+              treatment node to inspect its documented
+              history.
+            </p>
+          </div>
 
-            {/* HOPE ROOT */}
+          {/* PATIENT ROOT */}
 
-            <div className="mt-7 rounded-xl border border-teal-800/20 bg-teal-950/[0.02] p-6">
+          <div className="mt-7 rounded-xl border border-teal-800/20 bg-teal-950/[0.02] p-6">
 
-              <div className="flex justify-center">
-                <div className="rounded-xl border-2 border-teal-800 bg-white px-7 py-4 text-center shadow-sm">
-                  <p className="text-xs font-semibold uppercase tracking-wider text-teal-700">
-                    Patient treatment
-                  </p>
+            <div className="flex justify-center">
+              <div className="rounded-xl border-2 border-teal-800 bg-white px-7 py-4 text-center shadow-sm">
+                <p className="text-xs font-semibold uppercase tracking-wider text-teal-700">
+                  Patient treatment
+                </p>
 
-                  <p className="mt-1 text-xl font-bold text-slate-900">
-                    Hope
-                  </p>
-                </div>
-              </div>
-
-              <div className="mx-auto h-8 w-px bg-teal-800/30" />
-
-              {/* THREE PRIMARY NODES */}
-
-              <div className="grid gap-4 lg:grid-cols-3">
-
-                <TreatmentZoomNode
-                  type="daily"
-                  title="Daily"
-                  drug="Gardenal"
-                  ingredient="Phenobarbital"
-                  currentText="60 mg · 1 tablet morning + 1 tablet night"
-                  medications={phenobarbital}
-                />
-
-                <TreatmentZoomNode
-                  type="sos"
-                  title="SOS / PRN"
-                  drug="Levetiracetam"
-                  ingredient="Levetiracetam"
-                  currentText="500 mg · ¾ tablet as SOS"
-                  medications={levetiracetam}
-                />
-
-                <TreatmentZoomNode
-                  type="emergency"
-                  title="Emergency"
-                  drug="Medazolam"
-                  ingredient="Intranasal rescue plan"
-                  currentText="Up to 1.9 mL intranasally in emergency"
-                  medications={emergencyPlan}
-                />
-
+                <p className="mt-1 text-xl font-bold text-slate-900">
+                  {referral.patientName}
+                </p>
               </div>
             </div>
 
-            {/* HISTORICAL / STOPPED */}
+            <div className="mx-auto h-8 w-px bg-teal-800/30" />
 
+            {/* PRIMARY TREATMENT NODES */}
+
+            <div className="grid gap-4 lg:grid-cols-3">
+
+              <TreatmentZoomNode
+                type="daily"
+                title="Daily"
+                drug={currentPhenobarbital?.name ?? "Current medication"}
+                ingredient={
+                  currentPhenobarbital?.activeIngredient ?? ""
+                }
+                currentText={getCurrentMedicationText(
+                  phenobarbital,
+                  ["current"]
+                )}
+                medications={phenobarbital}
+              />
+
+              <TreatmentZoomNode
+                type="sos"
+                title="SOS / PRN"
+                drug={currentLevetiracetam?.name ?? "Current SOS medication"}
+                ingredient={
+                  currentLevetiracetam?.activeIngredient ?? ""
+                  }
+                currentText={getCurrentMedicationText(
+                  levetiracetam,
+                  ["current-sos"]
+                )}
+                medications={levetiracetam}
+              />
+
+              <TreatmentZoomNode
+                type="emergency"
+                title="Emergency"
+                drug={currentEmergencyPlan?.name ?? "Emergency medication"}
+                ingredient={
+                  currentEmergencyPlan?.activeIngredient ??
+                  "Intranasal rescue plan"
+                }
+                currentText={getCurrentMedicationText(
+                  emergencyPlan,
+                  ["current-emergency-plan"]
+                )}
+                medications={emergencyPlan}
+              />
+
+            </div>
+          </div>
+
+          {/* HISTORICAL / STOPPED */}
+
+          {(clonazepam.length > 0 ||
+            supportiveMedications.length > 0) && (
             <details className="mt-5 rounded-xl border border-slate-200 bg-white">
+
               <summary
                 className="px-5 py-4 font-semibold text-slate-700"
                 style={{
-                  cursor: 'url("/paw-cursor-pink.png") 16 16, pointer',
+                  cursor:
+                    'url("/paw-cursor-pink.png") 16 16, pointer',
                 }}
               >
                 Other treatment history
               </summary>
 
               <div className="border-t border-slate-200 p-5">
-
                 <div className="grid gap-4 md:grid-cols-2">
 
-                  <HistoricalGroup
-                    title="Clonazepam"
-                    subtitle="Short-course / PRN treatment → stopped"
-                    medications={clonazepam}
-                  />
+                  {clonazepam.length > 0 && (
+                    <HistoricalGroup
+                      title="Clonazepam"
+                      subtitle="Short-course / PRN treatment → stopped"
+                      medications={clonazepam}
+                    />
+                  )}
 
-                  <HistoricalGroup
-                    title="Adjunct / supportive therapy"
-                    subtitle="Contextual supportive treatment history"
-                    medications={supportiveMedications}
-                  />
+                  {supportiveMedications.length > 0 && (
+                    <HistoricalGroup
+                      title="Adjunct / supportive therapy"
+                      subtitle="Contextual supportive treatment history"
+                      medications={supportiveMedications}
+                    />
+                  )}
 
                 </div>
               </div>
             </details>
+          )}
 
-            {/* LEGEND */}
+          {/* LEGEND */}
 
-            <div className="mt-5 flex flex-wrap gap-3 text-xs">
+          <div className="mt-5 flex flex-wrap gap-3 text-xs">
 
-              <LegendItem
-                label="DAILY / CURRENT"
-                description="maintenance regimen"
-                badgeClass="border-orange-500 bg-orange-100 text-orange-800"
-              />
+            <LegendItem
+              label="DAILY / CURRENT"
+              description="maintenance regimen"
+              badgeClass="border-orange-500 bg-orange-100 text-orange-800"
+            />
 
-              <LegendItem
-                label="SOS / PRN"
-                description="as-needed treatment"
-                badgeClass="border-yellow-500 bg-yellow-100 text-yellow-800"
-              />
+            <LegendItem
+              label="SOS / PRN"
+              description="as-needed treatment"
+              badgeClass="border-yellow-500 bg-yellow-100 text-yellow-800"
+            />
 
-              <LegendItem
-                label="EMERGENCY"
-                description="emergency rescue plan"
-                badgeClass="border-red-600 bg-red-100 text-red-800"
-              />
+            <LegendItem
+              label="EMERGENCY"
+              description="emergency rescue plan"
+              badgeClass="border-red-600 bg-red-100 text-red-800"
+            />
 
-            </div>
-          </section>
+          </div>
+        </section>
 
         {/* THERAPEUTIC DRUG MONITORING */}
 
@@ -383,32 +456,27 @@ export default async function ReferralPage({
           </div>
         </section>
 
-      {referral.laboratoryGroups.length > 0 && (
-        <section className="space-y-4">
-          <div>
-            <h2 className="text-lg font-semibold text-teal-950">
-              🧪 Laboratory
-            </h2>
-            <p className="mt-1 text-sm text-slate-500">
-              Latest result shown first. Open a group to review earlier results.
-            </p>
-          </div>
+        {/* LABORATORY */}
 
-          <div className="space-y-3">
-            {referral.laboratoryGroups.map((group) => (
-              <details
-                key={group.id}
-                className="rounded-xl border border-slate-200 bg-white"
-              >
-                <summary
-                  className="list-none p-5"
-                  style={{
-                    cursor:
-                      group.history.length > 0
-                        ? 'url("/paw-cursor-pink.png") 16 16, pointer'
-                        : "default",
-                  }}
-                >
+        {referral.laboratoryGroups.length > 0 && (
+          <section className="mt-10 space-y-4">
+
+            <div>
+              <h2 className="text-xl font-semibold text-slate-900">
+                🧪 Laboratory
+              </h2>
+
+              <p className="mt-1 text-sm text-slate-500">
+                Latest result shown first. Open a group to
+                review earlier results.
+              </p>
+            </div>
+
+            <div className="space-y-3">
+
+              {referral.laboratoryGroups.map((group) => {
+
+                const content = (
                   <div className="flex items-start justify-between gap-4">
                     <div>
                       <p className="font-semibold text-teal-950">
@@ -422,7 +490,7 @@ export default async function ReferralPage({
                       )}
 
                       <p className="mt-2 text-sm leading-6 text-slate-700">
-                        {group.latestSummary}
+                        {group.latestCompactSummary}
                       </p>
                     </div>
 
@@ -432,64 +500,175 @@ export default async function ReferralPage({
                       </span>
                     )}
                   </div>
+                );
+
+                /*
+                 * Only groups with history are interactive.
+                 */
+
+                if (group.history.length === 0) {
+                  return (
+                    <div
+                      key={group.id}
+                      className="rounded-xl border border-slate-200 bg-white p-5"
+                    >
+                      {content}
+                    </div>
+                  );
+                }
+
+                return (
+                  <details
+                    key={group.id}
+                    className="rounded-xl border border-slate-200 bg-white"
+                  >
+                    <summary
+                      className="list-none p-5"
+                      style={{
+                        cursor:
+                          'url("/paw-cursor-pink.png") 16 16, pointer',
+                      }}
+                    >
+                      {content}
+                    </summary>
+
+                    <div className="border-t border-slate-100 px-5 pb-5 pt-4">
+
+                      <div className="space-y-4">
+
+                        {group.history.map(
+                          (entry, index) => (
+                            <div
+                              key={`${group.id}-${entry.date}-${index}`}
+                              className="border-l-2 border-teal-900/20 pl-4"
+                            >
+                              <p className="text-xs font-medium text-slate-500">
+                                {entry.date}
+                              </p>
+
+                              <p className="mt-1 text-sm leading-6 text-slate-700">
+                                {entry.summary}
+                              </p>
+                            </div>
+                          )
+                        )}
+
+                      </div>
+                    </div>
+                  </details>
+                );
+              })}
+
+            </div>
+          </section>
+        )}
+
+        {/* VIDEO EVIDENCE */}
+
+        <section className="mt-10 space-y-4">
+
+          <div>
+            <h2 className="text-xl font-semibold text-slate-900">
+              🎥 Video evidence
+            </h2>
+
+            <p className="mt-1 text-sm text-slate-500">
+              Owner-recorded videos available for specialist
+              review.
+            </p>
+          </div>
+
+          <div className="rounded-xl border border-slate-200 bg-white">
+
+            <div className="p-5">
+              <div className="flex flex-wrap items-start justify-between gap-3">
+
+                <div>
+                  <p className="font-semibold text-teal-950">
+                    {referral.videoEvidence.totalVideos} videos available
+                  </p>
+
+                  <p className="mt-1 text-sm text-slate-500">
+                    {referral.videoEvidence.unlinkedVideos} currently
+                    unlinked to a specific diary event
+                  </p>
+                </div>
+
+                {referral.videoEvidence
+                  .specialistReviewRequired && (
+                  <span className="rounded-full border border-slate-300 bg-slate-50 px-2 py-1 text-[10px] font-semibold tracking-wide text-slate-700">
+                    SPECIALIST REVIEW
+                  </span>
+                )}
+
+              </div>
+            </div>
+
+            {referral.videoEvidence.records.length > 0 && (
+              <details className="border-t border-slate-100">
+
+                <summary
+                  className="list-none px-5 py-4 text-sm font-medium text-teal-900"
+                  style={{
+                    cursor:
+                      'url("/paw-cursor-pink.png") 16 16, pointer',
+                  }}
+                >
+                  View video details
                 </summary>
 
-                {group.history.length > 0 && (
-                  <div className="border-t border-slate-100 px-5 pb-5 pt-4">
-                    <div className="space-y-4">
-                      {group.history.map((entry, index) => (
-                        <div
-                          key={`${group.id}-${entry.date}-${index}`}
-                          className="border-l-2 border-teal-900/20 pl-4"
-                        >
-                          <p className="text-xs font-medium text-slate-500">
-                            {entry.date}
-                          </p>
+                <div className="space-y-4 px-5 pb-5">
 
-                          <p className="mt-1 text-sm leading-6 text-slate-700">
-                            {entry.summary}
+                  {referral.videoEvidence.records.map(
+                    (video) => (
+                      <div
+                        key={video.id}
+                        className="border-l-2 border-teal-900/20 pl-4"
+                      >
+                        <p className="text-sm font-semibold text-slate-900">
+                          {video.date} · {video.time}
+                        </p>
+
+                        <p className="mt-1 text-xs text-slate-500">
+                          Duration:{" "}
+                          {Math.round(
+                            video.durationSeconds
+                          )}{" "}
+                          sec · {video.eventLinkStatus}
+                        </p>
+
+                        {video.observedEvidence && (
+                          <p className="mt-2 text-sm leading-6 text-slate-700">
+                            {video.observedEvidence}
                           </p>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                )}
+                        )}
+
+                        <p className="mt-2 text-xs leading-5 text-slate-500">
+                          Seizure onset captured:{" "}
+                          {video.seizureOnsetCaptured
+                            ? "Yes"
+                            : "No"}{" "}
+                          · Classification assigned by
+                          Compass:{" "}
+                          {video.seizureClassificationAssigned
+                            ? "Yes"
+                            : "No"}
+                        </p>
+                      </div>
+                    )
+                  )}
+
+                </div>
               </details>
-            ))}
+            )}
+
           </div>
         </section>
-      )}
-        {/* VIDEO */}
 
-        <section className="mt-8">
-          <h2 className="text-xl font-semibold text-slate-900">
-            Video evidence
-          </h2>className="rounded-lg border border-amber-200 bg-amber-50 p-4"
+        {/* UNRESOLVED ISSUES */}
 
-          <p className="mt-2 text-slate-700">
-            {referral.videoEvidence.totalVideos}{" "}
-            owner-recorded video clip(s) are registered as
-            primary evidence.
-          </p>
+        <section className="mt-10">
 
-          <p className="mt-1 text-sm text-slate-600">
-            {referral.videoEvidence.unlinkedVideos} remain
-            unlinked to a specific diary event.
-          </p>
-
-          {referral.videoEvidence
-            .specialistReviewRequired && (
-            <p className="mt-2 text-sm font-medium text-blue-800">
-              Formal specialist video review is required
-              before assigning seizure type or clinical
-              phase.
-            </p>
-          )}
-        </section>
-
-        {/* UNRESOLVED QUESTIONS */}
-
-        <section className="mt-8">
           <h2 className="text-xl font-semibold text-slate-900">
             Unresolved issues
           </h2>
@@ -497,167 +676,31 @@ export default async function ReferralPage({
           <ul className="mt-4 list-disc space-y-2 pl-5 text-slate-700">
             {referral.unresolvedIssues.map(
               (issue: string) => (
-                <li key={issue}>{issue}</li>
+                <li key={issue}>
+                  {issue}
+                </li>
               )
             )}
           </ul>
+
         </section>
+
+        {/* FOOTER */}
 
         <footer className="mt-10 border-t border-slate-200 pt-5 text-xs leading-5 text-slate-500">
           Compass summarizes documented evidence and
           owner-recorded history. It does not independently
           diagnose, prescribe, or alter treatment.
         </footer>
+
       </article>
     </main>
   );
 }
 
 /* -------------------------------------------------------
-   MEDICATION GRAPH COMPONENTS
+   TREATMENT ZOOM NODE
 ------------------------------------------------------- */
-
-function MedicationFamily({
-  title,
-  subtitle,
-  medications,
-}: {
-  title: string;
-  subtitle: string;
-  medications: ReferralMedication[];
-}) {
-  return (
-    <div className="relative">
-
-      {/* FAMILY NODE */}
-
-      <div className="rounded-xl border border-teal-800/30 bg-teal-950/[0.03] p-4 shadow-sm">
-        <div className="flex items-start gap-3">
-
-          {/* COMPASS NODE */}
-
-          <div className="mt-1 h-3 w-3 shrink-0 rounded-full border-2 border-teal-800 bg-teal-800" />
-
-          <div>
-            <h3 className="font-semibold text-teal-950">
-              {title}
-            </h3>
-
-            <p className="mt-1 text-xs leading-5 text-slate-500">
-              {subtitle}
-            </p>
-          </div>
-        </div>
-      </div>
-
-      {medications.length > 0 && (
-        <>
-          {/* EDGE */}
-
-          <div className="ml-6 h-5 w-px bg-teal-800/30" />
-
-          {/* CHILD NODES */}
-
-          <div className="space-y-3 border-l border-teal-800/25 pl-4">
-            {medications.map(
-              (
-                medication: ReferralMedication,
-                index: number
-              ) => (
-                <MedicationPhaseNode
-                  key={`${title}-${medication.name}-${medication.prescribedOn}-${index}`}
-                  medication={medication}
-                />
-              )
-            )}
-          </div>
-        </>
-      )}
-    </div>
-  );
-}
-
-function MedicationPhaseNode({
-  medication,
-}: {
-  medication: ReferralMedication;
-}) {
-  const isCurrent =
-    medication.status === "current";
-
-  const isSOS =
-    medication.status === "current-sos";
-
-  const isEmergency =
-    medication.status ===
-    "current-emergency-plan";
-
-  const isStopped =
-    medication.status === "stopped";
-
-  return (
-    <div className="relative">
-
-      {/* HORIZONTAL EDGE */}
-
-      <div className="absolute -left-4 top-5 h-px w-4 bg-slate-300" />
-
-      <div className="rounded-lg border border-slate-200 bg-white p-3">
-
-        <div className="flex flex-wrap items-start justify-between gap-2">
-          <div>
-            <p className="text-sm font-semibold text-slate-900">
-              {medication.name}
-            </p>
-
-            {medication.activeIngredient &&
-              medication.activeIngredient !==
-                medication.name && (
-                <p className="text-xs text-slate-500">
-                  {medication.activeIngredient}
-                </p>
-              )}
-          </div>
-
-          {isCurrent && (
-            <StatusBadge label="DAILY / CURRENT" />
-          )}
-
-          {isSOS && (
-            <StatusBadge label="SOS" />
-          )}
-
-          {isEmergency && (
-            <StatusBadge label="EMERGENCY" />
-          )}
-
-          {isStopped && (
-            <StatusBadge label="STOPPED" />
-          )}
-        </div>
-
-        {(medication.dose ||
-          medication.frequency) && (
-          <p className="mt-2 text-xs leading-5 text-slate-700">
-            {medication.dose}
-
-            {medication.dose &&
-              medication.frequency &&
-              " · "}
-
-            {medication.frequency}
-          </p>
-        )}
-
-        {medication.prescribedOn && (
-          <p className="mt-2 text-[11px] text-slate-500">
-            {medication.prescribedOn}
-          </p>
-        )}
-      </div>
-    </div>
-  );
-}
 
 function TreatmentZoomNode({
   type,
@@ -709,13 +752,15 @@ function TreatmentZoomNode({
     (medication) =>
       medication.status !== "current" &&
       medication.status !== "current-sos" &&
-      medication.status !== "current-emergency-plan"
+      medication.status !==
+        "current-emergency-plan"
   );
 
   return (
     <div
-      className={`rounded-xl border p-5 ${style.outer}`}
+      className={`print-avoid-break rounded-xl border p-5 ${style.outer}`}
     >
+
       {/* LEVEL 1 */}
 
       <div className="flex items-start justify-between gap-3">
@@ -739,6 +784,7 @@ function TreatmentZoomNode({
               {ingredient}
             </p>
           </div>
+
         </div>
 
         <span
@@ -750,11 +796,13 @@ function TreatmentZoomNode({
             ? "SOS"
             : "EMERGENCY"}
         </span>
+
       </div>
 
       {/* LEVEL 2 */}
 
       <div className="mt-4 rounded-lg border border-white/80 bg-white/70 p-3">
+
         <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">
           Current regimen
         </p>
@@ -762,22 +810,26 @@ function TreatmentZoomNode({
         <p className="mt-1 text-sm leading-6 text-slate-800">
           {currentText}
         </p>
+
       </div>
 
       {/* LEVEL 3 */}
 
       {historyMedications.length > 0 && (
         <details className="mt-4">
+
           <summary
             className="text-xs font-semibold text-teal-800"
             style={{
-              cursor: 'url("/paw-cursor-pink.png") 16 16, pointer',
+              cursor:
+                'url("/paw-cursor-pink.png") 16 16, pointer',
             }}
           >
             View treatment history
           </summary>
 
           <div className="mt-3 space-y-2 border-l border-teal-800/20 pl-3">
+
             {historyMedications.map(
               (
                 medication: ReferralMedication,
@@ -789,12 +841,18 @@ function TreatmentZoomNode({
                 />
               )
             )}
+
           </div>
         </details>
       )}
+
     </div>
   );
 }
+
+/* -------------------------------------------------------
+   HISTORY NODE
+------------------------------------------------------- */
 
 function HistoryNode({
   medication,
@@ -803,6 +861,7 @@ function HistoryNode({
 }) {
   return (
     <div className="rounded-lg border border-slate-200 bg-white p-3">
+
       <div className="flex flex-wrap items-center justify-between gap-2">
 
         <div>
@@ -824,6 +883,7 @@ function HistoryNode({
             {medication.prescribedOn}
           </span>
         )}
+
       </div>
 
       {(medication.dose ||
@@ -838,9 +898,14 @@ function HistoryNode({
           {medication.frequency}
         </p>
       )}
+
     </div>
   );
 }
+
+/* -------------------------------------------------------
+   HISTORICAL GROUP
+------------------------------------------------------- */
 
 function HistoricalGroup({
   title,
@@ -853,10 +918,12 @@ function HistoricalGroup({
 }) {
   return (
     <details className="rounded-lg border border-slate-200 bg-slate-50">
+
       <summary
         className="p-4"
         style={{
-          cursor: 'url("/paw-cursor-pink.png") 16 16, pointer',
+          cursor:
+            'url("/paw-cursor-pink.png") 16 16, pointer',
         }}
       >
         <span className="font-semibold text-slate-800">
@@ -869,6 +936,7 @@ function HistoricalGroup({
       </summary>
 
       <div className="space-y-2 border-t border-slate-200 p-4">
+
         {medications.map(
           (
             medication: ReferralMedication,
@@ -880,11 +948,16 @@ function HistoricalGroup({
             />
           )
         )}
+
       </div>
+
     </details>
   );
 }
 
+/* -------------------------------------------------------
+   LEGEND
+------------------------------------------------------- */
 
 function LegendItem({
   label,
@@ -897,6 +970,7 @@ function LegendItem({
 }) {
   return (
     <div className="flex items-center gap-2 rounded-lg border border-slate-200 bg-white px-3 py-2">
+
       <span
         className={`rounded-full border px-2 py-1 text-[10px] font-semibold tracking-wide ${badgeClass}`}
       >
@@ -906,92 +980,13 @@ function LegendItem({
       <span className="text-slate-500">
         {description}
       </span>
+
     </div>
-  );
-}
-
-function CompactMedicationNode({
-  medication,
-}: {
-  medication: ReferralMedication;
-}) {
-  return (
-    <div className="relative rounded-lg border border-slate-200 bg-slate-50 p-3">
-
-      <div className="absolute -left-[1px] top-5 h-px w-3 -translate-x-full bg-slate-300" />
-
-      <p className="text-sm font-semibold text-slate-800">
-        {medication.name}
-      </p>
-
-      {medication.activeIngredient && (
-        <p className="text-xs text-slate-500">
-          {medication.activeIngredient}
-        </p>
-      )}
-
-      {(medication.dose ||
-        medication.frequency) && (
-        <p className="mt-2 text-xs leading-5 text-slate-600">
-          {medication.dose}
-
-          {medication.dose &&
-            medication.frequency &&
-            " · "}
-
-          {medication.frequency}
-        </p>
-      )}
-
-      {medication.prescribedOn && (
-        <p className="mt-2 text-[11px] text-slate-400">
-          {medication.prescribedOn}
-        </p>
-      )}
-    </div>
-  );
-}
-
-function StatusBadge({
-  label,
-}: {
-  label: string;
-}) {
-  const normalized = label.toUpperCase();
-
-  // Hope = orange
-  let classes =
-    "border-orange-500 bg-orange-100 text-orange-800";
-
-  if (
-    normalized === "SOS" ||
-    normalized === "PRN"
-  ) {
-    classes =
-      "border-yellow-500 bg-yellow-100 text-yellow-800";
-  }
-
-  if (normalized === "EMERGENCY") {
-    classes =
-      "border-red-600 bg-red-100 text-red-800";
-  }
-
-  if (normalized === "STOPPED") {
-    classes =
-      "border-slate-300 bg-slate-100 text-slate-600";
-  }
-
-  return (
-    <span
-      className={`rounded-full border px-2 py-1 text-[10px] font-semibold tracking-wide ${classes}`}
-    >
-      {label}
-    </span>
   );
 }
 
 /* -------------------------------------------------------
-   METRIC COMPONENT
+   METRIC
 ------------------------------------------------------- */
 
 function Metric({
@@ -1003,6 +998,7 @@ function Metric({
 }) {
   return (
     <div className="print-compact-card rounded-lg border border-slate-200 p-4">
+
       <p className="text-xs font-medium uppercase tracking-wide text-slate-500">
         {label}
       </p>
@@ -1010,6 +1006,7 @@ function Metric({
       <p className="mt-1 text-lg font-semibold text-slate-900">
         {value}
       </p>
+
     </div>
   );
 }
