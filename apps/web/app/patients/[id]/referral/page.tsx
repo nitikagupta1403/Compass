@@ -278,23 +278,143 @@ export default async function ReferralPage({
 
           <div className="mt-7 rounded-xl border border-teal-800/20 bg-teal-950/[0.02] p-6">
 
-            <div className="flex justify-center">
-              <div className="rounded-xl border-2 border-teal-800 bg-white px-7 py-4 text-center shadow-sm">
-                <p className="text-xs font-semibold uppercase tracking-wider text-teal-700">
-                  Patient treatment
+          <div className="flex justify-center">
+
+          {/* WEB: interactive Hope mystery box */}
+          <details className="group text-center print-avoid-break print:hidden">
+            <summary
+              className="list-none"
+              style={{
+                cursor:
+                  'url("/paw-cursor-pink.png") 16 16, pointer',
+              }}
+            >
+              <div className="flex flex-col items-center">
+                <div className="rounded-full border border-teal-800/20 bg-teal-50/20 p-2">
+                  <img
+                    src="/hope-profile.jpeg"
+                    alt={referral.patientName}
+                    className="h-24 w-24 rounded-full object-cover"
+                  />
+                </div>
+
+                <p className="mt-3 text-2xl font-bold text-slate-900">
+                  {referral.patientName}
                 </p>
 
-                <p className="mt-1 text-xl font-bold text-slate-900">
-                  {referral.patientName}
+                <p className="mt-1 text-xs font-medium text-teal-700">
+                  Touch to meet Hope 🐾
+                </p>
+              </div>
+            </summary>
+
+            <div className="mt-2 border-t border-teal-800/10 px-5 pb-5 pt-4">
+              <div className="grid gap-3 text-sm text-slate-700 sm:grid-cols-2">
+                <p>
+                  <span className="font-semibold">Patient ID:</span>{" "}
+                  {referral.patientId}
+                </p>
+
+                <p>
+                  <span className="font-semibold">Species:</span>{" "}
+                  {referral.species}
+                </p>
+
+                <p>
+                  <span className="font-semibold">Breed:</span>{" "}
+                  {referral.breed}
+                </p>
+
+                <p>
+                  <span className="font-semibold">Sex:</span>{" "}
+                  {referral.sex}
+                </p>
+
+                <p>
+                  <span className="font-semibold">DOB:</span>{" "}
+                  {referral.dateOfBirth}
+                </p>
+
+                <p>
+                  <span className="font-semibold">Weight:</span>{" "}
+                  {referral.weightKg !== null
+                    ? `${referral.weightKg} kg`
+                    : "Not documented"}
+                </p>
+
+                <p className="sm:col-span-2">
+                  <span className="font-semibold">
+                    Working diagnosis:
+                  </span>{" "}
+                  {referral.workingDiagnosis ?? "Not documented"}
                 </p>
               </div>
             </div>
+          </details>
 
-            <div className="mx-auto h-8 w-px bg-teal-800/30" />
+          {/* PRINT: always-visible Hope profile */}
+          <div className="hidden print:block">
+            <div className="flex flex-col items-center text-center">
+              <div className="rounded-full border border-teal-800/20 p-1">
+                <img
+                  src="/hope-profile.jpeg"
+                  alt={referral.patientName}
+                  className="h-20 w-20 rounded-full object-cover"
+                />
+              </div>
 
-            {/* PRIMARY TREATMENT NODES */}
+              <p className="mt-2 text-xl font-bold text-slate-900">
+                {referral.patientName}
+              </p>
 
-            <div className="grid gap-4 lg:grid-cols-3">
+              <div className="mt-3 grid grid-cols-2 gap-x-8 gap-y-1 text-xs text-slate-700">
+                <p>
+                  <strong>Patient ID:</strong>{" "}
+                  {referral.patientId}
+                </p>
+
+                <p>
+                  <strong>Species:</strong>{" "}
+                  {referral.species}
+                </p>
+
+                <p>
+                  <strong>Breed:</strong>{" "}
+                  {referral.breed}
+                </p>
+
+                <p>
+                  <strong>Sex:</strong>{" "}
+                  {referral.sex}
+                </p>
+
+                <p>
+                  <strong>DOB:</strong>{" "}
+                  {referral.dateOfBirth}
+                </p>
+
+                <p>
+                  <strong>Weight:</strong>{" "}
+                  {referral.weightKg !== null
+                    ? `${referral.weightKg} kg`
+                    : "Not documented"}
+                </p>
+
+                <p className="col-span-2 mt-1">
+                  <strong>Working diagnosis:</strong>{" "}
+                  {referral.workingDiagnosis ?? "Not documented"}
+                </p>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <div className="mx-auto h-8 w-px bg-teal-800/30" />
+        
+        {/* PRIMARY TREATMENT NODES */}
+
+            <div className="grid gap-4 lg:grid-cols-3 lg:[grid-template-columns:repeat(3,minmax(0,1fr))]">
 
               <TreatmentZoomNode
                 type="daily"
@@ -758,7 +878,7 @@ function TreatmentZoomNode({
 
   return (
     <div
-      className={`print-avoid-break rounded-xl border p-5 ${style.outer}`}
+      className={`print-avoid-break min-w-0 w-full rounded-xl border p-5 ${style.outer}`}
     >
 
       {/* LEVEL 1 */}
@@ -807,7 +927,7 @@ function TreatmentZoomNode({
           Current regimen
         </p>
 
-        <p className="mt-1 text-sm leading-6 text-slate-800">
+        <p className="mt-1 break-words text-sm leading-6 text-slate-800">
           {currentText}
         </p>
 

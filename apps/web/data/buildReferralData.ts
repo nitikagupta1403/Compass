@@ -8,6 +8,8 @@ import { LaboratoryRecord } from "@/data/loadLaboratory";
 export type ReferralData = {
   patientId: string;
   patientName: string;
+  dateOfBirth: string;
+  weightKg: number | null;
   species: string;
   breed: string;
   sex: string;
@@ -318,6 +320,11 @@ export function buildReferralData(
 
     patientName:
       patient.name,
+
+    dateOfBirth: patient.dateOfBirth,
+
+    weightKg:
+    patient.weightKg ?? null,
 
     species:
       patient.species,
