@@ -3,10 +3,11 @@ import { SeizureEvent } from "@/types/seizure";
 export type SeizureMetrics = {
   totalLoggedEvents: number;
   uniqueEventDays: number;
-  clusterDays: {
+  multiEventDays: {
     date: string;
     count: number;
   }[];
+  multiEventDayCount: number;
   maxEventsInOneDay: number;
   sleepAssociatedEvents: number;
   symptomaticOnlyEvents: number;
@@ -26,7 +27,7 @@ export function calculateSeizureMetrics(
     );
   }
 
-  const clusterDays = Array.from(eventsByDate.entries())
+  const multiEventDays = Array.from(eventsByDate.entries())
     .filter(([, count]) => count >= 2)
     .map(([date, count]) => ({
       date,
@@ -53,15 +54,17 @@ export function calculateSeizureMetrics(
 
   const sortedDates = events
     .map((event) => event.date)
-    .sort();
+    .sort((a, b) => a.localeCompare(b));
 
   return {
     totalLoggedEvents: events.length,
     uniqueEventDays: eventsByDate.size,
-    clusterDays,
+
+    multiEventDays,
+    multiEventDayCount: multiEventDays.length,
 
     maxEventsInOneDay:
-      events.length === 0
+      eventsByDate.size === 0
         ? 0
         : Math.max(...eventsByDate.values()),
 

@@ -34,7 +34,7 @@ export default function SeizureBurden({
           </p>
 
           <p className="mt-2 font-semibold text-slate-900">
-            {metrics.clusterDays.length} multi-event days
+            {metrics.multiEventDays.length} multi-event days
           </p>
 
     <p className="mt-1 text-xs text-slate-500">
@@ -44,11 +44,11 @@ export default function SeizureBurden({
 
         <div className="rounded-lg border border-slate-200 p-4">
           <p className="text-xs font-medium uppercase tracking-wide text-slate-500">
-            Cluster pattern
+            Multi-event pattern
           </p>
 
           <p className="mt-2 font-semibold text-slate-900">
-            {metrics.clusterDays.length} multi-event days
+            {metrics.multiEventDays.length} multi-event days
           </p>
 
       <p className="mt-1 text-xs text-slate-500">
@@ -92,7 +92,7 @@ export default function SeizureBurden({
           </h3>
 
           <ul className="mt-3 space-y-2 text-sm text-amber-900">
-            {[...metrics.clusterDays]
+            {[...metrics.multiEventDays]
               .sort((a, b) => b.count - a.count || a.date.localeCompare(b.date))
               .map((day) => (
                 <li key={day.date}>
