@@ -98,9 +98,28 @@ body {
   .no-print {
     display: none !important;
   }
+
   .evidence-index-card {
-  break-inside: avoid;
-  padding: 5px !important;
-  margin-bottom: 4px !important;
-}
+    break-inside: avoid;
+    padding: 5px !important;
+    margin-bottom: 4px !important;
+  }
+
+  .seizure-diary-row {
+    break-inside: avoid;
+  }
+
+  table {
+    font-size: 7.5px !important;
+  }
+
+  th,
+  td {
+    padding: 3px !important;
+    line-height: 1.15 !important;
+  }
+  /* Compass interactive paw cursor */
+  .paw-cursor {
+    cursor: url("/paw-cursor-pink.png") 16 16, pointer !important;
+  }
 }
