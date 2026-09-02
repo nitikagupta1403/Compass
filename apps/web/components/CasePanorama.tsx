@@ -6,6 +6,7 @@ import VideoEvidenceView from "./VideoEvidenceView";
 import DrugMonitoringView from "./DrugMonitoringView";
 import LaboratoryEvidenceView from "./LaboratoryEvidenceView";
 import BileAcidEvidenceView from "./BileAcidEvidenceView";
+import FirstEventChronologyView from "./FirstEventChronologyView";
 
 type DepthLevel =
   | "hope"
@@ -203,86 +204,22 @@ export default function CasePanorama({
       </div>
     );
   }
-if (level === "first-event") {
-  return (
-    <JourneyShell
-      eyebrow="First Event"
-      title="The story begins"
-      subtitle="The first clinical landmark"
-      onZoomOut={() => setLevel("know-more")}
-    >
-      <div className="mx-auto max-w-3xl">
-        <p className="text-sm leading-6 text-slate-600">
-          {story.firstEventDate
-            ? `The documented diary begins on ${story.firstEventDate}.`
-            : "The first documented event date is not available."}
-        </p>
-
-        <details className="mt-6 rounded-2xl border border-slate-200 bg-slate-50 p-5">
-            <summary
-                className="list-none text-sm font-semibold text-teal-800"
-                style={{
-                cursor:
-                    'url("/paw-cursor-pink.png") 16 16, pointer',
-                }}
+    if (level === "first-event") {
+        return (
+            <JourneyShell
+            eyebrow="First Event"
+            title="The story begins"
+            subtitle="The first clinical landmark"
+            onZoomOut={() => setLevel("know-more")}
             >
-                Open early chronology →
-            </summary>
-
-        <div className="mt-5 grid gap-4 md:grid-cols-2">
-            {earlyChronology.map((event) => (
-                <div
-                key={event.id}
-                className="flex h-full flex-col rounded-2xl border border-slate-200 bg-white p-5"
-                >
-                <p className="text-xs font-semibold uppercase tracking-wide text-teal-800">
-                    {event.occurredAt.slice(0, 10)}
-                </p>
-
-                <h3 className="mt-2 text-base font-semibold text-slate-900">
-                    {event.title}
-                </h3>
-
-                <p className="mt-2 text-sm leading-6 text-slate-600">
-                    {event.description}
-                </p>
-
-                {event.sourceDiscrepancy && (
-                    <div className="mt-4 rounded-xl border border-amber-200 bg-amber-50 p-4">
-                    <p className="text-xs font-semibold uppercase tracking-wide text-amber-800">
-                        Preserved source discrepancy
-                    </p>
-
-                    <p className="mt-2 text-sm leading-6 text-slate-700">
-                        {event.sourceDiscrepancy.clinicalRecordSummary}
-                    </p>
-
-                    <p className="mt-2 text-xs leading-5 text-slate-500">
-                        {event.sourceDiscrepancy.resolution}
-                    </p>
-                    </div>
-                )}
-
-                <p className="mt-auto pt-4 text-xs font-medium text-slate-500">
-                    Evidence: {event.evidence.join(" · ")}
-                </p>
-                </div>
-            ))}
-            </div>
-        <div className="pt-5 flex justify-center">
-        <JourneyButton
-            onClick={() => setLevel("patterns")}
-            label="Discover Patterns →"
-        />
-        </div>
-
-        </details>
-
-        </div>
-        </JourneyShell>
+            <FirstEventChronologyView
+                firstEventDate={story.firstEventDate}
+                earlyChronology={earlyChronology}
+                onDiscoverPatterns={() => setLevel("patterns")}
+            />
+            </JourneyShell>
         );
         }
-
   if (level === "patterns") {
     return (
       <JourneyShell
