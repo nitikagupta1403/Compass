@@ -5,6 +5,23 @@ import { MedicationRecord } from "@/data/loadMedications";
 import { calculateSeizureMetrics } from "@/data/seizureMetrics";
 import { LaboratoryRecord } from "@/data/loadLaboratory";
 
+export type ClinicalEventRecord = {
+  id: string;
+  patientId: string;
+  type: string;
+  title: string;
+  occurredAt: string;
+  datePrecision?: string;
+  description: string;
+  evidence: string[];
+  verification?: string;
+
+  sourceDiscrepancy?: {
+    clinicalRecordSummary: string;
+    resolution: string;
+  };
+};
+
 export type ReferralData = {
   patientId: string;
   patientName: string;
@@ -13,6 +30,12 @@ export type ReferralData = {
   species: string;
   breed: string;
   sex: string;
+
+  videoRecords: {
+  id: string;
+  date: string;
+  sourceFile: string;
+}[];
 
   clinicalProblem: string;
   workingDiagnosis: string | null;
@@ -40,6 +63,7 @@ export type ReferralData = {
     title: string;
     date: string;
     summary: string;
+    sourceFiles: string[];
   }[];
 
   laboratoryGroups: {
@@ -48,12 +72,14 @@ export type ReferralData = {
     latestDate: string | null;
     latestSummary: string;
     latestCompactSummary: string;
-    history: {
-      date: string;
-      summary: string;
-    }[];
-  }[];
+    latestSourceFiles: string[];
 
+  history: {
+    date: string;
+    summary: string;
+    sourceFiles: string[];
+  }[];
+}[];
   videoEvidence: {
     totalVideos: number;
     unlinkedVideos: number;
@@ -69,8 +95,23 @@ export type ReferralData = {
       observedEvidence?: string;
       seizureOnsetCaptured: boolean;
       seizureClassificationAssigned: boolean;
+      sourceFile: string;
     }[];
+};
+
+  earlyChronology: {
+    id: string;
+    occurredAt: string;
+    type: string;
+    title: string;
+    description: string;
+    evidence: string[];
+
+  sourceDiscrepancy?: {
+    clinicalRecordSummary: string;
+    resolution: string;
   };
+}[];
 
   unresolvedIssues: string[];
 };
@@ -80,7 +121,8 @@ export function buildReferralData(
   seizures: SeizureEvent[],
   videos: VideoRecord[],
   medications: MedicationRecord[],
-  laboratory: LaboratoryRecord[]
+  laboratory: LaboratoryRecord[],
+  clinicalEvents: ClinicalEventRecord[]
 ): ReferralData {
   const metrics = calculateSeizureMetrics(seizures);
 
@@ -98,25 +140,30 @@ export function buildReferralData(
       .filter((panel) =>
         panel.name.toLowerCase().includes("phenobarbital")
       )
-      .flatMap((panel) =>
-        panel.analytes.map((analyte) => ({
-          title: panel.name,
-          date: record.date,
-          summary: [
-            `${analyte.name}: ${analyte.result}${
-              analyte.unit ? ` ${analyte.unit}` : ""
-            }`,
-            analyte.referenceRange
-              ? `Reference range: ${analyte.referenceRange}`
-              : null,
-            analyte.sourceInterpretation
-              ? `Source interpretation: ${analyte.sourceInterpretation}`
-              : null,
-          ]
-            .filter(Boolean)
-            .join(" · "),
-        }))
-      )
+  .flatMap((panel) =>
+    panel.analytes.map((analyte) => ({
+      title: panel.name,
+      date: record.date,
+
+      summary: [
+        `${analyte.name}: ${analyte.result}${
+          analyte.unit ? ` ${analyte.unit}` : ""
+        }`,
+        analyte.referenceRange
+          ? `Reference range: ${analyte.referenceRange}`
+          : null,
+        analyte.sourceInterpretation
+          ? `Source interpretation: ${analyte.sourceInterpretation}`
+          : null,
+      ]
+        .filter(Boolean)
+        .join(" · "),
+
+      sourceFiles:
+        record.sourceFiles ??
+        (record.sourceFile ? [record.sourceFile] : []),
+    }))
+  )
   );
 
   /*
@@ -258,6 +305,9 @@ export function buildReferralData(
                     panel.analytes
                   ),
                   compactSummary,
+                  sourceFiles:
+                    record.sourceFiles ??
+                    (record.sourceFile ? [record.sourceFile] : []),
                 };
               })
           )
@@ -280,27 +330,33 @@ export function buildReferralData(
           latestCompactSummary:
             latest.compactSummary,
 
+          latestSourceFiles:
+            latest.sourceFiles,
+
           history: history.map((entry) => ({
             date: entry.date,
             summary: entry.summary,
+            sourceFiles: entry.sourceFiles,
           })),
         };
-      })
-      .filter(
-        (
-          group
-        ): group is {
-          id: string;
-          title: string;
-          latestDate: string;
-          latestSummary: string;
-          latestCompactSummary: string;
-          history: {
-            date: string;
-            summary: string;
-          }[];
-        } => group !== null
-      );
+        })
+        .filter(
+          (
+            group
+          ): group is {
+            id: string;
+            title: string;
+            latestDate: string;
+            latestSummary: string;
+            latestCompactSummary: string;
+            latestSourceFiles: string[];
+            history: {
+              date: string;
+              summary: string;
+              sourceFiles: string[];
+            }[];
+          } => group !== null
+        );
 
   /*
    * Video evidence
@@ -311,6 +367,31 @@ export function buildReferralData(
       video.eventLinkStatus === "unlinked"
   ).length;
 
+  const earlyChronology = clinicalEvents
+  .filter((event) => {
+    const date = event.occurredAt.slice(0, 10);
+
+    return (
+      date >= "2025-05-28" &&
+      date <= "2025-06-05"
+    );
+  })
+  .sort(
+    (a, b) =>
+      new Date(a.occurredAt).getTime() -
+      new Date(b.occurredAt).getTime()
+  )
+  .map((event) => ({
+    id: event.id,
+    occurredAt: event.occurredAt,
+    type: event.type,
+    title: event.title,
+    description: event.description,
+    evidence: event.evidence,
+    sourceDiscrepancy:
+      event.sourceDiscrepancy,
+  }));
+
   /*
    * Final referral object
    */
@@ -320,6 +401,8 @@ export function buildReferralData(
 
     patientName:
       patient.name,
+
+    earlyChronology,
 
     dateOfBirth: patient.dateOfBirth,
 
@@ -334,6 +417,12 @@ export function buildReferralData(
 
     sex:
       patient.sex,
+
+  videoRecords: videos.map((video) => ({
+    id: video.id,
+    date: video.date,
+    sourceFile: video.sourceFile,
+  })),
 
     clinicalProblem: patient.clinicalProblem,
 
@@ -394,7 +483,6 @@ export function buildReferralData(
 
     videoEvidence: {
       totalVideos: videos.length,
-
       unlinkedVideos,
 
       specialistReviewRequired:
@@ -403,31 +491,20 @@ export function buildReferralData(
             video.specialistReviewRequired
         ),
 
-      records: videos.map(
-        (video) => ({
-          id: video.id,
-          date: video.date,
-          time: video.time,
+      records: videos.map((video) => ({
+        id: video.id,
+        date: video.date,
+        time: video.time,
+        durationSeconds: video.durationSeconds,
+        eventLinkStatus: video.eventLinkStatus,
+        clinicalContext: video.clinicalContext,
+        observedEvidence: video.observedEvidence,
+        seizureOnsetCaptured: video.seizureOnsetCaptured,
+        seizureClassificationAssigned:
+          video.seizureClassificationAssigned,
 
-          durationSeconds:
-            video.durationSeconds,
-
-          eventLinkStatus:
-            video.eventLinkStatus,
-
-          clinicalContext:
-            video.clinicalContext,
-
-          observedEvidence:
-            video.observedEvidence,
-
-          seizureOnsetCaptured:
-            video.seizureOnsetCaptured,
-
-          seizureClassificationAssigned:
-            video.seizureClassificationAssigned,
-        })
-      ),
+        sourceFile: video.sourceFile,
+      })),
     },
 
     unresolvedIssues: [

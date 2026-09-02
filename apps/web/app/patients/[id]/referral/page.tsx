@@ -3,6 +3,8 @@ import { loadHopeSeizures } from "@/data/loadSeizures";
 import { loadHopeVideos } from "@/data/loadVideos";
 import { loadMedications } from "@/data/loadMedications";
 import { loadLaboratory } from "@/data/loadLaboratory";
+import CasePanorama from "@/components/CasePanorama";
+import { loadClinicalEvents } from "@/data/loadClinicalEvents";
 
 
 import {
@@ -19,10 +21,13 @@ type Props = {
 type ReferralMedication =
   ReferralData["medications"][number];
 
+
+
 export default async function ReferralPage({
   params,
 }: Props) {
   const { id } = await params;
+
 
   const patient = loadPatient();
 
@@ -40,14 +45,16 @@ export default async function ReferralPage({
   const videos = loadHopeVideos();
   const medications = loadMedications();
   const laboratory = loadLaboratory();
+  const clinicalEvents = loadClinicalEvents();
 
   const referral = buildReferralData(
     patient,
     seizures,
     videos,
     medications,
-    laboratory
-  );
+    laboratory,
+    clinicalEvents
+ );
 
   /*
    * Presentation groups only.
@@ -255,6 +262,64 @@ export default async function ReferralPage({
           </p>
         </section>
 
+        <section className="mt-10 print:hidden">
+  <CasePanorama
+    patientName={referral.patientName}
+    photoSrc="/hope-profile.jpeg"
+    patient={{
+      patientId: referral.patientId,
+      species: referral.species,
+      breed: referral.breed,
+      sex: referral.sex,
+      dateOfBirth: referral.dateOfBirth,
+      weightKg: referral.weightKg,
+      workingDiagnosis:
+        referral.workingDiagnosis,
+    }}
+    story={{
+      totalLoggedEvents:
+        referral.seizureDiary.totalLoggedEvents,
+      uniqueEventDays:
+        referral.seizureDiary.uniqueEventDays,
+      multiEventDays:
+        referral.seizureDiary.multiEventDays,
+      firstEventDate:
+        referral.seizureDiary.firstEventDate,
+      lastEventDate:
+        referral.seizureDiary.lastEventDate,
+    }}
+    drugMonitoringRecords={
+      referral.therapeuticDrugMonitoring
+    }
+    earlyChronology={referral.earlyChronology}
+    treatment={{
+      daily: getCurrentMedicationText(
+        phenobarbital,
+        ["current"]
+      ),
+      sos: getCurrentMedicationText(
+        levetiracetam,
+        ["current-sos"]
+      ),
+      emergency: getCurrentMedicationText(
+        emergencyPlan,
+        ["current-emergency-plan"]
+      ),
+    }}
+    evidence={{
+      laboratoryGroups:
+        referral.laboratoryGroups.length,
+      videos:
+        referral.videoEvidence.totalVideos,
+      drugMonitoring:
+        referral.therapeuticDrugMonitoring.length,
+    }}
+
+    laboratoryGroups={referral.laboratoryGroups}
+    videoEvidence={referral.videoEvidence}
+    questions={referral.unresolvedIssues}
+  />
+</section>
         {/* ANTISEIZURE TREATMENT */}
 
         <section className="mt-10">
@@ -411,7 +476,7 @@ export default async function ReferralPage({
         </div>
 
         <div className="mx-auto h-8 w-px bg-teal-800/30" />
-        
+
         {/* PRIMARY TREATMENT NODES */}
 
             <div className="grid gap-4 lg:grid-cols-3 lg:[grid-template-columns:repeat(3,minmax(0,1fr))]">
@@ -568,10 +633,8 @@ export default async function ReferralPage({
                 )
               )
             ) : (
-              <p className="text-sm text-slate-600">
-                No therapeutic drug monitoring data
-                available.
-              </p>
+              <div className="space-y-4">
+              </div>
             )}
           </div>
         </section>

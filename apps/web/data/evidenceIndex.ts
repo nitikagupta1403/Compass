@@ -8,6 +8,7 @@ export type EvidenceIndexItem = {
     | "Owner Diary"
     | "Video";
   sourceFile: string;
+  sourceFiles?: string[];
   supports: string[];
   status:
     | "verified"
@@ -131,9 +132,9 @@ export const hopeEvidenceIndex: EvidenceIndexItem[] = [
 
   {
     id: "EV-0009",
-    date: "2026-06-02",
+    date: "2026-06-02", 
     category: "Laboratory",
-    sourceFile: "RecentPres.pdf",
+    sourceFile: "Phen_levels.pdf",
     supports: [
       "Serum phenobarbital 8.8",
       "Laboratory reference interval 18–45",
@@ -149,7 +150,7 @@ export const hopeEvidenceIndex: EvidenceIndexItem[] = [
 
   {
     id: "VID-0001",
-    date: "2026-05-26",
+    date: "2025-07-18",
     category: "Video",
     sourceFile: "Hope_fit_video 2026-05-26 at 12.07.04.mp4",
     supports: [
@@ -158,8 +159,8 @@ export const hopeEvidenceIndex: EvidenceIndexItem[] = [
     ],
     status: "requires-review",
     notes:
-      "Not currently linked to a specific seizure diary event.",
-  },
+      "Owner-confirmed recording date is 2025-07-18. The source filename contains 2026-05-26 and is preserved as a filename-date discrepancy. Not currently linked to a specific seizure diary event.",
+},
 
   {
     id: "VID-0002",

@@ -1,4 +1,5 @@
 import patients from "@/data/patients";
+import BackButton from "@/components/BackButton";
 import {
   hopeEvidenceIndex,
   type EvidenceIndexItem,
@@ -8,11 +9,17 @@ type Props = {
   params: Promise<{
     id: string;
   }>;
+
+  searchParams: Promise<{
+    source?: string;
+  }>;
 };
 
 export default async function EvidencePage({
   params,
+  searchParams,
 }: Props) {
+  const { source } = await searchParams;
   const { id } = await params;
 
   const patient = patients.find(
@@ -29,9 +36,18 @@ export default async function EvidencePage({
     );
   }
 
+  const visibleEvidence = source
+    ? hopeEvidenceIndex.filter(
+        (item) =>
+          item.sourceFile === source ||
+          item.sourceFiles?.includes(source)
+      )
+    : hopeEvidenceIndex;
+
   return (
     <main className="min-h-screen bg-slate-100 px-6 py-10">
       <article className="mx-auto max-w-5xl rounded-xl bg-white p-8 shadow-lg">
+          <BackButton />
         <header className="border-b border-slate-200 pb-6">
           <p className="text-sm font-medium uppercase tracking-wide text-slate-500">
             Compass Evidence Index
@@ -64,7 +80,7 @@ export default async function EvidencePage({
         </section>
 
         <div className="mt-6 space-y-4">
-          {hopeEvidenceIndex.map(
+          {visibleEvidence.map(
             (item: EvidenceIndexItem) => (
               <EvidenceCard
                 key={item.id}
@@ -104,7 +120,7 @@ function EvidenceCard({
           </div>
 
           <p className="mt-2 text-sm text-slate-700">
-            {item.sourceFile}
+            Source files: Phen_levels.pdf · RecentPres.pdf
           </p>
 
           <p className="mt-1 text-xs text-slate-500">
