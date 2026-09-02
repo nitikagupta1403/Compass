@@ -2,6 +2,11 @@
 
 import { useState } from "react";
 
+import VideoEvidenceView from "./VideoEvidenceView";
+import DrugMonitoringView from "./DrugMonitoringView";
+import LaboratoryEvidenceView from "./LaboratoryEvidenceView";
+import BileAcidEvidenceView from "./BileAcidEvidenceView";
+
 type DepthLevel =
   | "hope"
   | "know-hope"
@@ -323,66 +328,21 @@ if (level === "first-event") {
     );
   }
 
-  if (level === "laboratory") {
-    return (
-        <JourneyShell
+    if (level === "laboratory") {
+        return (
+            <JourneyShell
             eyebrow="Laboratory"
             title="Laboratory evidence"
             subtitle="A closer evidence view"
             onZoomOut={() => setLevel("evidence")}
             >
-        <div className="mx-auto max-w-3xl">
-            <div className="space-y-4">
-                {laboratoryGroups.map((group) => {
-                    const isBileAcids =
-                    group.title.toLowerCase() === "bile acids";
-
-                    const content = (
-                <div className="rounded-2xl border border-slate-200 bg-slate-50 p-5">
-                    <p className="text-xs font-semibold uppercase tracking-wide text-teal-800">
-                    {group.title}
-                    </p>
-
-                    <p className="mt-2 text-sm font-semibold text-slate-900">
-                        {group.latestDate ?? "Date not documented"}
-                    </p>
-
-                    <p className="mt-2 text-sm leading-6 text-slate-600">
-                        {group.latestCompactSummary}
-                    </p>
-                </div>
-                );
-
-    
-
-            if (isBileAcids) {
-              return (
-                <button
-                  key={group.id}
-                  type="button"
-                  onClick={() => setLevel("bile-acids")}
-                  className="block w-full text-left"
-                  style={{
-                    cursor:
-                      'url("/paw-cursor-pink.png") 16 16, pointer',
-                  }}
-                >
-                  {content}
-                </button>
-              );
-            }
-
-            return (
-              <div key={group.id}>
-                {content}
-              </div>
-            );
-          })}
-        </div>
-      </div>
-    </JourneyShell>
-  );
-}
+            <LaboratoryEvidenceView
+                groups={laboratoryGroups}
+                onOpenBileAcids={() => setLevel("bile-acids")}
+            />
+            </JourneyShell>
+        );
+        }
 
 if (level === "evidence") {
   return (
@@ -471,258 +431,59 @@ if (level === "evidence") {
   );
 }
 
-if (level === "videos") {
-  return (
-    <JourneyShell
-      eyebrow="Videos"
-      title="Video evidence"
-      subtitle="A closer evidence view"
-      onZoomOut={() => setLevel("evidence")}
-    >
-      <div className="mx-auto max-w-3xl">
-        <div className="space-y-4">
-  {videoEvidence.records.map((record) => (
-    <div
-      key={record.id}
-      className="rounded-2xl border border-slate-200 bg-slate-50 p-5"
-    >
-      <div className="flex flex-wrap items-center justify-between gap-3">
-        <div>
-          <p className="text-xs font-semibold uppercase tracking-wide text-teal-800">
-            {record.date}
-          </p>
+    if (level === "videos") {
+        return (
+            <JourneyShell
+            eyebrow="Videos"
+            title="Video evidence"
+            subtitle="A closer evidence view"
+            onZoomOut={() => setLevel("evidence")}
+            >
+            <VideoEvidenceView
+                patientId={patient.patientId}
+                records={videoEvidence.records}
+            />
+            </JourneyShell>
+        );
+        }
 
-          <h3 className="mt-2 text-base font-semibold text-slate-900">
-            {record.id}
-          </h3>
-        </div>
+        if (level === "bile-acids") {
+        const bileAcids =
+            laboratoryGroups.find(
+            (group) =>
+                group.title.toLowerCase() === "bile acids"
+            ) ?? null;
 
-        <span className="rounded-full border border-slate-200 bg-white px-3 py-1 text-xs font-medium text-slate-600">
-          {record.eventLinkStatus}
-        </span>
-      </div>
+        return (
+            <JourneyShell
+            eyebrow="Bile Acids"
+            title="Bile acid evidence"
+            subtitle="Exact laboratory record"
+            onZoomOut={() => setLevel("laboratory")}
+            >
+            <BileAcidEvidenceView
+                patientId={patient.patientId}
+                bileAcids={bileAcids}
+            />
+            </JourneyShell>
+        );
+        }
 
-      {record.clinicalContext && (
-        <p className="mt-4 text-sm leading-6 text-slate-700">
-          {record.clinicalContext
-                ?.replaceAll("-", " ")
-                .replace(/\b\w/g, (char) => char.toUpperCase())}
-        </p>
-      )}
-
-      {record.observedEvidence && (
-        <div className="mt-4 rounded-xl border border-slate-200 bg-white p-4">
-          <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">
-            Observed evidence
-          </p>
-
-          <p className="mt-2 text-sm leading-6 text-slate-700">
-            {record.observedEvidence}
-          </p>
-        </div>
-      )}
-
-            <div className="mt-4 grid gap-3 sm:grid-cols-2">
-                <div className="rounded-xl border border-slate-200 bg-white p-4">
-                <p className="text-xs font-medium text-slate-500">
-                    Seizure onset captured
-                </p>
-                <p className="mt-1 text-sm font-semibold text-slate-900">
-                    {record.seizureOnsetCaptured ? "Yes" : "No"}
-                </p>
-                </div>
-
-                <div className="rounded-xl border border-slate-200 bg-white p-4">
-                <p className="text-xs font-medium text-slate-500">
-                    Classification assigned
-                </p>
-                <p className="mt-1 text-sm font-semibold text-slate-900">
-                    {record.seizureClassificationAssigned ? "Yes" : "No"}
-                </p>
-                </div>
-            </div>
-
-            <p className="mt-4 text-xs font-medium text-slate-500">
-                Time: {record.time} · Duration: {record.durationSeconds} seconds
-            </p>
-
-            <div className="mt-4 border-t border-slate-200 pt-4">
-                <a
-                    href={`/patients/${patient.patientId}/evidence?source=${encodeURIComponent(
-                    record.sourceFile
-                    )}`}
-                    className="text-sm font-semibold text-teal-800 underline-offset-4 hover:underline"
-                    style={{
-                    cursor:
-                        'url("/paw-cursor-pink.png") 16 16, pointer',
-                    }}
-                >
-                    View evidence record →
-                </a>
-                </div>
-            </div>
-        ))}
-        </div>
-      </div>
-    </JourneyShell>
-  );
-}
-
-if (level === "bile-acids") {
-  const bileAcids = laboratoryGroups.find(
-    (group) =>
-      group.title.toLowerCase() === "bile acids"
-  );
-
-  return (
-    <JourneyShell
-      eyebrow="Bile Acids"
-      title="Bile acid evidence"
-      subtitle="Exact laboratory record"
-      onZoomOut={() => setLevel("laboratory")}
-    >
-      <div className="mx-auto max-w-3xl">
-        {bileAcids ? (
-            <div className="space-y-4">
-
-                <div className="rounded-2xl border border-slate-200 bg-slate-50 p-5">
-                <p className="text-xs font-semibold uppercase tracking-wide text-teal-800">
-                    {bileAcids.latestDate}
-                </p>
-
-                <p className="mt-3 text-sm leading-6 text-slate-700">
-                    {bileAcids.latestSummary}
-                </p>
-
-                <p className="mt-3 text-xs font-medium text-slate-500">
-                    Source files: {bileAcids.latestSourceFiles.join(" · ")}
-                </p>
-
-                <div className="mt-3 flex flex-wrap gap-3">
-                    {bileAcids.latestSourceFiles.map((sourceFile) => (
-                        <a
-                        key={sourceFile}
-                        href={`/patients/${patient.patientId}/evidence?source=${encodeURIComponent(
-                            sourceFile
-                        )}`}
-                        className="text-xs font-semibold text-teal-800 underline-offset-4 hover:underline"
-                        style={{
-                            cursor:
-                            'url("/paw-cursor-pink.png") 16 16, pointer',
-                        }}
-                        >
-                        View source record →
-                        </a>
-                    ))}
-                    </div>
-                </div>
-
-            {bileAcids.history.map((record) => (
-                <div
-                    key={`${record.date}-${record.summary}`}
-                    className="rounded-2xl border border-slate-200 bg-slate-50 p-5"
-                >
-                    <p className="text-xs font-semibold uppercase tracking-wide text-teal-800">
-                    {record.date}
-                    </p>
-
-                    <p className="mt-3 text-sm leading-6 text-slate-700">
-                    {record.summary}
-                    </p>
-
-                    <p className="mt-3 text-xs font-medium text-slate-500">
-                    Source files: {record.sourceFiles.join(" · ")}
-                    </p>
-
-                    <div className="mt-3 flex flex-wrap gap-3">
-                    {record.sourceFiles.map((sourceFile) => (
-                        <a
-                        key={sourceFile}
-                        href={`/patients/${patient.patientId}/evidence?source=${encodeURIComponent(
-                            sourceFile
-                        )}`}
-                        className="text-xs font-semibold text-teal-800 underline-offset-4 hover:underline"
-                        style={{
-                            cursor:
-                            'url("/paw-cursor-pink.png") 16 16, pointer',
-                        }}
-                        >
-                        View source record →
-                        </a>
-                    ))}
-                    </div>
-            </div>
-            ))}
-            </div>
-            ) : (
-            <p className="text-sm text-slate-500">
-                Bile acid record not available.
-            </p>
-            )}
-      </div>
-    </JourneyShell>
-  );
-}
-
-if (level === "drug-monitoring") {
-  return (
-    <JourneyShell
-      eyebrow="Drug Monitoring"
-      title="Therapeutic drug monitoring"
-      subtitle="A closer evidence view"
-      onZoomOut={() => setLevel("evidence")}
-    >
-      <div className="mx-auto max-w-3xl">
-        <div className="space-y-4">
-            {drugMonitoringRecords.map((record) => (
-                <div
-                key={`${record.date}-${record.title}`}
-                className="rounded-2xl border border-slate-200 bg-slate-50 p-5"
-                >
-                <p className="text-xs font-semibold uppercase tracking-wide text-teal-800">
-                    {record.date}
-                </p>
-
-                <h3 className="mt-2 text-base font-semibold text-slate-900">
-                    {record.title}
-                </h3>
-
-                <p className="mt-3 text-sm leading-6 text-slate-700">
-                    {record.summary}
-                </p>
-            {record.sourceFiles.length > 0 && (
-                <div className="mt-4 border-t border-slate-200 pt-4">
-                    <p className="text-xs font-medium text-slate-500">
-                    Source files: {record.sourceFiles.join(" · ")}
-                    </p>
-
-                    <div className="mt-3 flex flex-wrap gap-4">
-                    {record.sourceFiles.map((sourceFile) => (
-                        <a
-                        key={sourceFile}
-                        href={`/patients/${patient.patientId}/evidence?source=${encodeURIComponent(
-                            sourceFile
-                            )}`}
-                        className="text-sm font-semibold text-teal-800 underline-offset-4 hover:underline"
-                        style={{
-                            cursor:
-                            'url("/paw-cursor-pink.png") 16 16, pointer',
-                        }}
-                        >
-                        View {sourceFile} →
-                        </a>
-                    ))}
-                    </div>
-                </div>
-                )}
-
-                </div>
-            ))}
-            </div>
-      </div>
-    </JourneyShell>
-  );
-}
+    if (level === "drug-monitoring") {
+        return (
+            <JourneyShell
+            eyebrow="Drug Monitoring"
+            title="Therapeutic drug monitoring"
+            subtitle="A closer evidence view"
+            onZoomOut={() => setLevel("evidence")}
+            >
+            <DrugMonitoringView
+                patientId={patient.patientId}
+                records={drugMonitoringRecords}
+            />
+            </JourneyShell>
+        );
+        }
 
 function ZoomOut({ onClick }: { onClick: () => void }) {
   return (
