@@ -2,6 +2,7 @@ type TreatmentViewProps = {
   daily: string;
   sos: string;
   emergency: string;
+  onSeeHistory: () => void;
   onSeeEvidence: () => void;
 };
 
@@ -9,6 +10,7 @@ export default function TreatmentView({
   daily,
   sos,
   emergency,
+  onSeeHistory,
   onSeeEvidence,
 }: TreatmentViewProps) {
   return (
@@ -31,7 +33,21 @@ export default function TreatmentView({
         detail="Source-faithful emergency administration wording."
       />
 
-      <div className="mt-10 flex justify-center">
+      <div className="mt-8 flex justify-center">
+        <button
+          type="button"
+          onClick={onSeeHistory}
+          className="rounded-full border border-teal-800/20 bg-white px-7 py-3 text-sm font-semibold text-teal-800 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
+          style={{
+            cursor:
+              'url("/paw-cursor-pink.png") 16 16, pointer',
+          }}
+        >
+          View treatment history →
+        </button>
+      </div>
+
+      <div className="flex justify-center">
         <button
           type="button"
           onClick={onSeeEvidence}

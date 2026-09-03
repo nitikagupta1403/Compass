@@ -276,6 +276,9 @@ export default async function ReferralPage({
       workingDiagnosis:
         referral.workingDiagnosis,
     }}
+
+    treatmentHistory={referral.medications}
+    
     story={{
       totalLoggedEvents:
         referral.seizureDiary.totalLoggedEvents,

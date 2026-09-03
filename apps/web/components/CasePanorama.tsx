@@ -10,6 +10,7 @@ import FirstEventChronologyView from "./FirstEventChronologyView";
 import PatternsView from "./PatternsView";
 import TreatmentView from "./TreatmentView";
 import EvidenceLandingView from "./EvidenceLandingView";
+import TreatmentHistoryView from "./TreatmentHistoryView";
 
 type DepthLevel =
   | "hope"
@@ -22,7 +23,8 @@ type DepthLevel =
   | "laboratory"
   | "bile-acids"
   | "drug-monitoring"
-  | "videos";
+  | "videos"
+  | "treatment-history";
 
 type CasePanoramaProps = {
   patientName: string;
@@ -53,64 +55,76 @@ type CasePanoramaProps = {
     title: string;
     description: string;
     evidence: string[];
+
     sourceDiscrepancy?: {
-    clinicalRecordSummary: string;
-    resolution: string;
-  };
-}[];
-  treatment: {
-    daily: string;
-    sos: string;
-    emergency: string;
-  };
-  evidence: {
-    laboratoryGroups: number;
-    videos: number;
-    drugMonitoring: number;
-  };
-
-    drugMonitoringRecords: {
-        title: string;
-        date: string;
-        summary: string;
-        sourceFiles: string[];
-        }[];
-
-    laboratoryGroups: {
-        id: string;
-        title: string;
-        latestDate: string | null;
-        latestSummary: string;
-        latestCompactSummary: string;
-        latestSourceFiles: string[];
-
-        history: {
-            date: string;
-            summary: string;
-            sourceFiles: string[];
-        }[];
-
-  }[];
-
-    videoEvidence: {
-        totalVideos: number;
-        unlinkedVideos: number;
-        specialistReviewRequired: boolean;
-        records: {
-            id: string;
-            date: string;
-            time: string;
-            durationSeconds: number;
-            eventLinkStatus: string;
-            clinicalContext?: string;
-            observedEvidence?: string;
-            seizureOnsetCaptured: boolean;
-            seizureClassificationAssigned: boolean;
-            sourceFile: string;
-        }[];
+      clinicalRecordSummary: string;
+      resolution: string;
     };
+}[];
 
-  questions: string[];
+treatmentHistory: {
+  name: string;
+  activeIngredient?: string;
+  dose: string;
+  frequency: string;
+  prescribedOn?: string;
+  status?: string;
+}[];
+
+treatment: {
+  daily: string;
+  sos: string;
+  emergency: string;
+};
+
+evidence: {
+  laboratoryGroups: number;
+  videos: number;
+  drugMonitoring: number;
+};
+
+  drugMonitoringRecords: {
+      title: string;
+      date: string;
+      summary: string;
+      sourceFiles: string[];
+      }[];
+
+  laboratoryGroups: {
+      id: string;
+      title: string;
+      latestDate: string | null;
+      latestSummary: string;
+      latestCompactSummary: string;
+      latestSourceFiles: string[];
+
+      history: {
+          date: string;
+          summary: string;
+          sourceFiles: string[];
+      }[];
+
+}[];
+
+  videoEvidence: {
+      totalVideos: number;
+      unlinkedVideos: number;
+      specialistReviewRequired: boolean;
+      records: {
+          id: string;
+          date: string;
+          time: string;
+          durationSeconds: number;
+          eventLinkStatus: string;
+          clinicalContext?: string;
+          observedEvidence?: string;
+          seizureOnsetCaptured: boolean;
+          seizureClassificationAssigned: boolean;
+          sourceFile: string;
+      }[];
+  };
+
+questions: string[];
 };
 
 export default function CasePanorama({
@@ -120,6 +134,7 @@ export default function CasePanorama({
   story,
   earlyChronology,
   treatment,
+  treatmentHistory,
   evidence,
   laboratoryGroups,
   drugMonitoringRecords,
@@ -226,6 +241,7 @@ export default function CasePanorama({
             </JourneyShell>
         );
         }
+
     if (level === "patterns") {
       return (
         <JourneyShell
@@ -259,6 +275,7 @@ export default function CasePanorama({
             daily={treatment.daily}
             sos={treatment.sos}
             emergency={treatment.emergency}
+            onSeeHistory={() => setLevel("treatment-history")}
             onSeeEvidence={() => setLevel("evidence")}
           />
         </JourneyShell>
@@ -280,6 +297,21 @@ export default function CasePanorama({
             </JourneyShell>
         );
         }
+
+  if (level === "treatment-history") {
+    return (
+      <JourneyShell
+        eyebrow="Treatment History"
+        title="How treatment changed"
+        subtitle="Documented medication history"
+        onZoomOut={() => setLevel("treatment")}
+      >
+        <TreatmentHistoryView
+          records={treatmentHistory}
+        />
+      </JourneyShell>
+    );
+  }
 
   if (level === "evidence") {
       return (
