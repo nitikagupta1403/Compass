@@ -279,15 +279,29 @@ export default async function ReferralPage({
     story={{
       totalLoggedEvents:
         referral.seizureDiary.totalLoggedEvents,
+
       uniqueEventDays:
         referral.seizureDiary.uniqueEventDays,
+
       multiEventDays:
         referral.seizureDiary.multiEventDays,
+
       firstEventDate:
         referral.seizureDiary.firstEventDate,
+
       lastEventDate:
         referral.seizureDiary.lastEventDate,
+
+      maxEventsInOneDay:
+        referral.seizureDiary.maxEventsInOneDay,
+
+      sleepAssociatedEvents:
+        referral.seizureDiary.sleepAssociatedEvents,
+
+      symptomaticOnlyEvents:
+        referral.seizureDiary.symptomaticOnlyEvents,
     }}
+
     drugMonitoringRecords={
       referral.therapeuticDrugMonitoring
     }

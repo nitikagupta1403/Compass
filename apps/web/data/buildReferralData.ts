@@ -47,6 +47,7 @@ export type ReferralData = {
     lastEventDate: string | null;
     maxEventsInOneDay: number;
     multiEventDays: number;
+    sleepAssociatedEvents: number;
     symptomaticOnlyEvents: number;
   };
 
@@ -115,6 +116,8 @@ export type ReferralData = {
 
   unresolvedIssues: string[];
 };
+
+
 
 export function buildReferralData(
   patient: PatientRecord,
@@ -446,6 +449,9 @@ export function buildReferralData(
 
       multiEventDays:
         metrics.multiEventDays.length,
+
+      sleepAssociatedEvents:
+        metrics.sleepAssociatedEvents,
 
       symptomaticOnlyEvents:
         metrics.symptomaticOnlyEvents,

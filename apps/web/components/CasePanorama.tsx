@@ -7,6 +7,9 @@ import DrugMonitoringView from "./DrugMonitoringView";
 import LaboratoryEvidenceView from "./LaboratoryEvidenceView";
 import BileAcidEvidenceView from "./BileAcidEvidenceView";
 import FirstEventChronologyView from "./FirstEventChronologyView";
+import PatternsView from "./PatternsView";
+import TreatmentView from "./TreatmentView";
+import EvidenceLandingView from "./EvidenceLandingView";
 
 type DepthLevel =
   | "hope"
@@ -34,12 +37,15 @@ type CasePanoramaProps = {
     workingDiagnosis: string | null;
   };
   story: {
-    totalLoggedEvents: number;
-    uniqueEventDays: number;
-    multiEventDays: number;
-    firstEventDate: string | null;
-    lastEventDate: string | null;
-  };
+  totalLoggedEvents: number;
+  uniqueEventDays: number;
+  multiEventDays: number;
+  firstEventDate: string | null;
+  lastEventDate: string | null;
+  maxEventsInOneDay: number;
+  sleepAssociatedEvents: number;
+  symptomaticOnlyEvents: number;
+};
   earlyChronology: {
     id: string;
     occurredAt: string;
@@ -220,50 +226,44 @@ export default function CasePanorama({
             </JourneyShell>
         );
         }
-  if (level === "patterns") {
-    return (
-      <JourneyShell
-        eyebrow="Patterns"
-        title="What repeats?"
-        subtitle="The next landmark"
-        onZoomOut={() => {
-            setLevel("first-event");
-            }}
-      >
-        <div className="mx-auto max-w-3xl">
-          <div className="grid gap-4 md:grid-cols-3">
-            <DepthNode title="Event days" headline={`${story.uniqueEventDays}`} detail="Unique diary dates containing one or more logged entries." />
-            <DepthNode title="Multi-event days" headline={`${story.multiEventDays}`} detail={`${story.totalLoggedEvents} total logged entries are currently represented in the diary.`} />
-          </div>
+    if (level === "patterns") {
+      return (
+        <JourneyShell
+          eyebrow="Patterns"
+          title="What repeats?"
+          subtitle="The next landmark"
+          onZoomOut={() => setLevel("first-event")}
+        >
+          <PatternsView
+            uniqueEventDays={story.uniqueEventDays}
+            multiEventDays={story.multiEventDays}
+            totalLoggedEvents={story.totalLoggedEvents}
+            maxEventsInOneDay={story.maxEventsInOneDay}
+            sleepAssociatedEvents={story.sleepAssociatedEvents}
+            symptomaticOnlyEvents={story.symptomaticOnlyEvents}
+            onFollowTreatment={() => setLevel("treatment")}
+          />
+        </JourneyShell>
+      );
+    }
 
-          <div className="mt-10 flex justify-center">
-            <JourneyButton onClick={() => setLevel("treatment")} label="Follow Treatment →" />
-          </div>
-        </div>
-      </JourneyShell>
-    );
-  }
-
-  if (level === "treatment") {
-    return (
-      <JourneyShell
-        eyebrow="Treatment"
-        title="What changed?"
-        subtitle="The treatment landmark"
-        onZoomOut={() => setLevel("patterns")}
-      >
-        <div className="mx-auto max-w-3xl space-y-4">
-          <DepthNode title="Daily" headline={treatment.daily} detail="Current documented daily regimen." />
-          <DepthNode title="SOS" headline={treatment.sos} detail="Current documented SOS regimen." />
-          <DepthNode title="Emergency" headline={treatment.emergency} detail="Source-faithful emergency administration wording." />
-
-          <div className="mt-10 flex justify-center">
-            <JourneyButton onClick={() => setLevel("evidence")} label="See Evidence →" />
-          </div>
-        </div>
-      </JourneyShell>
-    );
-  }
+    if (level === "treatment") {
+      return (
+        <JourneyShell
+          eyebrow="Treatment"
+          title="What changed?"
+          subtitle="The treatment landmark"
+          onZoomOut={() => setLevel("patterns")}
+        >
+          <TreatmentView
+            daily={treatment.daily}
+            sos={treatment.sos}
+            emergency={treatment.emergency}
+            onSeeEvidence={() => setLevel("evidence")}
+          />
+        </JourneyShell>
+      );
+    }
 
     if (level === "laboratory") {
         return (
@@ -281,92 +281,26 @@ export default function CasePanorama({
         );
         }
 
-if (level === "evidence") {
-  return (
-    <JourneyShell
-      eyebrow="Evidence"
-      title="What supports the story?"
-      subtitle="The evidence landmark"
-      onZoomOut={() => setLevel("treatment")}
-    >
-      <div className="mx-auto max-w-3xl">
-        <div className="grid gap-4 md:grid-cols-3">
-
-          <button
-            type="button"
-            onClick={() => setLevel("laboratory")}
-            className="h-full w-full text-left"
-            style={{
-              cursor:
-                'url("/paw-cursor-pink.png") 16 16, pointer',
-            }}
-          >
-            <DepthNode
-              title="Laboratory"
-              headline={`${evidence.laboratoryGroups}`}
-              detail="Laboratory groups"
-            />
-          </button>
-
-            <button
-            type="button"
-            onClick={() => setLevel("drug-monitoring")}
-            className="h-full w-full text-left"
-            style={{
-                cursor:
-                'url("/paw-cursor-pink.png") 16 16, pointer',
-            }}
-            >
-            <DepthNode
-                title="Drug monitoring"
-                headline={`${evidence.drugMonitoring}`}
-                detail="Therapeutic drug-monitoring record(s)"
-            />
-            </button>
-
-<button
-  type="button"
-  onClick={() => setLevel("videos")}
-  className="h-full w-full text-left"
-  style={{
-    cursor:
-      'url("/paw-cursor-pink.png") 16 16, pointer',
-  }}
->
-  <DepthNode
-    title="Videos"
-    headline={`${evidence.videos}`}
-    detail="Video evidence record(s)"
-  />
-</button>
-
-        </div>
-
-        {questions.length > 0 && (
-          <div className="mt-8 rounded-2xl border border-slate-200 bg-slate-50 p-6">
-            <p className="text-xs font-semibold uppercase tracking-[0.18em] text-teal-800">
-              Specialist questions
-            </p>
-
-            <ul className="mt-4 space-y-3 text-sm leading-6 text-slate-700">
-              {questions.map((question) => (
-                <li key={question}>
-                  {question}
-                </li>
-              ))}
-            </ul>
-          </div>
-        )}
-
-        <div className="mt-10 text-center">
-          <p className="text-xs font-medium text-slate-500">
-            Next depth: exact evidence record → original source
-          </p>
-        </div>
-      </div>
-    </JourneyShell>
-  );
-}
+  if (level === "evidence") {
+      return (
+        <JourneyShell
+          eyebrow="Evidence"
+          title="What supports the story?"
+          subtitle="The evidence landmark"
+          onZoomOut={() => setLevel("treatment")}
+        >
+          <EvidenceLandingView
+            laboratoryGroups={evidence.laboratoryGroups}
+            drugMonitoring={evidence.drugMonitoring}
+            videos={evidence.videos}
+            questions={questions}
+            onOpenLaboratory={() => setLevel("laboratory")}
+            onOpenDrugMonitoring={() => setLevel("drug-monitoring")}
+            onOpenVideos={() => setLevel("videos")}
+          />
+        </JourneyShell>
+      );
+    }
 
     if (level === "videos") {
         return (
