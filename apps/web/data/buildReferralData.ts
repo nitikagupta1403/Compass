@@ -56,6 +56,7 @@ export type ReferralData = {
     activeIngredient?: string;
     dose: string;
     frequency: string;
+    duration?: string;
     prescribedOn?: string;
     status?: string;
   }[];
@@ -431,7 +432,7 @@ export function buildReferralData(
 
     workingDiagnosis,
 
-    seizureDiary: {
+  seizureDiary: {
       totalLoggedEvents:
         metrics.totalLoggedEvents,
 
@@ -467,13 +468,15 @@ export function buildReferralData(
 
         dose:
           medication.dose?.amount !== null &&
-          medication.dose?.amount !==
-            undefined
+          medication.dose?.amount !== undefined
             ? `${medication.dose.amount} ${medication.dose.unit}`
             : "",
 
         frequency:
           medication.schedule ?? "",
+
+        duration:
+          medication.duration,
 
         prescribedOn:
           medication.prescribedOn,
