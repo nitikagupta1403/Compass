@@ -36,12 +36,20 @@ export async function GET(
     });
   }
 
-    const sourceFolders = [
-        "/Users/nitikagupta/Desktop/Hope/Hope_Medical_Record",
-        "/Users/nitikagupta/Desktop/Hope/Hope_Medical_Record/01_Prescriptions",
-        "/Users/nitikagupta/Desktop/Hope/Hope_Medical_Record/02_Lab_Reports",
-        "/Users/nitikagupta/Desktop/Hope/Hope_Medical_Record/05_Videos",
-        ];
+  const root = process.env.HOPE_MEDICAL_RECORD_ROOT;
+
+  if (!root) {
+    return new Response("Source storage not configured", {
+      status: 500,
+    });
+  }
+
+  const sourceFolders = [
+    root,
+    path.join(root, "01_Prescriptions"),
+    path.join(root, "02_Lab_Reports"),
+    path.join(root, "05_Videos"),
+  ];
 
         let filePath: string | null = null;
 
