@@ -67,7 +67,7 @@ export const hopeEvidenceIndex: EvidenceIndexItem[] = [
     id: "EV-0004",
     date: "2025-07-09",
     category: "Prescription",
-    sourceFile: "Prescription_Hope_9_Jul_25.pdf",
+    sourceFile: "Prescription_Hope_9_july_25.pdf",
     supports: [
       "Continuation of levetiracetam",
       "PRN clonazepam and Diamox",
@@ -106,7 +106,7 @@ export const hopeEvidenceIndex: EvidenceIndexItem[] = [
     id: "EV-0007",
     date: "2026-05-04",
     category: "Prescription",
-    sourceFile: "Prescription_Hope_4_May_26.pdf",
+    sourceFile: "Prescription_Hope_4_May_26.jpeg",
     supports: [
       "Phenobarbital regimen documented",
       "Gardenal 30 mg prescription",
@@ -118,7 +118,7 @@ export const hopeEvidenceIndex: EvidenceIndexItem[] = [
     id: "EV-0008",
     date: "2026-05-27",
     category: "Clinical Record",
-    sourceFile: "Animal_Care_Clinic_27_May_2026",
+    sourceFile: "Hope_Jun_26.pdf",
     supports: [
       "Weight documented as 19 kg",
       "Serum phenobarbital testing ordered",

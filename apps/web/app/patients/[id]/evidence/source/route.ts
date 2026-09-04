@@ -36,13 +36,41 @@ export async function GET(
     });
   }
 
-    const filePath = path.join(
+    const sourceFolders = [
+        "/Users/nitikagupta/Desktop/Hope/Hope_Medical_Record",
         "/Users/nitikagupta/Desktop/Hope/Hope_Medical_Record/01_Prescriptions",
-        safeFileName
-        );
+        "/Users/nitikagupta/Desktop/Hope/Hope_Medical_Record/02_Lab_Reports",
+        "/Users/nitikagupta/Desktop/Hope/Hope_Medical_Record/05_Videos",
+        ];
 
-  try {
-    const file = await readFile(filePath);
+        let filePath: string | null = null;
+
+        for (const folder of sourceFolders) {
+            const candidate = path.join(
+                folder,
+                safeFileName
+            );
+
+        try {
+            await readFile(candidate);
+            filePath = candidate;
+            break;
+        } catch {
+            // Try the next allowed location.
+        }
+        }
+
+        if (!filePath) {
+            return new Response(
+                "Source document not found",
+                {
+                status: 404,
+                }
+            );
+            }
+
+        try {
+            const file = await readFile(filePath);
 
     const extension = path
       .extname(safeFileName)
@@ -67,6 +95,7 @@ export async function GET(
         "Cache-Control": "private, no-store",
       },
     });
+    
   } catch {
     return new Response(
       "Source document not found",
