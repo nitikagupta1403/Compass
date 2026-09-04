@@ -45,23 +45,22 @@ export default async function EvidencePage({
   }
 
   const treatmentRecord =
-  selectedTreatment
-    ? patient.medications.find(
-        (medication) =>
-          medication.name.toLowerCase() ===
-          selectedTreatment.toLowerCase()
-      )
-    : null;
+    selectedTreatment
+      ? patient.medications.find(
+          (medication) =>
+            medication.name.toLowerCase() ===
+            selectedTreatment.toLowerCase()
+        )
+      : null;
 
-const treatmentTerms = [
-  selectedTreatment,
-  treatmentRecord?.activeIngredient,
-]
-  .filter((value): value is string => Boolean(value))
-  .map((value) => value.toLowerCase());
+  const treatmentTerms = [
+    selectedTreatment,
+    treatmentRecord?.activeIngredient,
+  ]
+    .filter((value): value is string => Boolean(value))
+    .map((value) => value.toLowerCase());
 
-const visibleEvidence = hopeEvidenceIndex.filter(
-  (item) => {
+  const visibleEvidence = hopeEvidenceIndex.filter((item) => {
     const matchesSource =
       !source ||
       item.sourceFile === source ||
@@ -83,8 +82,65 @@ const visibleEvidence = hopeEvidenceIndex.filter(
       );
 
     return matchesSource && matchesTreatment;
-  }
-);
+  });
+
+  const evidenceGroups = Object.entries(
+    visibleEvidence.reduce<Record<string, EvidenceIndexItem[]>>(
+      (groups, item) => {
+        const key = item.category;
+
+        if (!groups[key]) {
+          groups[key] = [];
+        }
+
+        groups[key].push(item);
+
+        return groups;
+      },
+      {}
+    )
+  );
+
+  const categoryMeta: Record<
+      string,
+      {
+        step: string;
+        title: string;
+        subtitle: string;
+        className: string;
+      }
+    > = {
+    "Owner Diary": {
+      step: "1 · Lived history",
+      title: "Owner diary",
+      subtitle: "Longitudinal event history and lived observations",
+      className: "bg-orange-50/40",
+    },
+    "Clinical Record": {
+      step: "2 · Clinical context",
+      title: "Clinical records",
+      subtitle: "Consultations, examinations, and documented clinical assessments",
+      className: "bg-slate-50",
+    },
+    Prescription: {
+      step: "3 · Treatment",
+      title: "Treatment records",
+      subtitle: "What was prescribed and when",
+      className: "bg-teal-50/40",
+    },
+    Laboratory: {
+      step: "4 · Measurements",
+      title: "Laboratory evidence",
+      subtitle: "Measured findings and source interpretations",
+      className: "bg-cyan-50/30",
+    },
+    Video: {
+      step: "5 · Observed evidence",
+      title: "Video evidence",
+      subtitle: "Owner-recorded observations requiring review",
+      className: "bg-blue-50/30",
+    },
+    }
 
   return (
     <main className="min-h-screen bg-slate-100 px-6 py-10">
@@ -138,16 +194,57 @@ const visibleEvidence = hopeEvidenceIndex.filter(
         </section>
 
         <div className="mt-6 space-y-4">
-          {visibleEvidence.map(
-            (item: EvidenceIndexItem) => (
-              <EvidenceCard
-                key={item.id}
-                item={item}
-                patientId={patient.id}
-              />
-            )
-          )}
-        </div>
+            {evidenceGroups.map(([category, items]) => (
+              <details
+                key={category}
+                open={category === "Owner Diary"}
+                className={`group rounded-xl border border-slate-200 ${
+                categoryMeta[category]?.className ?? "bg-slate-50"
+              }`}
+              >
+                <summary
+                  className="flex cursor-pointer list-none items-center justify-between gap-4 px-5 py-4"
+                  style={{
+                    cursor:
+                      'url("/paw-cursor-pink.png") 16 16, pointer',
+                  }}
+                >
+                  <div>
+                    <p className="text-[11px] font-semibold uppercase tracking-wide text-slate-400">
+                      {categoryMeta[category]?.step}
+                    </p>
+
+                    <p className="mt-1 font-semibold text-slate-900">
+                      {categoryMeta[category]?.title ?? category}
+                    </p>
+
+                    <p className="mt-1 text-xs text-slate-500">
+                      {categoryMeta[category]?.subtitle}
+                    </p>
+
+                    <p className="mt-1 text-xs text-slate-400">
+                      {items.length} evidence{" "}
+                      {items.length === 1 ? "record" : "records"}
+                    </p>
+                  </div>
+
+                  <span className="text-lg text-slate-400 transition-transform group-open:rotate-180">
+                    ↓
+                  </span>
+                </summary>
+
+                <div className="space-y-4 border-t border-slate-200 p-4">
+                  {items.map((item) => (
+                    <EvidenceCard
+                      key={item.id}
+                      item={item}
+                      patientId={patient.id}
+                    />
+                  ))}
+                </div>
+              </details>
+            ))}
+          </div>
 
         <footer className="mt-10 border-t border-slate-200 pt-5 text-xs leading-5 text-slate-500">
           Evidence items are indexed by source. Clinical interpretation remains
@@ -180,16 +277,33 @@ function EvidenceCard({
             </span>
           </div>
 
-          <p className="mt-2 text-sm text-slate-700">
-            Source{" "}
-              {item.sourceFiles?.length ? "files" : "file"}:{" "}
-              {Array.from(
-                new Set([
-                item.sourceFile,
-                ...(item.sourceFiles ?? []),
-              ])
-            ).join(" · ")}
-          </p>
+          <div className="mt-3 flex flex-wrap gap-2">
+            <span className="rounded-full border border-teal-200 bg-teal-50 px-2.5 py-1 text-xs font-medium text-teal-800">
+              Indexed
+            </span>
+
+            {item.id !== "EV-0001" ? (
+              <span className="rounded-full border border-slate-200 bg-white px-2.5 py-1 text-xs font-medium text-slate-700">
+                Source openable
+              </span>
+            ) : (
+              <span className="rounded-full border border-slate-200 bg-white px-2.5 py-1 text-xs font-medium text-slate-500">
+                No direct source file
+              </span>
+            )}
+
+            {item.category === "Video" && (
+              <>
+                <span className="rounded-full border border-amber-200 bg-amber-50 px-2.5 py-1 text-xs font-medium text-amber-800">
+                  Unlinked
+                </span>
+
+                <span className="rounded-full border border-slate-300 bg-slate-100 px-2.5 py-1 text-xs font-medium text-slate-700">
+                  Requires review
+                </span>
+              </>
+            )}
+          </div>
 
           <p className="mt-1 text-xs text-slate-500">
             Date: {item.date}
@@ -212,6 +326,7 @@ function EvidenceCard({
             View indexed record →
           </a>
 
+        {item.id !== "EV-0001" && (
           <a
             href={`/patients/${patientId}/evidence/source?source=${encodeURIComponent(
               item.sourceFile
@@ -226,6 +341,7 @@ function EvidenceCard({
           >
             Open source document →
           </a>
+        )}
 
         </div>
       </div>
