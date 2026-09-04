@@ -160,93 +160,107 @@ export default function TreatmentHistoryView({
         <div className="mt-5 flex justify-center">
         <div className="inline-flex rounded-xl border border-slate-200 bg-slate-50 p-1">
             <button
-            type="button"
-            onClick={() => {
-              setViewMode("graph");
-            }}
-            className={[
-                "rounded-lg px-4 py-2 text-sm font-semibold transition",
-                viewMode === "graph"
-                ? "bg-white text-slate-900 shadow-sm"
-                : "text-slate-500 hover:text-slate-800",
-            ].join(" ")}
-            >
-            Graph
-            </button>
+              type="button"
+              aria-pressed={viewMode === "graph"}
+              onClick={() => {
+                setViewMode("graph");
+              }}
+              className={[
+                  "rounded-lg px-4 py-2 text-sm font-semibold transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-500 focus-visible:ring-offset-2",
+                  viewMode === "graph"
+                  ? "bg-white text-slate-900 shadow-sm"
+                  : "text-slate-500 hover:text-slate-800",
+              ].join(" ")}
+              >
+              Graph
+              </button>
 
-            <button
-            type="button"
-            onClick={() => {
-              setViewMode("matrix");
-              setShowAllRelationships(false);
-            }}
-            className={[
-                "rounded-lg px-4 py-2 text-sm font-semibold transition",
-                viewMode === "matrix"
-                ? "bg-white text-slate-900 shadow-sm"
-                : "text-slate-500 hover:text-slate-800",
-            ].join(" ")}
-            >
-            Matrix
-            </button>
-        </div>
-        </div>
+              <button
+                type="button"
+                aria-pressed={viewMode === "matrix"}
+                onClick={() => {
+                  setViewMode("matrix");
+                  setShowAllRelationships(false);
+                }}
+                className={[
+                    "rounded-lg px-4 py-2 text-sm font-semibold transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-500 focus-visible:ring-offset-2",
+                    viewMode === "matrix"
+                    ? "bg-white text-slate-900 shadow-sm"
+                    : "text-slate-500 hover:text-slate-800",
+                ].join(" ")}
+                >
+                Matrix
+                </button>
+            </div>
+            </div>
 
-        <div className="mt-4 flex flex-wrap items-center justify-center gap-5 text-xs text-slate-600">
-        <div className="flex items-center gap-2">
-            <span className="block h-[2px] w-8 bg-slate-400" />
-            <span>Co-prescribed</span>
-        </div>
+            <div className="mt-4 flex flex-wrap items-center justify-center gap-5 text-xs text-slate-600">
+              <div className="flex items-center gap-2">
+                  <span className="block h-[2px] w-8 bg-slate-400" />
+                  <span>Co-prescribed</span>
+              </div>
 
-        <div className="flex items-center gap-2">
-            <span className="block w-8 border-t-2 border-dashed border-slate-400" />
-            <span>Same medication family</span>
-        </div>
+              <div className="flex items-center gap-2">
+                  <span className="block w-8 border-t-2 border-dashed border-slate-400" />
+                  <span>Same medication family</span>
+              </div>
 
-        <div className="flex items-center gap-2">
-            <span className="block h-[4px] w-8 bg-slate-400" />
-            <span>More shared prescription dates</span>
-        </div>
-    </div>
+              <div className="flex items-center gap-2">
+                  <span className="block h-[4px] w-8 bg-slate-400" />
+                  <span>More shared prescription dates</span>
+              </div>
+          </div>
 
-    {viewMode === "graph" && (
-        <div className="relative mt-10 h-[720px] w-full overflow-hidden rounded-3xl border border-slate-200 bg-white">
-          {viewMode === "graph" && selectedMatrixPair && (() => {
+          {viewMode === "graph" &&
+            selectedMatrixPair &&
+            (() => {
               const rowNode = aggregatedNodes.find(
-                (node) => node.id === selectedMatrixPair.rowId
+                (node) =>
+                  node.id === selectedMatrixPair.rowId
               );
 
               const columnNode = aggregatedNodes.find(
-                (node) => node.id === selectedMatrixPair.columnId
+                (node) =>
+                  node.id === selectedMatrixPair.columnId
               );
 
               if (!rowNode || !columnNode) {
                 return null;
               }
 
-    return (
-      <div className="mt-5 flex items-center justify-center gap-3">
-        <div className="rounded-full border border-slate-200 bg-slate-50 px-4 py-2 text-sm text-slate-700">
-          Focused relationship:{" "}
-          <span className="font-semibold text-slate-900">
-            {rowNode.name}
-          </span>
-          <span className="mx-2 text-slate-400">↔</span>
-          <span className="font-semibold text-slate-900">
-            {columnNode.name}
-          </span>
-        </div>
+              return (
+                <div className="mt-5 flex items-center justify-center gap-3">
+                  <div className="rounded-full border border-slate-200 bg-slate-50 px-4 py-2 text-sm text-slate-700">
+                    Focused relationship:{" "}
+                    <span className="font-semibold text-slate-900">
+                      {rowNode.name}
+                    </span>
 
-      <button
-        type="button"
-        onClick={() => setSelectedMatrixPair(null)}
-        className="text-xs font-semibold text-teal-800 hover:underline"
-      >
-        Clear focus
-      </button>
-    </div>
-  );
-})()}
+                    <span className="mx-2 text-slate-400">
+                      ↔
+                    </span>
+
+                    <span className="font-semibold text-slate-900">
+                      {columnNode.name}
+                    </span>
+                  </div>
+
+                  <button
+                    type="button"
+                    onClick={() =>
+                      setSelectedMatrixPair(null)
+                    }
+                    className="text-xs font-semibold text-teal-800 hover:underline"
+                  >
+                    Clear focus
+                  </button>
+                </div>
+              );
+            })()}
+
+          {viewMode === "graph" && (
+            <div className="relative mt-10 h-[720px] w-full overflow-hidden rounded-3xl border border-slate-200 bg-white">
+
         {/* EDGES */}
         <svg
             className="absolute inset-0 h-full w-full"
@@ -394,19 +408,22 @@ export default function TreatmentHistoryView({
                 aggregatedNodes
             );
 
-        return (
+          return (
             <button
-                key={node.id}
-                type="button"
-                onClick={() => {
-                    setSelectedNodeIndex(
+              key={node.id}
+              type="button"
+              aria-label={`${node.name}, ${node.sourceRecordCount} documented ${
+                node.sourceRecordCount === 1 ? "record" : "records"
+              }`}
+              onClick={() => {
+                      setSelectedNodeIndex(
                       isSelected ? null : index
                     );
 
                     setSelectedMatrixPair(null);
                     setShowAllRelationships(false);
                   }}
-            className="absolute z-10 flex -translate-x-1/2 -translate-y-1/2 flex-col items-center text-center outline-none focus:outline-none"
+            className="absolute z-10 flex -translate-x-1/2 -translate-y-1/2 flex-col items-center text-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-500 focus-visible:ring-offset-2 rounded-full"
             style={{
                 left: `${position.x}%`,
                 top: `${position.y}%`,
@@ -599,8 +616,17 @@ export default function TreatmentHistoryView({
                 ].join(" ")}
                 >
                 <button
-                    type="button"
-                    onClick={() => {
+                  type="button"
+                  aria-label={
+                    familyRelation
+                      ? `${rowNode.name} and ${columnNode.name}, same documented medication family`
+                      : coPrescriptionRelation
+                      ? `${rowNode.name} and ${columnNode.name}, ${coPrescriptionRelation.weight} shared prescription ${
+                          coPrescriptionRelation.weight === 1 ? "date" : "dates"
+                        }`
+                      : `${rowNode.name} and ${columnNode.name}, no documented relationship`
+                  }
+                  onClick={() => {
                       setSelectedNodeIndex(null);
 
                       setSelectedMatrixPair((current) =>
