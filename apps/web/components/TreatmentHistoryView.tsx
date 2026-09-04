@@ -845,12 +845,23 @@ export default function TreatmentHistoryView({
         )}
       </div>
 
-      <span className="rounded-full border border-slate-200 bg-white px-3 py-1 text-xs font-medium text-slate-600">
-        {selectedNode.sourceRecordCount} documented{" "}
-        {selectedNode.sourceRecordCount === 1
-          ? "record"
-          : "records"}
-      </span>
+      <div className="flex flex-wrap items-center gap-3">
+        <span className="rounded-full border border-slate-200 bg-white px-3 py-1 text-xs font-medium text-slate-600">
+          {selectedNode.sourceRecordCount} documented{" "}
+          {selectedNode.sourceRecordCount === 1
+            ? "record"
+            : "records"}
+        </span>
+
+        <a
+          href={`/patients/HOPE-001/evidence?treatment=${encodeURIComponent(
+          selectedNode.name
+        )}`}
+          className="text-xs font-semibold text-teal-800 underline-offset-4 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-500 focus-visible:ring-offset-2"
+        >
+          Open evidence index →
+        </a>
+      </div>
     </div>
 
     {selectedRelationships.length > 0 && (
