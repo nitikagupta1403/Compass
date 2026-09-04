@@ -34,42 +34,54 @@ type TreatmentAccent =
   | "violet"
   | "slate";
 
+  
 export default function TreatmentHistoryView({
   records,
 }: TreatmentHistoryViewProps) {
-  const sortedRecords = [...records].sort((a, b) =>
-    (b.prescribedOn ?? "").localeCompare(a.prescribedOn ?? "")
-  );
 
-  const treatmentGraph =
-    buildTreatmentGraph(sortedRecords);
+  const [timeFilter, setTimeFilter] =
+    useState<"all" | "2025" | "2026">("all");
 
-  const aggregatedNodes =
-    aggregateTreatmentNodes(
-      treatmentGraph.nodes
+  const filteredRecords =
+      timeFilter === "all"
+        ? records
+        : records.filter((record) =>
+            record.prescribedOn?.startsWith(timeFilter)
+          );
+
+    const sortedRecords = [...filteredRecords].sort((a, b) =>
+      (b.prescribedOn ?? "").localeCompare(a.prescribedOn ?? "")
     );
 
-  const aggregatedEdges =
-    aggregateTreatmentEdges(
-      treatmentGraph,
-      aggregatedNodes
-    );
+    const treatmentGraph =
+      buildTreatmentGraph(sortedRecords);
 
-  const adjacency =
-    buildTreatmentAdjacency(
-        aggregatedNodes,
-        aggregatedEdges
-    );
+    const aggregatedNodes =
+      aggregateTreatmentNodes(
+        treatmentGraph.nodes
+      );
 
-  const nodeStrengths =
-    calculateTreatmentNodeStrength(
-        adjacency
-    );
-  
-    const communities =
-        clusterTreatmentGraphByModularity(
-            adjacency
-    );
+    const aggregatedEdges =
+      aggregateTreatmentEdges(
+        treatmentGraph,
+        aggregatedNodes
+      );
+
+    const adjacency =
+      buildTreatmentAdjacency(
+          aggregatedNodes,
+          aggregatedEdges
+      );
+
+    const nodeStrengths =
+      calculateTreatmentNodeStrength(
+          adjacency
+      );
+    
+      const communities =
+          clusterTreatmentGraphByModularity(
+              adjacency
+      );
 
     const graphPositions =
         buildCommunityLayout(
@@ -77,45 +89,45 @@ export default function TreatmentHistoryView({
             communities
         );
 
-  const [
-    selectedNodeIndex,
-    setSelectedNodeIndex,
-  ] = useState<number | null>(null);
+    const [
+      selectedNodeIndex,
+      setSelectedNodeIndex,
+    ] = useState<number | null>(null);
 
-  const [viewMode, setViewMode] =
-    useState<"graph" | "matrix">("graph");
+    const [viewMode, setViewMode] =
+      useState<"graph" | "matrix">("graph");
 
-  const [
-    selectedMatrixPair,
-    setSelectedMatrixPair,
-    ] = useState<{
-    rowId: string;
-    columnId: string;
-    } | null>(null);
+    const [
+      selectedMatrixPair,
+      setSelectedMatrixPair,
+      ] = useState<{
+      rowId: string;
+      columnId: string;
+      } | null>(null);
 
-  const [
-    showAllRelationships,
-    setShowAllRelationships,
-    ] = useState(false);
+    const [
+      showAllRelationships,
+      setShowAllRelationships,
+      ] = useState(false);
 
-  const selectedNode =
-    selectedNodeIndex !== null
-      ? aggregatedNodes[selectedNodeIndex]
-      : null;
+    const selectedNode =
+      selectedNodeIndex !== null
+        ? aggregatedNodes[selectedNodeIndex]
+        : null;
 
-  const selectedRelationships =
-    selectedNode
-        ? aggregatedEdges
-            .filter(
-            (edge) =>
-                edge.source === selectedNode.id ||
-                edge.target === selectedNode.id
-            )
-            .map((edge) => {
-            const neighborId =
-                edge.source === selectedNode.id
-                ? edge.target
-                : edge.source;
+    const selectedRelationships =
+      selectedNode
+          ? aggregatedEdges
+              .filter(
+              (edge) =>
+                  edge.source === selectedNode.id ||
+                  edge.target === selectedNode.id
+              )
+              .map((edge) => {
+              const neighborId =
+                  edge.source === selectedNode.id
+                  ? edge.target
+                  : edge.source;
 
             const neighbor =
                 aggregatedNodes.find(
@@ -193,6 +205,40 @@ export default function TreatmentHistoryView({
                 </button>
             </div>
             </div>
+
+            <div className="mt-4 flex justify-center">
+              <div className="inline-flex rounded-xl border border-slate-200 bg-white p-1 shadow-sm">
+                {(["all", "2025", "2026"] as const).map((value) => (
+                  <button
+                    key={value}
+                    type="button"
+                    aria-pressed={timeFilter === value}
+                    onClick={() => {
+                      setTimeFilter(value);
+                      setSelectedNodeIndex(null);
+                      setSelectedMatrixPair(null);
+                      setShowAllRelationships(false);
+                    }}
+                    className={[
+                      "rounded-lg px-3 py-1.5 text-xs font-semibold transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-500 focus-visible:ring-offset-2",
+                      timeFilter === value
+                        ? "bg-slate-900 text-white"
+                        : "text-slate-500 hover:bg-slate-50 hover:text-slate-800",
+                    ].join(" ")}
+                  >
+                    {value === "all" ? "All" : value}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <p className="mt-3 text-center text-xs font-medium text-slate-500">
+              {timeFilter === "all" ? "All documented periods" : timeFilter}
+              {" · "}
+              {aggregatedNodes.length} treatments
+              {" · "}
+              {aggregatedEdges.length} documented relationships
+            </p>
 
             <div className="mt-4 flex flex-wrap items-center justify-center gap-5 text-xs text-slate-600">
               <div className="flex items-center gap-2">
