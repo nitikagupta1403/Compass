@@ -86,20 +86,35 @@ export default function VideoEvidenceView({
               Time: {record.time} · Duration: {record.durationSeconds} seconds
             </p>
 
-            <div className="mt-4 border-t border-slate-200 pt-4">
-              <a
-                href={`/patients/${patientId}/evidence?source=${encodeURIComponent(
-                  record.sourceFile
-                )}`}
-                className="text-sm font-semibold text-teal-800 underline-offset-4 hover:underline"
-                style={{
-                  cursor:
-                    'url("/paw-cursor-pink.png") 16 16, pointer',
-                }}
-              >
-                View evidence record →
-              </a>
-            </div>
+            <div className="mt-4 flex flex-wrap items-center gap-4 border-t border-slate-200 pt-4">
+  <a
+    href={`/patients/${patientId}/evidence?source=${encodeURIComponent(
+      record.sourceFile
+    )}`}
+      className="text-sm font-semibold text-teal-800 underline-offset-4 hover:underline"
+      style={{
+        cursor:
+          'url("/paw-cursor-pink.png") 16 16, pointer',
+      }}
+  >
+    View evidence record →
+  </a>
+
+    <a
+      href={`/patients/${patientId}/evidence/source?source=${encodeURIComponent(
+        record.sourceFile
+      )}`}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="text-sm font-semibold text-slate-500 underline-offset-4 hover:text-slate-800 hover:underline"
+        style={{
+          cursor:
+            'url("/paw-cursor-pink.png") 16 16, pointer',
+        }}
+    >
+      Open source video →
+    </a>
+  </div>
           </div>
         ))}
       </div>
