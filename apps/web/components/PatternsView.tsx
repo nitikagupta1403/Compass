@@ -6,6 +6,7 @@ type PatternsViewProps = {
   sleepAssociatedEvents: number;
   symptomaticOnlyEvents: number;
   onFollowTreatment: () => void;
+  onSeeEvidence?: () => void;
 };
 
 export default function PatternsView({
@@ -16,6 +17,7 @@ export default function PatternsView({
   sleepAssociatedEvents,
   symptomaticOnlyEvents,
   onFollowTreatment,
+  onSeeEvidence,
 }: PatternsViewProps) {
  return (
   <div className="mx-auto max-w-3xl">
@@ -51,18 +53,32 @@ export default function PatternsView({
       />
     </div>
 
-    <div className="mt-10 flex justify-center">
+    <div className="mt-8 flex flex-wrap justify-center gap-3">
       <button
         type="button"
         onClick={onFollowTreatment}
-        className="rounded-full border border-teal-800/20 bg-white px-7 py-3 text-sm font-semibold text-teal-800 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
+        className="rounded-full border border-teal-800/20 bg-white px-5 py-2 text-sm font-semibold text-teal-800 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
         style={{
           cursor:
             'url("/paw-cursor-pink.png") 16 16, pointer',
         }}
-      >
-        Follow Treatment →
-      </button>
+  >
+    Follow treatment →
+    </button>
+
+      {onSeeEvidence && (
+        <button
+          type="button"
+          onClick={onSeeEvidence}
+          className="rounded-full border border-teal-800/20 bg-white px-5 py-2 text-sm font-semibold text-teal-800 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
+          style={{
+            cursor:
+              'url("/paw-cursor-pink.png") 16 16, pointer',
+          }}
+        >
+          Explore evidence beneath the patterns →
+        </button>
+      )}
     </div>
   </div>
 );

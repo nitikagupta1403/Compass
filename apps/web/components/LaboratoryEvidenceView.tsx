@@ -20,21 +20,26 @@ export default function LaboratoryEvidenceView({
             group.title.toLowerCase() === "bile acids";
 
           const content = (
-            <div className="rounded-2xl border border-slate-200 bg-slate-50 p-5">
-              <p className="text-xs font-semibold uppercase tracking-wide text-teal-800">
-                {group.title}
-              </p>
+              <div className="rounded-2xl border border-slate-200 bg-slate-50 p-5">
+                <p className="text-xs font-semibold uppercase tracking-wide text-teal-800">
+                  {group.title}
+                </p>
 
-              <p className="mt-2 text-sm font-semibold text-slate-900">
-                {group.latestDate ?? "Date not documented"}
-              </p>
+                <p className="mt-2 text-sm font-semibold text-slate-900">
+                  {group.latestDate ?? "Date not documented"}
+                </p>
 
-              <p className="mt-2 text-sm leading-6 text-slate-600">
-                {group.latestCompactSummary}
-              </p>
-            </div>
-          );
+                <p className="mt-2 text-sm leading-6 text-slate-600">
+                  {group.latestCompactSummary}
+                </p>
 
+                {isBileAcids && (
+                  <p className="mt-4 text-xs font-semibold text-teal-800">
+                    Open exact record →
+                  </p>
+                )}
+              </div>
+            );
           if (isBileAcids) {
             return (
               <button

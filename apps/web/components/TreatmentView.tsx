@@ -57,7 +57,7 @@ export default function TreatmentView({
               'url("/paw-cursor-pink.png") 16 16, pointer',
           }}
         >
-          See Evidence →
+          Explore evidence →
         </button>
       </div>
     </div>

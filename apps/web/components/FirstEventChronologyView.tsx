@@ -1,6 +1,6 @@
 type FirstEventChronologyViewProps = {
-  firstEventDate: string | null;
-  earlyChronology: {
+    firstEventDate: string | null;
+    earlyChronology: {
     id: string;
     occurredAt: string;
     type: string;
@@ -13,12 +13,14 @@ type FirstEventChronologyViewProps = {
     };
   }[];
   onDiscoverPatterns: () => void;
+  onSeeEvidence?: () => void;
 };
 
 export default function FirstEventChronologyView({
   firstEventDate,
   earlyChronology,
   onDiscoverPatterns,
+  onSeeEvidence,
 }: FirstEventChronologyViewProps) {
   return (
     <div className="mx-auto max-w-3xl">
@@ -79,6 +81,20 @@ export default function FirstEventChronologyView({
             </div>
           ))}
         </div>
+
+        {onSeeEvidence && (
+          <button
+            type="button"
+            onClick={onSeeEvidence}
+            className="rounded-full border border-teal-800/20 bg-white px-5 py-2 text-sm font-semibold text-teal-800 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
+            style={{
+              cursor:
+                'url("/paw-cursor-pink.png") 16 16, pointer',
+            }}
+          >
+            Explore evidence beneath the first events →
+          </button>
+        )}
 
         <div className="pt-5 flex justify-center">
           <button

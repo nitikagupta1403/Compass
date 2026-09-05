@@ -34,8 +34,12 @@ export default function DrugMonitoringView({
 
             {record.sourceFiles.length > 0 && (
               <div className="mt-4 border-t border-slate-200 pt-4">
-                <p className="text-xs font-medium text-slate-500">
-                  Source files: {record.sourceFiles.join(" · ")}
+                <p className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">
+                  Source record
+                </p>
+
+                <p className="mt-2 text-xs font-medium text-slate-500">
+                  {record.sourceFiles.join(" · ")}
                 </p>
 
                 <div className="mt-3 flex flex-wrap gap-4">
@@ -51,7 +55,7 @@ export default function DrugMonitoringView({
                           'url("/paw-cursor-pink.png") 16 16, pointer',
                       }}
                     >
-                      View {sourceFile} →
+                      Open original source →
                     </a>
                   ))}
                 </div>

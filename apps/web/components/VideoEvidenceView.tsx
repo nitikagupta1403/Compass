@@ -1,5 +1,6 @@
 type VideoEvidenceViewProps = {
   patientId: string;
+  onSeeEvidence?: () => void;
   records: {
     id: string;
     date: string;
@@ -17,9 +18,26 @@ type VideoEvidenceViewProps = {
 export default function VideoEvidenceView({
   patientId,
   records,
+  onSeeEvidence,
 }: VideoEvidenceViewProps) {
   return (
     <div className="mx-auto max-w-3xl">
+      {onSeeEvidence && (
+        <div className="mb-6 flex justify-center">
+          <button
+            type="button"
+            onClick={onSeeEvidence}
+            className="rounded-full border border-teal-800/20 bg-white px-5 py-2 text-sm font-semibold text-teal-800 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
+            style={{
+              cursor:
+                'url("/paw-cursor-pink.png") 16 16, pointer',
+            }}
+          >
+            Explore evidence beneath video →
+          </button>
+        </div>
+      )}
+
       <div className="space-y-4">
         {records.map((record) => (
           <div
@@ -67,6 +85,7 @@ export default function VideoEvidenceView({
                 <p className="text-xs font-medium text-slate-500">
                   Seizure onset captured
                 </p>
+
                 <p className="mt-1 text-sm font-semibold text-slate-900">
                   {record.seizureOnsetCaptured ? "Yes" : "No"}
                 </p>
@@ -76,6 +95,7 @@ export default function VideoEvidenceView({
                 <p className="text-xs font-medium text-slate-500">
                   Classification assigned
                 </p>
+
                 <p className="mt-1 text-sm font-semibold text-slate-900">
                   {record.seizureClassificationAssigned ? "Yes" : "No"}
                 </p>
@@ -86,35 +106,32 @@ export default function VideoEvidenceView({
               Time: {record.time} · Duration: {record.durationSeconds} seconds
             </p>
 
-            <div className="mt-4 flex flex-wrap items-center gap-4 border-t border-slate-200 pt-4">
-  <a
-    href={`/patients/${patientId}/evidence?source=${encodeURIComponent(
-      record.sourceFile
-    )}`}
-      className="text-sm font-semibold text-teal-800 underline-offset-4 hover:underline"
-      style={{
-        cursor:
-          'url("/paw-cursor-pink.png") 16 16, pointer',
-      }}
-  >
-    View evidence record →
-  </a>
+            <div className="mt-4 border-t border-slate-200 pt-4">
+              <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">
+                Source record
+              </p>
 
-    <a
-      href={`/patients/${patientId}/evidence/source?source=${encodeURIComponent(
-        record.sourceFile
-      )}`}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="text-sm font-semibold text-slate-500 underline-offset-4 hover:text-slate-800 hover:underline"
-        style={{
-          cursor:
-            'url("/paw-cursor-pink.png") 16 16, pointer',
-        }}
-    >
-      Open source video →
-    </a>
-  </div>
+              <p className="mt-2 break-all text-sm text-slate-700">
+                {record.sourceFile}
+              </p>
+
+              <div className="mt-3">
+                <a
+                  href={`/patients/${patientId}/evidence/source?source=${encodeURIComponent(
+                    record.sourceFile
+                  )}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-sm font-semibold text-teal-800 underline-offset-4 hover:underline"
+                  style={{
+                    cursor:
+                      'url("/paw-cursor-pink.png") 16 16, pointer',
+                  }}
+                >
+                  Open original source →
+                </a>
+              </div>
+            </div>
           </div>
         ))}
       </div>
