@@ -1,18 +1,41 @@
 "use client";
 
+import { useEffect } from "react";
+
 import type { EvidenceRecord } from "./evidenceTypes";
 
 type EvidenceRecordDrawerProps = {
   record: EvidenceRecord | null;
-    patientId: string;
-    onClose: () => void;
-  };
+  patientId: string;
+  onClose: () => void;
+};
 
 export default function EvidenceRecordDrawer({
   record,
   patientId,
   onClose,
 }: EvidenceRecordDrawerProps) {
+  useEffect(() => {
+    if (!record) return;
+
+    const previousOverflow = document.body.style.overflow;
+
+    document.body.style.overflow = "hidden";
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        onClose();
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [record, onClose]);
+
   if (!record) return null;
 
   return (
