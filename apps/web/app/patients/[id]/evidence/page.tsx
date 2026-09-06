@@ -313,18 +313,20 @@ function EvidenceCard({
         <div className="flex flex-col items-end gap-2">
             <EvidenceStatus status={item.status} />
 
-           <a
-            href={`?source=${encodeURIComponent(
-              item.sourceFile
-            )}`}
-            className="text-xs font-semibold text-teal-800 underline-offset-4 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-500 focus-visible:ring-offset-2"
-            style={{
-              cursor:
-                'url("/paw-cursor-pink.png") 16 16, pointer',
-            }}
-          >
-            View indexed record →
-          </a>
+           {item.id !== "EV-0001" && (
+              <a
+                href={`?source=${encodeURIComponent(
+                  item.sourceFile
+                )}`}
+                className="text-xs font-semibold text-teal-800 underline-offset-4 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-500 focus-visible:ring-offset-2"
+                style={{
+                  cursor:
+                    'url("/paw-cursor-pink.png") 16 16, pointer',
+                }}
+              >
+                View indexed record →
+              </a>
+            )}
 
         {item.id !== "EV-0001" && (
           <a
@@ -339,7 +341,7 @@ function EvidenceCard({
                 'url("/paw-cursor-pink.png") 16 16, pointer',
             }}
           >
-            Open source document →
+            Open original source →
           </a>
         )}
 

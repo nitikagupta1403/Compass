@@ -212,87 +212,114 @@ export default function CasePanorama({
 
   if (level === "hope") {
     return (
-      <div className="rounded-3xl border border-teal-900/15 bg-teal-950/[0.02] p-10">
-        <div className="flex min-h-[430px] items-center justify-center">
-          <button
-            type="button"
-            onClick={() => setLevel("know-hope")}
-            className="group flex flex-col items-center"
-            style={{ cursor: 'url("/paw-cursor-pink.png") 16 16, pointer' }}
-          >
-            <div className="rounded-full border border-teal-800/20 bg-white p-2 shadow-sm transition duration-300 group-hover:scale-105">
-              <img src={photoSrc} alt={patientName} className="h-36 w-36 rounded-full object-cover" />
-            </div>
-            <p className="mt-5 text-4xl font-bold text-slate-900">{patientName}</p>
-            <p className="mt-2 text-sm font-medium text-teal-700">Know Hope 🐾</p>
-          </button>
+      <div ref={cameraRef} className="origin-center">
+        <div className="rounded-3xl border border-teal-900/15 bg-teal-950/[0.02] p-10">
+          <div className="flex min-h-[430px] items-center justify-center">
+            <button
+              type="button"
+              onClick={() =>
+                  moveCamera("know-hope", "in")
+                }
+              className="group flex flex-col items-center"
+              style={{ cursor: 'url("/paw-cursor-pink.png") 16 16, pointer' }}
+            >
+              <div className="rounded-full border border-teal-800/20 bg-white p-2 shadow-sm transition duration-300 group-hover:scale-105">
+                <img src={photoSrc} alt={patientName} className="h-36 w-36 rounded-full object-cover" />
+              </div>
+              <p className="mt-5 text-4xl font-bold text-slate-900">{patientName}</p>
+              <p className="mt-2 text-sm font-medium text-teal-700">Know Hope 🐾</p>
+            </button>
+          </div>
         </div>
       </div>
     );
-  }
+}
 
   if (level === "know-hope") {
     return (
-      
-      <div className="rounded-3xl border border-teal-900/15 bg-white p-10 shadow-sm">
-        <ZoomOut onClick={() => setLevel("hope")} />
-
-        <div className="mx-auto mt-10 max-w-2xl">
-          <div className="flex flex-col items-center text-center">
-            <div className="rounded-full border border-teal-800/20 bg-teal-50/20 p-2">
-              <img src={photoSrc} alt={patientName} className="h-28 w-28 rounded-full object-cover" />
+      <div ref={cameraRef} className="origin-center">
+        <div className="rounded-3xl border border-teal-900/15 bg-white p-10 shadow-sm">
+          <ZoomOut
+              onClick={() =>
+                moveCamera("hope", "out")
+              }
+            />
+          <div className="mx-auto mt-10 max-w-2xl">
+            <div className="flex flex-col items-center text-center">
+              <div className="rounded-full border border-teal-800/20 bg-teal-50/20 p-2">
+                <img src={photoSrc} alt={patientName} className="h-28 w-28 rounded-full object-cover" />
+              </div>
+              <h2 className="mt-2 text-3xl font-bold text-slate-900">
+                {patientName}
+              </h2>
             </div>
-            <p className="mt-4 text-xs font-semibold uppercase tracking-[0.22em] text-teal-800">Know Hope</p>
-            <h2 className="mt-2 text-3xl font-bold text-slate-900">{patientName}</h2>
-          </div>
 
-          <div className="grid gap-4 md:grid-cols-3">
-            <IdentityNode label="Patient ID" value={patient.patientId} />
-            <IdentityNode label="Species" value={patient.species} />
-            <IdentityNode label="Breed" value={patient.breed} />
-            <IdentityNode label="Sex" value={patient.sex} />
-            <IdentityNode label="DOB" value={patient.dateOfBirth} />
-            <IdentityNode label="Weight" value={patient.weightKg !== null ? `${patient.weightKg} kg` : "Not documented"} />
-          </div>
+            <div className="grid gap-4 md:grid-cols-3">
+              <IdentityNode label="Patient ID" value={patient.patientId} />
+              <IdentityNode label="Species" value={patient.species} />
+              <IdentityNode label="Breed" value={patient.breed} />
+              <IdentityNode label="Sex" value={patient.sex} />
+              <IdentityNode label="DOB" value={patient.dateOfBirth} />
+              <IdentityNode label="Weight" value={patient.weightKg !== null ? `${patient.weightKg} kg` : "Not documented"} />
+            </div>
 
-          <div className="mt-4 rounded-2xl border border-teal-900/10 bg-teal-950/[0.02] p-5">
-            <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">Working diagnosis</p>
-            <p className="mt-2 text-sm leading-6 text-slate-800">{patient.workingDiagnosis ?? "Not documented"}</p>
-          </div>
+            <div className="mt-4 rounded-2xl border border-teal-900/10 bg-teal-950/[0.02] p-5">
+              <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">Working diagnosis</p>
+              <p className="mt-2 text-sm leading-6 text-slate-800">{patient.workingDiagnosis ?? "Not documented"}</p>
+            </div>
 
-          <div className="mt-10 flex justify-center">
-            <JourneyButton onClick={() => setLevel("know-more")} label="Know More →" />
+            <div className="mt-10 flex justify-center">
+              <JourneyButton
+                  onClick={() => moveCamera("know-more", "in")}
+                  label="Explore Hope's Story →"
+                />
+            </div>
           </div>
         </div>
       </div>
     );
-  }
+}
 
   if (level === "know-more") {
-    return (
+  return (
+    <div ref={cameraRef} className="origin-center">
       <div className="rounded-3xl border border-teal-900/15 bg-white p-10 shadow-sm">
-        <ZoomOut onClick={() => setLevel("know-hope")} />
+        <ZoomOut
+          onClick={() =>
+            moveCamera("know-hope", "out")
+          }
+        />
 
         <div className="mx-auto mt-10 max-w-5xl">
           <div className="text-center">
-            <p className="text-xs font-semibold uppercase tracking-[0.22em] text-teal-800">Know More</p>
-            <h2 className="mt-2 text-3xl font-bold text-slate-900">Hope Story</h2>
-            <p className="mt-2 text-sm text-slate-500">The distant view</p>
+            <p className="text-xs font-semibold uppercase tracking-[0.22em] text-teal-800">
+              Hope Story
+            </p>
+
+            <h2 className="mt-2 text-3xl font-bold text-slate-900">
+              Hope Story
+            </h2>
+
+            <p className="mt-2 text-sm text-slate-500">
+              The distant view
+            </p>
           </div>
 
           <div className="mt-16 flex justify-center">
             <StoryLandmark
-                title="First Event"
-                subtitle="Where the story begins"
-                onClick={() => {
-                    setLevel("first-event");
-                }}
-                />
+              title="First Event"
+              subtitle="Where the story begins"
+              onClick={() =>
+                moveCamera("first-event", "in")
+              }
+            />
           </div>
         </div>
       </div>
-    );
-  }
+    </div>
+  );
+}
+
 if (level === "first-event") {
   return (
     <div ref={cameraRef} className="origin-center">
@@ -302,10 +329,10 @@ if (level === "first-event") {
         subtitle="The first clinical landmark"
         trail={[
           { label: "Hope", onClick: () => setLevel("hope") },
-          { label: "Story", onClick: () => setLevel("know-more") },
+          { label: "Story", onClick: () => moveCamera("know-more", "in")},
           { label: "First Event" },
         ]}
-        onZoomOut={() => setLevel("know-more")}
+        onZoomOut={() => moveCamera("know-more", "out")}
       >
         <FirstEventChronologyView
           firstEventDate={story.firstEventDate}
@@ -332,7 +359,7 @@ if (level === "patterns") {
         subtitle="The next landmark"
         trail={[
           { label: "Hope", onClick: () => setLevel("hope") },
-          { label: "Story", onClick: () => setLevel("know-more") },
+          { label: "Story", onClick: () => moveCamera("know-more", "out") },
           {
             label: "First Event",
             onClick: () =>
@@ -340,7 +367,7 @@ if (level === "patterns") {
           },
           { label: "Patterns" },
         ]}
-        onZoomOut={() =>
+        onZoomOut={() => 
           moveCamera("first-event", "out")
         }
       >
@@ -372,7 +399,7 @@ if (level === "patterns") {
             subtitle="The treatment landmark"
             trail={[
               { label: "Hope", onClick: () => setLevel("hope") },
-              { label: "Story", onClick: () => setLevel("know-more") },
+              { label: "Story", onClick: () => moveCamera("know-more", "in") },
               { label: "First Event", onClick: () => setLevel("first-event") },
               {
                 label: "Patterns",
@@ -389,7 +416,9 @@ if (level === "patterns") {
             daily={treatment.daily}
             sos={treatment.sos}
             emergency={treatment.emergency}
-            onSeeHistory={() => setLevel("treatment-history")}
+            onSeeHistory={() =>
+              moveCamera("treatment-history", "in")
+            }
             onSeeEvidence={() => {
               setEvidenceContext("treatment");
               moveCamera("evidence", "in");
@@ -409,7 +438,7 @@ if (level === "patterns") {
             subtitle="A closer evidence view"
             trail={[
               { label: "Hope", onClick: () => setLevel("hope") },
-              { label: "Story", onClick: () => setLevel("know-more") },
+              { label: "Story", onClick: () => moveCamera("know-more", "in")},
               { label: "Evidence", onClick: () => moveCamera("evidence", "out") },
               { label: "Laboratory" },
             ]}
@@ -428,20 +457,23 @@ if (level === "patterns") {
     }
 
   if (level === "treatment-history") {
-    return (
+  return (
+    <div ref={cameraRef} className="origin-center">
       <JourneyShell
         eyebrow="Treatment History"
         title="How treatment changed"
         subtitle="Documented medication history"
-        onZoomOut={() => setLevel("treatment")}
+        onZoomOut={() =>
+          moveCamera("treatment", "out")
+        }
       >
         <TreatmentHistoryView
           records={treatmentHistory}
         />
       </JourneyShell>
-    );
-  }
-
+    </div>
+  );
+}
 
 if (level === "evidence") {
     const evidenceTitle =
@@ -466,7 +498,7 @@ const evidenceTrail: JourneyTrailItem[] =
   evidenceContext === "treatment"
     ? [
         { label: "Hope", onClick: () => setLevel("hope") },
-        { label: "Story", onClick: () => setLevel("know-more") },
+        { label: "Story", onClick: () => moveCamera("know-more", "in") },
         { label: "First Event", onClick: () => setLevel("first-event") },
         { label: "Patterns", onClick: () => setLevel("patterns") },
         { label: "Treatment", onClick: () => setLevel("treatment") },
@@ -475,7 +507,7 @@ const evidenceTrail: JourneyTrailItem[] =
     : evidenceContext === "patterns"
     ? [
         { label: "Hope", onClick: () => setLevel("hope") },
-        { label: "Story", onClick: () => setLevel("know-more") },
+        { label: "Story", onClick: () => moveCamera("know-more", "in") },
         { label: "First Event", onClick: () => setLevel("first-event") },
         { label: "Patterns", onClick: () => setLevel("patterns") },
         { label: "Evidence" },
@@ -483,31 +515,30 @@ const evidenceTrail: JourneyTrailItem[] =
     : evidenceContext === "first-event"
     ? [
         { label: "Hope", onClick: () => setLevel("hope") },
-        { label: "Story", onClick: () => setLevel("know-more") },
+        { label: "Story", onClick: () => moveCamera("know-more", "in") },
         { label: "First Event", onClick: () => setLevel("first-event") },
         { label: "Evidence" },
       ]
     
     : [
         { label: "Hope", onClick: () => setLevel("hope") },
-        { label: "Story", onClick: () => setLevel("know-more") },
+        { label: "Story", onClick: () => moveCamera("know-more", "in") },
         { label: "Evidence" },
       ];
 
     const evidenceZoomOut = () => {
       if (evidenceContext === "first-event") {
-        setLevel("first-event");
+        moveCamera("first-event", "out");
         return;
       }
 
       if (evidenceContext === "patterns") {
-        setLevel("patterns");
+        moveCamera("patterns", "out");
         return;
       }
 
       moveCamera("treatment", "out");
     };
-
   return (
     <div ref={cameraRef} className="origin-center">
       <JourneyShell
@@ -554,7 +585,7 @@ const evidenceTrail: JourneyTrailItem[] =
             depth="source"
             trail={[
               { label: "Hope", onClick: () => setLevel("hope") },
-              { label: "Story", onClick: () => setLevel("know-more") },
+              { label: "Story", onClick: () => moveCamera("know-more", "in") },
               { label: "Evidence", onClick: () => moveCamera("evidence", "out") },
               { label: "Videos" },
             ]}
@@ -594,7 +625,7 @@ const evidenceTrail: JourneyTrailItem[] =
                 subtitle="Exact laboratory record"
                 trail={[
                   { label: "Hope", onClick: () => setLevel("hope") },
-                  { label: "Story", onClick: () => setLevel("know-more") },
+                  { label: "Story", onClick: () => moveCamera("know-more", "in") },
                   {
                     label: "Evidence",
                     onClick: () =>
@@ -641,7 +672,7 @@ const evidenceTrail: JourneyTrailItem[] =
         subtitle="A closer evidence view"
         trail={[
           { label: "Hope", onClick: () => setLevel("hope") },
-          { label: "Story", onClick: () => setLevel("know-more") },
+          { label: "Story", onClick: () => moveCamera("know-more", "in")},
           { label: "Evidence", onClick: () => moveCamera("evidence", "out") },
           { label: "Drug Monitoring" },
         ]}
