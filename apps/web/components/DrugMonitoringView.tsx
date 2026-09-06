@@ -1,3 +1,5 @@
+import type { EvidenceRecord } from "./evidenceTypes";
+
 type DrugMonitoringViewProps = {
   patientId: string;
   records: {
@@ -6,11 +8,13 @@ type DrugMonitoringViewProps = {
     summary: string;
     sourceFiles: string[];
   }[];
-};
+  onInspectRecord?: (record: EvidenceRecord) => void;
+  };
 
 export default function DrugMonitoringView({
   patientId,
   records,
+  onInspectRecord,
 }: DrugMonitoringViewProps) {
   return (
     <div className="mx-auto max-w-3xl">
@@ -32,11 +36,22 @@ export default function DrugMonitoringView({
               {record.summary}
             </p>
 
+            {onInspectRecord && (
+              <button
+                type="button"
+                onClick={() => onInspectRecord(record)}
+                className="mt-4 text-sm font-semibold text-teal-800"
+                style={{
+                  cursor:
+                    'url("/paw-cursor-pink.png") 16 16, pointer',
+                }}
+              >
+                Inspect record →
+              </button>
+            )}
+
             {record.sourceFiles.length > 0 && (
               <div className="mt-4 border-t border-slate-200 pt-4">
-                <p className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">
-                  Source record
-                </p>
 
                 <p className="mt-2 text-xs font-medium text-slate-500">
                   {record.sourceFiles.join(" · ")}

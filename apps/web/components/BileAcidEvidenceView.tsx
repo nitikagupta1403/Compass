@@ -1,5 +1,8 @@
+import type { EvidenceRecord } from "./evidenceTypes";
+
 type BileAcidEvidenceViewProps = {
   patientId: string;
+
   bileAcids: {
     latestDate: string | null;
     latestSummary: string;
@@ -11,11 +14,14 @@ type BileAcidEvidenceViewProps = {
       sourceFiles: string[];
     }[];
   } | null;
+
+  onInspectRecord?: (record: EvidenceRecord) => void;
 };
 
 export default function BileAcidEvidenceView({
   patientId,
   bileAcids,
+  onInspectRecord,
 }: BileAcidEvidenceViewProps) {
   if (!bileAcids) {
     return (
@@ -42,6 +48,27 @@ export default function BileAcidEvidenceView({
           <p className="mt-3 text-xs font-medium text-slate-500">
             Source files: {bileAcids.latestSourceFiles.join(" · ")}
           </p>
+
+          {onInspectRecord && (
+            <button
+              type="button"
+              onClick={() =>
+                onInspectRecord({
+                  title: "Bile acids",
+                  date: bileAcids.latestDate ?? "",
+                  summary: bileAcids.latestSummary,
+                  sourceFiles: bileAcids.latestSourceFiles,
+                })
+              }
+              className="mt-4 text-sm font-semibold text-teal-800"
+              style={{
+                cursor:
+                  'url("/paw-cursor-pink.png") 16 16, pointer',
+              }}
+            >
+              Inspect record →
+            </button>
+          )}
 
           <div className="mt-4">
             <p className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">
@@ -80,7 +107,26 @@ export default function BileAcidEvidenceView({
             <p className="mt-3 text-sm leading-6 text-slate-700">
               {record.summary}
             </p>
-
+            {onInspectRecord && (
+          <button
+            type="button"
+            onClick={() =>
+              onInspectRecord({
+                title: "Bile acids",
+                date: record.date,
+                summary: record.summary,
+                sourceFiles: record.sourceFiles,
+              })
+            }
+            className="mt-4 text-sm font-semibold text-teal-800"
+            style={{
+              cursor:
+                'url("/paw-cursor-pink.png") 16 16, pointer',
+            }}
+          >
+            Inspect record →
+          </button>
+        )}
             <p className="mt-3 text-xs font-medium text-slate-500">
               Source files: {record.sourceFiles.join(" · ")}
             </p>

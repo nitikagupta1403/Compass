@@ -3,72 +3,96 @@ type EvidenceLandingViewProps = {
   drugMonitoring: number;
   videos: number;
   questions: string[];
+  context?: "treatment" | "videos" | "first-event" | "patterns" | null;
 
   onOpenLaboratory: () => void;
   onOpenDrugMonitoring: () => void;
   onOpenVideos: () => void;
 };
 
-export default function EvidenceLandingView({
-  laboratoryGroups,
-  drugMonitoring,
-  videos,
-  questions,
-  onOpenLaboratory,
-  onOpenDrugMonitoring,
-  onOpenVideos,
-}: EvidenceLandingViewProps) {
+  export default function EvidenceLandingView({
+    laboratoryGroups,
+    drugMonitoring,
+    videos,
+    questions,
+    onOpenLaboratory,
+    onOpenDrugMonitoring,
+    onOpenVideos,
+    context,
+  }: EvidenceLandingViewProps) {
+    const evidenceOrder =
+      context === "treatment"
+        ? ["drug-monitoring", "laboratory", "videos"]
+        : context === "videos"
+        ? ["videos", "laboratory", "drug-monitoring"]
+        : ["laboratory", "drug-monitoring", "videos"];
+        
   return (
     <div className="mx-auto max-w-3xl">
       <div className="grid gap-4 md:grid-cols-3">
-        <button
-          type="button"
-          onClick={onOpenLaboratory}
-          className="h-full w-full text-left"
-          style={{
-            cursor:
-              'url("/paw-cursor-pink.png") 16 16, pointer',
-          }}
-        >
-          <EvidenceCard
-            title="Laboratory"
-            headline={`${laboratoryGroups}`}
-            detail="Laboratory groups"
-          />
-        </button>
+          {evidenceOrder.map((item) => {
+            if (item === "laboratory") {
+              return (
+                <button
+                  key="laboratory"
+                  type="button"
+                  onClick={onOpenLaboratory}
+                  className="h-full w-full text-left"
+                  style={{
+                    cursor:
+                      'url("/paw-cursor-pink.png") 16 16, pointer',
+                  }}
+                >
+                  <EvidenceCard
+                    title="Laboratory"
+                    headline={`${laboratoryGroups}`}
+                    detail="Laboratory groups"
+                  />
+                </button>
+              );
+            }
 
-        <button
-          type="button"
-          onClick={onOpenDrugMonitoring}
-          className="h-full w-full text-left"
-          style={{
-            cursor:
-              'url("/paw-cursor-pink.png") 16 16, pointer',
-          }}
-        >
-          <EvidenceCard
-            title="Drug monitoring"
-            headline={`${drugMonitoring}`}
-            detail="Therapeutic drug-monitoring record(s)"
-          />
-        </button>
+            if (item === "drug-monitoring") {
+              return (
+                <button
+                  key="drug-monitoring"
+                  type="button"
+                  onClick={onOpenDrugMonitoring}
+                  className="h-full w-full text-left"
+                  style={{
+                    cursor:
+                      'url("/paw-cursor-pink.png") 16 16, pointer',
+                  }}
+                >
+                  <EvidenceCard
+                    title="Drug monitoring"
+                    headline={`${drugMonitoring}`}
+                    detail="Therapeutic drug-monitoring record(s)"
+                  />
+                </button>
+              );
+            }
 
-        <button
-          type="button"
-          onClick={onOpenVideos}
-          className="h-full w-full text-left"
-          style={{
-            cursor:
-              'url("/paw-cursor-pink.png") 16 16, pointer',
-          }}
-        >
-          <EvidenceCard
-            title="Videos"
-            headline={`${videos}`}
-            detail="Video evidence record(s)"
-          />
-        </button>
-      </div>
+            return (
+              <button
+                key="videos"
+                type="button"
+                onClick={onOpenVideos}
+                className="h-full w-full text-left"
+                style={{
+                  cursor:
+                    'url("/paw-cursor-pink.png") 16 16, pointer',
+                }}
+              >
+                <EvidenceCard
+                  title="Videos"
+                  headline={`${videos}`}
+                  detail="Video evidence record(s)"
+                />
+              </button>
+            );
+          })}
+        </div>
 
       {questions.length > 0 && (
         <div className="mt-8 rounded-2xl border border-slate-200 bg-slate-50 p-6">

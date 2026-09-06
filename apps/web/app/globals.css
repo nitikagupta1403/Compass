@@ -25,6 +25,15 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
+/* Compass interactive paw cursor */
+.paw-cursor {
+  cursor: url("/paw-cursor-pink.png") 16 16, pointer !important;
+}
+
+/* --------------------------------
+   PRINT STYLES
+-------------------------------- */
+
 @media print {
   @page {
     size: A4;
@@ -118,19 +127,77 @@ body {
     padding: 3px !important;
     line-height: 1.15 !important;
   }
-  /* Compass interactive paw cursor */
-  .paw-cursor {
-    cursor: url("/paw-cursor-pink.png") 16 16, pointer !important;
-  }
 
-  @media print {
-    .print-avoid-break {
+  .print-avoid-break {
     break-inside: avoid;
     page-break-inside: avoid;
-    }
+  }
 
-    .print-force-open > :not(summary) {
-      display: block !important;
-    }
+  .print-force-open > :not(summary) {
+    display: block !important;
+  }
+}
+
+/* --------------------------------
+   HOPE WONDERLAND CAMERA MOTION
+-------------------------------- */
+
+@keyframes cameraIn {
+  from {
+    opacity: 0;
+    transform: scale(0.88);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes cameraOut {
+  from {
+    opacity: 0;
+    transform: scale(1.12);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes cameraLeaveIn {
+  from {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  to {
+    opacity: 0;
+    transform: scale(1.14);
+  }
+}
+
+@keyframes cameraLeaveOut {
+  from {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  to {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+}
+
+@keyframes drawerIn {
+  from {
+    opacity: 0;
+    transform: translateX(24px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
   }
 }

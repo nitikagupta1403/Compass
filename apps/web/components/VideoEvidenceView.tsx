@@ -1,6 +1,8 @@
+import type { EvidenceRecord } from "./evidenceTypes";
+
 type VideoEvidenceViewProps = {
   patientId: string;
-  onSeeEvidence?: () => void;
+
   records: {
     id: string;
     date: string;
@@ -13,31 +15,17 @@ type VideoEvidenceViewProps = {
     seizureClassificationAssigned: boolean;
     sourceFile: string;
   }[];
+
+  onInspectRecord?: (record: EvidenceRecord) => void;
 };
 
 export default function VideoEvidenceView({
   patientId,
   records,
-  onSeeEvidence,
+  onInspectRecord,
 }: VideoEvidenceViewProps) {
   return (
     <div className="mx-auto max-w-3xl">
-      {onSeeEvidence && (
-        <div className="mb-6 flex justify-center">
-          <button
-            type="button"
-            onClick={onSeeEvidence}
-            className="rounded-full border border-teal-800/20 bg-white px-5 py-2 text-sm font-semibold text-teal-800 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
-            style={{
-              cursor:
-                'url("/paw-cursor-pink.png") 16 16, pointer',
-            }}
-          >
-            Explore evidence beneath video →
-          </button>
-        </div>
-      )}
-
       <div className="space-y-4">
         {records.map((record) => (
           <div
@@ -105,6 +93,30 @@ export default function VideoEvidenceView({
             <p className="mt-4 text-xs font-medium text-slate-500">
               Time: {record.time} · Duration: {record.durationSeconds} seconds
             </p>
+
+            {onInspectRecord && (
+              <button
+                type="button"
+                onClick={() =>
+                  onInspectRecord({
+                    title: record.id,
+                    date: record.date,
+                    summary:
+                      record.observedEvidence ??
+                      record.clinicalContext ??
+                      `Video evidence recorded at ${record.time}. Duration: ${record.durationSeconds} seconds.`,
+                    sourceFiles: [record.sourceFile],
+                  })
+                }
+                className="mt-4 text-sm font-semibold text-teal-800"
+                style={{
+                  cursor:
+                    'url("/paw-cursor-pink.png") 16 16, pointer',
+                }}
+              >
+                Inspect record →
+              </button>
+            )}
 
             <div className="mt-4 border-t border-slate-200 pt-4">
               <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">

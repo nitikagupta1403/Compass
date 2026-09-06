@@ -308,10 +308,12 @@ export default async function ReferralPage({
     questions={referral.unresolvedIssues}
   />
 </section>
-       
-        {/* THERAPEUTIC DRUG MONITORING */}
 
-        <section className="mt-10">
+<div className="hidden print:block">
+
+  {/* THERAPEUTIC DRUG MONITORING */}
+
+  <section className="mt-10">
           <h2 className="text-xl font-semibold text-slate-900">
             Therapeutic drug monitoring
           </h2>
@@ -592,6 +594,8 @@ export default async function ReferralPage({
           owner-recorded history. It does not independently
           diagnose, prescribe, or alter treatment.
         </footer>
+
+      </div>
 
       </article>
     </main>

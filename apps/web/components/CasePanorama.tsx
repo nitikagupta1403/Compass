@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 
 import VideoEvidenceView from "./VideoEvidenceView";
 import DrugMonitoringView from "./DrugMonitoringView";
@@ -11,6 +11,8 @@ import PatternsView from "./PatternsView";
 import TreatmentView from "./TreatmentView";
 import EvidenceLandingView from "./EvidenceLandingView";
 import TreatmentHistoryView from "./TreatmentHistoryView";
+import EvidenceRecordDrawer from "./EvidenceRecordDrawer";
+import type { EvidenceRecord } from "./evidenceTypes";
 
 type DepthLevel =
   | "hope"
@@ -149,6 +151,65 @@ export default function CasePanorama({
         "treatment" | "videos" | "first-event" | "patterns" | null
       >(null);
 
+    const [focusedEvidence, setFocusedEvidence] =
+      useState<EvidenceRecord | null>(null);
+
+    const cameraRef = useRef<HTMLDivElement>(null);
+
+    const moveCamera = async (
+  nextLevel: DepthLevel,
+  direction: "in" | "out" = "in"
+) => {
+  const current = cameraRef.current;
+
+  if (!current) {
+    setLevel(nextLevel);
+    return;
+  }
+
+  const outgoing =
+    direction === "in"
+      ? [
+          { transform: "scale(1)", opacity: 1 },
+          { transform: "scale(1.16)", opacity: 0 },
+        ]
+      : [
+          { transform: "scale(1)", opacity: 1 },
+          { transform: "scale(0.9)", opacity: 0 },
+        ];
+
+  await current.animate(outgoing, {
+    duration: 360,
+    easing: "cubic-bezier(0.22, 1, 0.36, 1)",
+    fill: "forwards",
+  }).finished;
+
+  setLevel(nextLevel);
+
+  requestAnimationFrame(() => {
+    const incoming = cameraRef.current;
+
+    if (!incoming) return;
+
+    incoming.animate(
+      direction === "in"
+        ? [
+            { transform: "scale(0.9)", opacity: 0 },
+            { transform: "scale(1)", opacity: 1 },
+          ]
+        : [
+            { transform: "scale(1.1)", opacity: 0 },
+            { transform: "scale(1)", opacity: 1 },
+          ],
+      {
+        duration: 420,
+        easing: "cubic-bezier(0.22, 1, 0.36, 1)",
+        fill: "both",
+      }
+    );
+  });
+};
+
   if (level === "hope") {
     return (
       <div className="rounded-3xl border border-teal-900/15 bg-teal-950/[0.02] p-10">
@@ -232,63 +293,76 @@ export default function CasePanorama({
       </div>
     );
   }
-    if (level === "first-event") {
-        return (
-            <JourneyShell
-                eyebrow="First Event"
-                title="The story begins"
-                subtitle="The first clinical landmark"
-                trail={[
-                    { label: "Hope", onClick: () => setLevel("hope") },
-                    { label: "Story", onClick: () => setLevel("know-more") },
-                    { label: "First Event" },
-                  ]}
-                onZoomOut={() => setLevel("know-more")}
-              >
-            <FirstEventChronologyView
-                firstEventDate={story.firstEventDate}
-                earlyChronology={earlyChronology}
-                onDiscoverPatterns={() => setLevel("patterns")}
-                onSeeEvidence={() => {
-                  setEvidenceContext("first-event");
-                  setLevel("evidence");
-                }}
-              />
-            </JourneyShell>
-        );
+if (level === "first-event") {
+  return (
+    <div ref={cameraRef} className="origin-center">
+      <JourneyShell
+        eyebrow="First Event"
+        title="The story begins"
+        subtitle="The first clinical landmark"
+        trail={[
+          { label: "Hope", onClick: () => setLevel("hope") },
+          { label: "Story", onClick: () => setLevel("know-more") },
+          { label: "First Event" },
+        ]}
+        onZoomOut={() => setLevel("know-more")}
+      >
+        <FirstEventChronologyView
+          firstEventDate={story.firstEventDate}
+          earlyChronology={earlyChronology}
+          onDiscoverPatterns={() =>
+            moveCamera("patterns", "in")
+          }
+          onSeeEvidence={() => {
+            setEvidenceContext("first-event");
+            setLevel("evidence");
+          }}
+        />
+      </JourneyShell>
+    </div>
+  );
+}
+
+if (level === "patterns") {
+  return (
+    <div ref={cameraRef} className="origin-center">
+      <JourneyShell
+        eyebrow="Patterns"
+        title="What repeats?"
+        subtitle="The next landmark"
+        trail={[
+          { label: "Hope", onClick: () => setLevel("hope") },
+          { label: "Story", onClick: () => setLevel("know-more") },
+          {
+            label: "First Event",
+            onClick: () =>
+              moveCamera("first-event", "out"),
+          },
+          { label: "Patterns" },
+        ]}
+        onZoomOut={() =>
+          moveCamera("first-event", "out")
         }
-
-    if (level === "patterns") {
-      return (
-        <JourneyShell
-          eyebrow="Patterns"
-          title="What repeats?"
-          subtitle="The next landmark"
-          trail={[
-            { label: "Hope", onClick: () => setLevel("hope") },
-            { label: "Story", onClick: () => setLevel("know-more") },
-            { label: "First Event", onClick: () => setLevel("first-event") },
-            { label: "Patterns" },
-          ]}
-          onZoomOut={() => setLevel("first-event")}
-        >
-          <PatternsView
-            uniqueEventDays={story.uniqueEventDays}
-            multiEventDays={story.multiEventDays}
-            totalLoggedEvents={story.totalLoggedEvents}
-            maxEventsInOneDay={story.maxEventsInOneDay}
-            sleepAssociatedEvents={story.sleepAssociatedEvents}
-            symptomaticOnlyEvents={story.symptomaticOnlyEvents}
-            onFollowTreatment={() => setLevel("treatment")}
-            onSeeEvidence={() => {
-              setEvidenceContext("patterns");
-              setLevel("evidence");
-            }}
-          />
-        </JourneyShell>
-      );
-    }
-
+      >
+        <PatternsView
+          uniqueEventDays={story.uniqueEventDays}
+          multiEventDays={story.multiEventDays}
+          totalLoggedEvents={story.totalLoggedEvents}
+          maxEventsInOneDay={story.maxEventsInOneDay}
+          sleepAssociatedEvents={story.sleepAssociatedEvents}
+          symptomaticOnlyEvents={story.symptomaticOnlyEvents}
+          onFollowTreatment={() =>
+            setLevel("treatment")
+          }
+          onSeeEvidence={() => {
+            setEvidenceContext("patterns");
+            setLevel("evidence");
+          }}
+        />
+      </JourneyShell>
+    </div>
+  );
+}
     if (level === "treatment") {
       return (
 
@@ -357,6 +431,7 @@ export default function CasePanorama({
       </JourneyShell>
     );
   }
+
 
 if (level === "evidence") {
     const evidenceTitle =
@@ -448,100 +523,129 @@ const evidenceTrail: JourneyTrailItem[] =
         depth="evidence"
       >
 
-      <EvidenceLandingView
-        laboratoryGroups={evidence.laboratoryGroups}
-        drugMonitoring={evidence.drugMonitoring}
-        videos={evidence.videos}
-        questions={questions}
-        onOpenLaboratory={() => setLevel("laboratory")}
-        onOpenDrugMonitoring={() => setLevel("drug-monitoring")}
-        onOpenVideos={() => setLevel("videos")}
-      />
+    <EvidenceLandingView
+      laboratoryGroups={evidence.laboratoryGroups}
+      drugMonitoring={evidence.drugMonitoring}
+      videos={evidence.videos}
+      questions={questions}
+      context={evidenceContext}
+      onOpenLaboratory={() => setLevel("laboratory")}
+      onOpenDrugMonitoring={() => setLevel("drug-monitoring")}
+      onOpenVideos={() => setLevel("videos")}
+    />
     </JourneyShell>
   );
+
 }
 
     if (level === "videos") {
-        return (
-            <JourneyShell
+      return (
+        <>
+          <JourneyShell
             eyebrow="Videos"
             title="Video evidence"
             subtitle="A closer evidence view"
             onZoomOut={() => setLevel("evidence")}
             depth="source"
             trail={[
-                { label: "Hope", onClick: () => setLevel("hope") },
-                { label: "Story", onClick: () => setLevel("know-more") },
-                { label: "Evidence", onClick: () => setLevel("evidence") },
-                { label: "Videos" },
-              ]}
-            >
-          <VideoEvidenceView
+              { label: "Hope", onClick: () => setLevel("hope") },
+              { label: "Story", onClick: () => setLevel("know-more") },
+              { label: "Evidence", onClick: () => setLevel("evidence") },
+              { label: "Videos" },
+            ]}
+          >
+            <VideoEvidenceView
               patientId={patient.patientId}
               records={videoEvidence.records}
-              onSeeEvidence={() => {
-                setEvidenceContext("videos");
-                setLevel("evidence");
-              }}
+              onInspectRecord={(record) =>
+                setFocusedEvidence(record)
+              }
             />
-            </JourneyShell>
-        );
-        }
+          </JourneyShell>
+
+          <EvidenceRecordDrawer
+            record={focusedEvidence}
+            patientId={patient.patientId}
+            onClose={() => setFocusedEvidence(null)}
+          />
+        </>
+      );
+    }
 
       if (level === "bile-acids") {
         const bileAcids =
-            laboratoryGroups.find(
+          laboratoryGroups.find(
             (group) =>
-                group.title.toLowerCase() === "bile acids"
-            ) ?? null;
+              group.title.toLowerCase() === "bile acids"
+          ) ?? null;
 
         return (
+          <>
             <JourneyShell
-            eyebrow="Bile Acids"
-            title="Bile acid evidence"
-            subtitle="Exact laboratory record"
-            trail={[
+              eyebrow="Bile Acids"
+              title="Bile acid evidence"
+              subtitle="Exact laboratory record"
+              trail={[
                 { label: "Hope", onClick: () => setLevel("hope") },
                 { label: "Story", onClick: () => setLevel("know-more") },
                 { label: "Evidence", onClick: () => setLevel("evidence") },
                 { label: "Laboratory", onClick: () => setLevel("laboratory") },
                 { label: "Bile Acids" },
-            ]}
-                onZoomOut={() => setLevel("laboratory")}
-                depth="source"
-            >
-              
-            <BileAcidEvidenceView
-                patientId={patient.patientId}
-                bileAcids={bileAcids}
-            />
-            </JourneyShell>
-        );
-        }
-
-    if (level === "drug-monitoring") {
-        return (
-           <JourneyShell
-            eyebrow="Videos"
-            title="Video evidence"
-            subtitle="A closer evidence view"
-            onZoomOut={() => setLevel("evidence")}
-            depth="source"
-            trail={[
-                { label: "Hope", onClick: () => setLevel("hope") },
-                { label: "Story", onClick: () => setLevel("know-more") },
-                { label: "Evidence", onClick: () => setLevel("evidence") },
-                { label: "Drug Monitoring" },
               ]}
-          >
+              onZoomOut={() => setLevel("laboratory")}
+              depth="source"
+            >
+                  <BileAcidEvidenceView
+                    patientId={patient.patientId}
+                    bileAcids={bileAcids}
+                    onInspectRecord={(record) =>
+                      setFocusedEvidence(record)
+                    }
+                  />
+                </JourneyShell>
 
-            <DrugMonitoringView
-                patientId={patient.patientId}
-                records={drugMonitoringRecords}
-            />
-            </JourneyShell>
-        );
-        }
+                <EvidenceRecordDrawer
+                  record={focusedEvidence}
+                  patientId={patient.patientId}
+                  onClose={() => setFocusedEvidence(null)}
+                />
+              </>
+            );
+            }
+              
+ if (level === "drug-monitoring") {
+  return (
+    <>
+      <JourneyShell
+        eyebrow="Drug Monitoring"
+        title="Therapeutic drug monitoring"
+        subtitle="A closer evidence view"
+        trail={[
+          { label: "Hope", onClick: () => setLevel("hope") },
+          { label: "Story", onClick: () => setLevel("know-more") },
+          { label: "Evidence", onClick: () => setLevel("evidence") },
+          { label: "Drug Monitoring" },
+        ]}
+        onZoomOut={() => setLevel("evidence")}
+        depth="source"
+      >
+        <DrugMonitoringView
+          patientId={patient.patientId}
+          records={drugMonitoringRecords}
+          onInspectRecord={(record) =>
+            setFocusedEvidence(record)
+          }
+        />
+      </JourneyShell>
+
+      <EvidenceRecordDrawer
+        record={focusedEvidence}
+        patientId={patient.patientId}
+        onClose={() => setFocusedEvidence(null)}
+      />
+    </>
+  );
+}
 
 function ZoomOut({ onClick }: { onClick: () => void }) {
   return (
@@ -581,6 +685,54 @@ function JourneyButton({
   );
 }
 
+function CameraLayer({
+  state,
+  children,
+}: {
+  state:
+    | "current"
+    | "parked"
+    | "outgoing-in"
+    | "outgoing-out"
+    | "incoming-in"
+    | "incoming-out";
+  children: React.ReactNode;
+}) {
+  let className = "";
+
+  if (state === "current") {
+    className =
+      "relative z-20 scale-100 opacity-100 pointer-events-auto";
+  }
+
+  if (state === "parked") {
+    className =
+      "pointer-events-none absolute inset-0 z-0 scale-[0.9] opacity-0";
+  }
+
+  if (state === "outgoing-in") {
+    className =
+      "relative z-20 pointer-events-none origin-center animate-[cameraLeaveIn_420ms_cubic-bezier(0.22,1,0.36,1)_forwards]";
+  }
+
+  if (state === "outgoing-out") {
+    className =
+      "relative z-20 pointer-events-none origin-center animate-[cameraLeaveOut_420ms_cubic-bezier(0.22,1,0.36,1)_forwards]";
+  }
+
+  if (state === "incoming-in") {
+    className =
+      "pointer-events-none absolute inset-0 z-10 origin-center animate-[cameraIn_420ms_cubic-bezier(0.22,1,0.36,1)_forwards]";
+  }
+
+  if (state === "incoming-out") {
+    className =
+      "pointer-events-none absolute inset-0 z-10 origin-center animate-[cameraOut_420ms_cubic-bezier(0.22,1,0.36,1)_forwards]";
+  }
+
+  return <div className={className}>{children}</div>;
+}
+
 type JourneyTrailItem =
   | string
   | {
@@ -596,11 +748,16 @@ function JourneyTrail({
   return (
     <div className="mb-8 flex flex-wrap items-center justify-center gap-2">
       {items.map((item, index) => {
-        const label = typeof item === "string" ? item : item.label;
-        const onClick =
-          typeof item === "string" ? undefined : item.onClick;
+        const label =
+          typeof item === "string" ? item : item.label;
 
-        const isCurrent = index === items.length - 1;
+        const onClick =
+          typeof item === "string"
+            ? undefined
+            : item.onClick;
+
+        const isCurrent =
+          index === items.length - 1;
 
         return (
           <div
