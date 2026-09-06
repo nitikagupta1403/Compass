@@ -37,7 +37,7 @@ type EvidenceLandingViewProps = {
                   key="laboratory"
                   type="button"
                   onClick={onOpenLaboratory}
-                  className="h-full w-full text-left"
+                  className="h-full w-full text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-700 focus-visible:ring-offset-2 rounded-2xl"
                   style={{
                     cursor:
                       'url("/paw-cursor-pink.png") 16 16, pointer',
@@ -58,7 +58,7 @@ type EvidenceLandingViewProps = {
                   key="drug-monitoring"
                   type="button"
                   onClick={onOpenDrugMonitoring}
-                  className="h-full w-full text-left"
+                  className="h-full w-full text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-700 focus-visible:ring-offset-2 rounded-2xl"
                   style={{
                     cursor:
                       'url("/paw-cursor-pink.png") 16 16, pointer',
@@ -78,7 +78,7 @@ type EvidenceLandingViewProps = {
                 key="videos"
                 type="button"
                 onClick={onOpenVideos}
-                className="h-full w-full text-left"
+                className="h-full w-full text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-700 focus-visible:ring-offset-2 rounded-2xl"
                 style={{
                   cursor:
                     'url("/paw-cursor-pink.png") 16 16, pointer',
@@ -110,7 +110,7 @@ type EvidenceLandingViewProps = {
 
       <div className="mt-10 text-center">
         <p className="text-xs font-medium text-slate-500">
-          Next depth: exact evidence record → original source
+          Next depth: evidence branch → exact record → inspect → original source
         </p>
       </div>
     </div>

@@ -47,14 +47,22 @@ export default function EvidenceRecordDrawer({
         className="absolute inset-0 bg-slate-950/25"
       />
 
-      <aside className="absolute right-0 top-0 h-full w-full max-w-xl overflow-y-auto border-l border-slate-200 bg-white p-8 shadow-2xl animate-[drawerIn_320ms_cubic-bezier(0.22,1,0.36,1)]">
+      <aside
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="evidence-drawer-title"
+        className="absolute right-0 top-0 h-full w-full max-w-xl overflow-y-auto border-l border-slate-200 bg-white p-8 shadow-2xl animate-[drawerIn_320ms_cubic-bezier(0.22,1,0.36,1)]"
+      >
         <div className="flex items-start justify-between gap-4">
           <div>
             <p className="text-xs font-semibold uppercase tracking-[0.18em] text-teal-800">
               Evidence record
             </p>
 
-            <h2 className="mt-2 text-2xl font-bold text-slate-900">
+            <h2
+              id="evidence-drawer-title"
+              className="mt-2 text-2xl font-bold text-slate-900"
+            >
               {record.title}
             </h2>
 
@@ -66,7 +74,7 @@ export default function EvidenceRecordDrawer({
           <button
             type="button"
             onClick={onClose}
-            className="text-sm font-semibold text-slate-500 hover:text-slate-900"
+            className="rounded-md text-sm font-semibold text-slate-500 hover:text-slate-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-700 focus-visible:ring-offset-2"
           >
             Close
           </button>
@@ -104,7 +112,7 @@ export default function EvidenceRecordDrawer({
                     )}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="mt-2 inline-block text-sm font-semibold text-teal-800 underline-offset-4 hover:underline"
+                    className="mt-2 inline-block rounded-md text-sm font-semibold text-teal-800 underline-offset-4 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-700 focus-visible:ring-offset-2"
                   >
                     Open original source →
                   </a>

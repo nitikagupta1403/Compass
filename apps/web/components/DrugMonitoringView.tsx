@@ -52,7 +52,9 @@ export default function DrugMonitoringView({
 
             {record.sourceFiles.length > 0 && (
               <div className="mt-4 border-t border-slate-200 pt-4">
-
+                <p className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">
+                  Source record
+                </p>
                 <p className="mt-2 text-xs font-medium text-slate-500">
                   {record.sourceFiles.join(" · ")}
                 </p>
@@ -61,9 +63,9 @@ export default function DrugMonitoringView({
                   {record.sourceFiles.map((sourceFile) => (
                     <a
                       key={sourceFile}
-                      href={`/patients/${patientId}/evidence?source=${encodeURIComponent(
-                        sourceFile
-                      )}`}
+                  href={`/patients/${patientId}/evidence/source?source=${encodeURIComponent(
+                    sourceFile
+                  )}`}
                       className="text-sm font-semibold text-teal-800 underline-offset-4 hover:underline"
                       style={{
                         cursor:
