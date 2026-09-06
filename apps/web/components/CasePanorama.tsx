@@ -148,7 +148,7 @@ export default function CasePanorama({
 
     const [evidenceContext, setEvidenceContext] =
       useState<
-        "treatment" | "videos" | "first-event" | "patterns" | null
+        "treatment" | "first-event" | "patterns" | null
       >(null);
 
     const [focusedEvidence, setFocusedEvidence] =
@@ -437,8 +437,6 @@ if (level === "evidence") {
     const evidenceTitle =
       evidenceContext === "treatment"
       ? "Evidence beneath treatment"
-      : evidenceContext === "videos"
-      ? "Evidence beneath video"
       : evidenceContext === "first-event"
       ? "Evidence beneath the first events"
       : evidenceContext === "patterns"
@@ -448,8 +446,6 @@ if (level === "evidence") {
   const evidenceSubtitle =
     evidenceContext === "treatment"
       ? "Open the records that support the documented treatment history"
-      : evidenceContext === "videos"
-      ? "Open the source records behind the video evidence"
       : evidenceContext === "first-event"
       ? "Open the records that support the beginning of Hope’s story"
       : evidenceContext === "patterns"
@@ -481,37 +477,26 @@ const evidenceTrail: JourneyTrailItem[] =
         { label: "First Event", onClick: () => setLevel("first-event") },
         { label: "Evidence" },
       ]
-    : evidenceContext === "videos"
-    ? [
-        { label: "Hope", onClick: () => setLevel("hope") },
-        { label: "Story", onClick: () => setLevel("know-more") },
-        { label: "Videos", onClick: () => setLevel("videos") },
-        { label: "Evidence" },
-      ]
+    
     : [
         { label: "Hope", onClick: () => setLevel("hope") },
         { label: "Story", onClick: () => setLevel("know-more") },
         { label: "Evidence" },
       ];
 
-  const evidenceZoomOut = () => {
-    if (evidenceContext === "videos") {
-      setLevel("videos");
-      return;
-    }
+    const evidenceZoomOut = () => {
+      if (evidenceContext === "first-event") {
+        setLevel("first-event");
+        return;
+      }
 
-    if (evidenceContext === "first-event") {
-      setLevel("first-event");
-      return;
-    }
+      if (evidenceContext === "patterns") {
+        setLevel("patterns");
+        return;
+      }
 
-    if (evidenceContext === "patterns") {
-      setLevel("patterns");
-      return;
-    }
-
-    setLevel("treatment");
-  };
+      setLevel("treatment");
+    };
 
   return (
     <JourneyShell
@@ -685,54 +670,6 @@ function JourneyButton({
   );
 }
 
-function CameraLayer({
-  state,
-  children,
-}: {
-  state:
-    | "current"
-    | "parked"
-    | "outgoing-in"
-    | "outgoing-out"
-    | "incoming-in"
-    | "incoming-out";
-  children: React.ReactNode;
-}) {
-  let className = "";
-
-  if (state === "current") {
-    className =
-      "relative z-20 scale-100 opacity-100 pointer-events-auto";
-  }
-
-  if (state === "parked") {
-    className =
-      "pointer-events-none absolute inset-0 z-0 scale-[0.9] opacity-0";
-  }
-
-  if (state === "outgoing-in") {
-    className =
-      "relative z-20 pointer-events-none origin-center animate-[cameraLeaveIn_420ms_cubic-bezier(0.22,1,0.36,1)_forwards]";
-  }
-
-  if (state === "outgoing-out") {
-    className =
-      "relative z-20 pointer-events-none origin-center animate-[cameraLeaveOut_420ms_cubic-bezier(0.22,1,0.36,1)_forwards]";
-  }
-
-  if (state === "incoming-in") {
-    className =
-      "pointer-events-none absolute inset-0 z-10 origin-center animate-[cameraIn_420ms_cubic-bezier(0.22,1,0.36,1)_forwards]";
-  }
-
-  if (state === "incoming-out") {
-    className =
-      "pointer-events-none absolute inset-0 z-10 origin-center animate-[cameraOut_420ms_cubic-bezier(0.22,1,0.36,1)_forwards]";
-  }
-
-  return <div className={className}>{children}</div>;
-}
-
 type JourneyTrailItem =
   | string
   | {
@@ -894,45 +831,6 @@ function StoryLandmark({
         {subtitle}
       </p>
     </button>
-  );
-}
-
-function DepthNode({
-  title,
-  headline,
-  detail,
-}: {
-  title: string;
-  headline: string;
-  detail: string;
-}) {
-  return (
-    <div className="h-full rounded-2xl border border-teal-900/10 bg-teal-950/[0.02] p-6">
-      <p className="text-xs font-semibold uppercase tracking-wide text-teal-800">{title}</p>
-      <p className="mt-3 text-xl font-bold text-slate-900">{headline}</p>
-      <p className="mt-2 text-sm leading-6 text-slate-600">{detail}</p>
-    </div>
-  );
-}
-
-function TimelineItem({
-  date,
-  title,
-  text,
-}: {
-  date: string;
-  title: string;
-  text: string;
-}) {
-  return (
-    <div className="grid gap-1 sm:grid-cols-[120px_1fr] sm:gap-4">
-      <p className="text-xs font-semibold text-slate-500">{date}</p>
-
-      <div>
-        <p className="text-sm font-semibold text-slate-900">{title}</p>
-        <p className="mt-1 text-sm leading-6 text-slate-600">{text}</p>
-      </div>
-    </div>
   );
 }
 }
