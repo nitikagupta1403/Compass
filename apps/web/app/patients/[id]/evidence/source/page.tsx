@@ -123,18 +123,35 @@ export default async function EvidenceSourcePage({
         </section>
 
         <section className="mt-8 rounded-2xl border border-teal-200 bg-teal-50/40 p-5">
-          <p className="text-xs font-semibold uppercase tracking-[0.16em] text-teal-800">
-            Source record
-          </p>
+            <p className="text-xs font-semibold uppercase tracking-[0.16em] text-teal-800">
+                Source record
+            </p>
 
-          <p className="mt-3 break-all text-base font-semibold text-slate-900">
-            {source}
-          </p>
+            <p className="mt-3 break-all text-base font-semibold text-slate-900">
+                {source}
+            </p>
 
-          <div className="mt-4 inline-flex rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1 text-xs font-semibold text-emerald-700">
-            Indexed source
-          </div>
-        </section>
+            <div className="mt-4">
+                <span className="inline-flex rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1 text-xs font-semibold text-emerald-700">
+                Indexed source
+                </span>
+            </div>
+
+            <a
+                href={`/patients/${patient.id}/evidence/source/file?source=${encodeURIComponent(
+                source
+                )}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-5 inline-block rounded-full border border-teal-800/20 bg-white px-5 py-2.5 text-sm font-semibold text-teal-800 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
+                style={{
+                cursor:
+                    'url("/paw-cursor-pink.png") 16 16, pointer',
+                }}
+            >
+                Open source document →
+            </a>
+            </section>
 
         <section className="mt-8">
           <p className="text-xs font-semibold uppercase tracking-[0.16em] text-slate-500">
