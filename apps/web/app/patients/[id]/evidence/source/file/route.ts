@@ -2,6 +2,8 @@ import { readFile } from "fs/promises";
 import path from "path";
 import { NextRequest } from "next/server";
 
+import { verifyShareToken } from "@/lib/shareToken";
+
 import {
   hopeEvidenceIndex,
   type EvidenceIndexItem,
@@ -22,6 +24,9 @@ export async function GET(
   const source =
     request.nextUrl.searchParams.get("source");
 
+  const share =
+    request.nextUrl.searchParams.get("share");
+
   if (!source) {
     return new Response("Missing source", {
       status: 400,
@@ -32,6 +37,28 @@ export async function GET(
     return new Response("Patient not found", {
       status: 404,
     });
+  }
+
+  /*
+ * Shared-access gate:
+ * if a share token is supplied, it must be valid,
+ * unexpired, unrevoked, and bound to this patient.
+ */
+  if (share) {
+    const verifiedShare =
+      verifyShareToken(share);
+
+    if (
+      !verifiedShare ||
+      verifiedShare.patientId !== id
+    ) {
+      return new Response(
+        "Shared link unavailable",
+        {
+          status: 403,
+        }
+      );
+    }
   }
 
   /*

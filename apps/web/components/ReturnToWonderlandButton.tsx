@@ -1,7 +1,24 @@
 "use client";
 
-export default function ReturnToWonderlandButton() {
+type Props = {
+  patientId: string;
+  shareToken?: string;
+};
+
+export default function ReturnToWonderlandButton({
+  patientId,
+  shareToken,
+}: Props) {
   const returnToWonderland = () => {
+    if (shareToken) {
+      window.location.href =
+        `/patients/${patientId}/shared?share=${encodeURIComponent(
+          shareToken
+        )}`;
+
+      return;
+    }
+
     if (window.opener && !window.opener.closed) {
       window.opener.focus();
       window.close();
@@ -9,7 +26,7 @@ export default function ReturnToWonderlandButton() {
     }
 
     window.location.href =
-      "/patients/HOPE-001/referral";
+      `/patients/${patientId}/referral`;
   };
 
   return (

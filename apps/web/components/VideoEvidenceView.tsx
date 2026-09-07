@@ -2,6 +2,7 @@ import type { EvidenceRecord } from "./evidenceTypes";
 
 type VideoEvidenceViewProps = {
   patientId: string;
+  shareToken?: string;
 
   records: {
     id: string;
@@ -21,6 +22,7 @@ type VideoEvidenceViewProps = {
 
 export default function VideoEvidenceView({
   patientId,
+  shareToken,
   records,
   onInspectRecord,
 }: VideoEvidenceViewProps) {
@@ -129,9 +131,14 @@ export default function VideoEvidenceView({
 
               <div className="mt-3">
                 <a
-                  href={`/patients/${patientId}/evidence/source?source=${encodeURIComponent(
-                    record.sourceFile
-                  )}`}
+                  href={
+                    `/patients/${patientId}/evidence/source?source=${encodeURIComponent(
+                      record.sourceFile
+                    )}` +
+                    (shareToken
+                      ? `&share=${encodeURIComponent(shareToken)}`
+                      : "")
+                  }
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-sm font-semibold text-teal-800 underline-offset-4 hover:underline"

@@ -2,6 +2,7 @@ import type { EvidenceRecord } from "./evidenceTypes";
 
 type DrugMonitoringViewProps = {
   patientId: string;
+  shareToken?: string;
   records: {
     title: string;
     date: string;
@@ -13,6 +14,7 @@ type DrugMonitoringViewProps = {
 
 export default function DrugMonitoringView({
   patientId,
+  shareToken,
   records,
   onInspectRecord,
 }: DrugMonitoringViewProps) {
@@ -63,9 +65,14 @@ export default function DrugMonitoringView({
                   {record.sourceFiles.map((sourceFile) => (
                     <a
                       key={sourceFile}
-                  href={`/patients/${patientId}/evidence/source?source=${encodeURIComponent(
-                    sourceFile
-                  )}`}
+                  href={
+                      `/patients/${patientId}/evidence/source?source=${encodeURIComponent(
+                        sourceFile
+                      )}` +
+                      (shareToken
+                        ? `&share=${encodeURIComponent(shareToken)}`
+                        : "")
+                    }
                       className="text-sm font-semibold text-teal-800 underline-offset-4 hover:underline"
                       style={{
                         cursor:

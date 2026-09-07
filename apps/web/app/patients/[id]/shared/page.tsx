@@ -127,6 +127,7 @@ export default async function SharedPatientPage({
 
         <section className="mt-10">
           <CasePanorama
+            shareToken={share}
             patientName={referral.patientName}
             photoSrc="/hope-profile.jpeg"
             patient={{

@@ -1,3 +1,4 @@
+import { verifyShareToken } from "@/lib/shareToken";
 import ReturnToWonderlandButton from "@/components/ReturnToWonderlandButton";
 import patients from "@/data/patients";
 import {
@@ -13,6 +14,7 @@ type Props = {
 
   searchParams: Promise<{
     source?: string;
+    share?: string;
   }>;
 };
 
@@ -21,7 +23,7 @@ export default async function EvidenceSourcePage({
   searchParams,
 }: Props) {
   const { id } = await params;
-  const { source } = await searchParams;
+  const { source, share } = await searchParams;
 
   const patient = patients.find(
     (patient) => patient.id === id
@@ -59,37 +61,59 @@ export default async function EvidenceSourcePage({
     );
   }
 
-  if (!source) {
-    return (
-      <SourceUnavailable
-        patientId={patient.id}
-        message="No source record was requested."
-      />
-    );
-  }
+const verifiedShare = share
+  ? verifyShareToken(share)
+  : null;
 
-  /*
-   * IMPORTANT:
-   *
-   * We do not trust the source query parameter by itself.
-   *
-   * The requested filename must already exist in the
-   * Compass evidence index.
-   */
-  const matchingEvidence =
-    hopeEvidenceIndex.filter((item) =>
-      evidenceContainsSource(item, source)
-    );
+if (
+  share &&
+  (
+    !verifiedShare ||
+    verifiedShare.patientId !== patient.id
+  )
+) {
+  return (
+    <SourceUnavailable
+      patientId={patient.id}
+      message="This shared source link is invalid, expired, or revoked."
+      sharedAccessInvalid
+    />
+  );
+}
 
-  if (matchingEvidence.length === 0) {
-    return (
-      <SourceUnavailable
-        patientId={patient.id}
-        message="This source is not registered in the Compass evidence index."
-        requestedSource={source}
-      />
-    );
-  }
+if (!source) {
+  return (
+    <SourceUnavailable
+      patientId={patient.id}
+      message="No source record was requested."
+      shareToken={share}
+    />
+  );
+}
+
+/*
+ * IMPORTANT:
+ *
+ * We do not trust the source query parameter by itself.
+ *
+ * The requested filename must already exist in the
+ * Compass evidence index.
+ */
+const matchingEvidence =
+  hopeEvidenceIndex.filter((item) =>
+    evidenceContainsSource(item, source)
+  );
+
+if (matchingEvidence.length === 0) {
+  return (
+    <SourceUnavailable
+      patientId={patient.id}
+      message="This source is not registered in the Compass evidence index."
+      requestedSource={source}
+      shareToken={share}
+    />
+  );
+}
 
   return (
     <main className="min-h-screen bg-slate-100 px-6 py-10">
@@ -125,35 +149,40 @@ export default async function EvidenceSourcePage({
         </section>
 
         <section className="mt-8 rounded-2xl border border-teal-200 bg-teal-50/40 p-5">
-            <p className="text-xs font-semibold uppercase tracking-[0.16em] text-teal-800">
-                Source record
-            </p>
+          <p className="text-xs font-semibold uppercase tracking-[0.16em] text-teal-800">
+              Source record
+          </p>
 
-            <p className="mt-3 break-all text-base font-semibold text-slate-900">
-                {source}
-            </p>
+          <p className="mt-3 break-all text-base font-semibold text-slate-900">
+              {source}
+          </p>
 
-            <div className="mt-4">
-                <span className="inline-flex rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1 text-xs font-semibold text-emerald-700">
-                Indexed source
-                </span>
-            </div>
+          <div className="mt-4">
+              <span className="inline-flex rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1 text-xs font-semibold text-emerald-700">
+              Indexed source
+              </span>
+          </div>
 
             <a
-                href={`/patients/${patient.id}/evidence/source/file?source=${encodeURIComponent(
-                source
-                )}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="mt-5 inline-block rounded-full border border-teal-800/20 bg-white px-5 py-2.5 text-sm font-semibold text-teal-800 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
-                style={{
+              href={
+                `/patients/${patient.id}/evidence/source/file?source=${encodeURIComponent(
+                  source
+                )}` +
+                (share
+                  ? `&share=${encodeURIComponent(share)}`
+                  : "")
+              }
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-5 inline-block rounded-full border border-teal-800/20 bg-white px-5 py-2.5 text-sm font-semibold text-teal-800 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
+              style={{
                 cursor:
-                    'url("/paw-cursor-pink.png") 16 16, pointer',
-                }}
+                  'url("/paw-cursor-pink.png") 16 16, pointer',
+              }}
             >
-                Open source document →
+              Open original source →
             </a>
-            </section>
+          </section>
 
         <section className="mt-8">
           <p className="text-xs font-semibold uppercase tracking-[0.16em] text-slate-500">
@@ -184,21 +213,25 @@ export default async function EvidenceSourcePage({
         </section>
 
         <div className="mt-8 flex flex-wrap gap-3">
-          <a
-            href={`/patients/${patient.id}/evidence?source=${encodeURIComponent(
-              source
-            )}`}
-            className="rounded-full border border-teal-800/20 bg-white px-5 py-2.5 text-sm font-semibold text-teal-800 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
-            style={{
-              cursor:
-                'url("/paw-cursor-pink.png") 16 16, pointer',
-            }}
-          >
-            View indexed evidence →
-          </a>
+          {!share && (
+            <a
+              href={`/patients/${patient.id}/evidence?source=${encodeURIComponent(
+                source
+              )}`}
+              className="rounded-full border border-teal-800/20 bg-white px-5 py-2.5 text-sm font-semibold text-teal-800 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
+              style={{
+                cursor:
+                  'url("/paw-cursor-pink.png") 16 16, pointer',
+              }}
+            >
+              View indexed evidence →
+            </a>
+          )}
 
-          <ReturnToWonderlandButton />
-          
+          <ReturnToWonderlandButton
+            patientId={patient.id}
+            shareToken={share}
+          />
         </div>
 
         <footer className="mt-10 border-t border-slate-200 pt-5 text-xs leading-5 text-slate-500">
@@ -284,10 +317,14 @@ function SourceUnavailable({
   patientId,
   message,
   requestedSource,
+  shareToken,
+  sharedAccessInvalid = false,
 }: {
   patientId: string;
   message: string;
   requestedSource?: string;
+  shareToken?: string;
+  sharedAccessInvalid?: boolean;
 }) {
   return (
     <main className="flex min-h-screen items-center justify-center bg-slate-100 px-6">
@@ -316,16 +353,35 @@ function SourceUnavailable({
           </div>
         )}
 
-        <a
-          href={`/patients/${patientId}/evidence`}
-          className="mt-6 inline-block text-sm font-semibold text-teal-800 underline-offset-4 hover:underline"
-          style={{
-            cursor:
-              'url("/paw-cursor-pink.png") 16 16, pointer',
-          }}
-        >
-          Return to evidence index →
-        </a>
+       {sharedAccessInvalid ? (
+          <p className="mt-6 text-sm font-medium text-slate-500">
+            This shared access is no longer available.
+          </p>
+        ) : shareToken ? (
+          <a
+            href={`/patients/${patientId}/shared?share=${encodeURIComponent(
+              shareToken
+            )}`}
+            className="mt-6 inline-block text-sm font-semibold text-teal-800 underline-offset-4 hover:underline"
+            style={{
+              cursor:
+                'url("/paw-cursor-pink.png") 16 16, pointer',
+            }}
+          >
+            ← Return to Hope Wonderland
+          </a>
+        ) : (
+          <a
+            href={`/patients/${patientId}/evidence`}
+            className="mt-6 inline-block text-sm font-semibold text-teal-800 underline-offset-4 hover:underline"
+            style={{
+              cursor:
+                'url("/paw-cursor-pink.png") 16 16, pointer',
+            }}
+          >
+            Return to evidence index →
+          </a>
+        )}
       </div>
     </main>
   );

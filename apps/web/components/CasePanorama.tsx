@@ -30,9 +30,11 @@ type DepthLevel =
   | "treatment-history";
 
 type CasePanoramaProps = {
-    patientName: string;
-    photoSrc: string;
-    patient: {
+  patientName: string;
+  photoSrc: string;
+  shareToken?: string;
+
+  patient: {
     patientId: string;
     species: string;
     breed: string;
@@ -40,7 +42,6 @@ type CasePanoramaProps = {
     dateOfBirth: string;
     weightKg: number | null;
     workingDiagnosis: string | null;
-   
   };
   story: {
   totalLoggedEvents: number;
@@ -134,6 +135,7 @@ questions: string[];
 export default function CasePanorama({
   patientName,
   photoSrc,
+  shareToken,
   patient,
   story,
   earlyChronology,
@@ -579,6 +581,7 @@ const evidenceTrail: JourneyTrailItem[] =
           >
             <VideoEvidenceView
               patientId={patient.patientId}
+              shareToken={shareToken}
               records={videoEvidence.records}
               onInspectRecord={(record) =>
                 setFocusedEvidence(record)
@@ -589,6 +592,7 @@ const evidenceTrail: JourneyTrailItem[] =
           <EvidenceRecordDrawer
             record={focusedEvidence}
             patientId={patient.patientId}
+            shareToken={shareToken}
             onClose={() => setFocusedEvidence(null)}
           />
       </>
@@ -631,17 +635,19 @@ const evidenceTrail: JourneyTrailItem[] =
                 depth="source"
               >
                 <BileAcidEvidenceView
-                  patientId={patient.patientId}
-                  bileAcids={bileAcids}
-                  onInspectRecord={(record) =>
-                    setFocusedEvidence(record)
-                  }
-                />
+                    patientId={patient.patientId}
+                    shareToken={shareToken}
+                    bileAcids={bileAcids}
+                    onInspectRecord={(record) =>
+                      setFocusedEvidence(record)
+                    }
+                  />
               </JourneyShell>
 
               <EvidenceRecordDrawer
                 record={focusedEvidence}
                 patientId={patient.patientId}
+                shareToken={shareToken}
                 onClose={() => setFocusedEvidence(null)}
               />
             </>
@@ -668,6 +674,7 @@ const evidenceTrail: JourneyTrailItem[] =
       >
         <DrugMonitoringView
           patientId={patient.patientId}
+          shareToken={shareToken}
           records={drugMonitoringRecords}
           onInspectRecord={(record) =>
             setFocusedEvidence(record)
@@ -678,6 +685,7 @@ const evidenceTrail: JourneyTrailItem[] =
       <EvidenceRecordDrawer
         record={focusedEvidence}
         patientId={patient.patientId}
+        shareToken={shareToken}
         onClose={() => setFocusedEvidence(null)}
       />
       </>

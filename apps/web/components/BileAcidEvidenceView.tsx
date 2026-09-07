@@ -2,6 +2,7 @@ import type { EvidenceRecord } from "./evidenceTypes";
 
 type BileAcidEvidenceViewProps = {
   patientId: string;
+  shareToken?: string;
 
   bileAcids: {
     latestDate: string | null;
@@ -20,6 +21,7 @@ type BileAcidEvidenceViewProps = {
 
 export default function BileAcidEvidenceView({
   patientId,
+  shareToken,
   bileAcids,
   onInspectRecord,
 }: BileAcidEvidenceViewProps) {
@@ -79,9 +81,14 @@ export default function BileAcidEvidenceView({
         {bileAcids.latestSourceFiles.map((sourceFile) => (
           <a
             key={sourceFile}
-            href={`/patients/${patientId}/evidence/source?source=${encodeURIComponent(
-              sourceFile
-            )}`}
+            href={
+              `/patients/${patientId}/evidence/source?source=${encodeURIComponent(
+                sourceFile
+              )}` +
+              (shareToken
+                ? `&share=${encodeURIComponent(shareToken)}`
+                : "")
+            }
             className="text-xs font-semibold text-teal-800 underline-offset-4 hover:underline"
             style={{
               cursor:
@@ -142,9 +149,14 @@ export default function BileAcidEvidenceView({
                 {record.sourceFiles.map((sourceFile) => (
                   <a
                     key={sourceFile}
-                    href={`/patients/${patientId}/evidence/source?source=${encodeURIComponent(
-                      sourceFile
-                    )}`}
+                    href={
+                      `/patients/${patientId}/evidence/source?source=${encodeURIComponent(
+                        sourceFile
+                      )}` +
+                      (shareToken
+                        ? `&share=${encodeURIComponent(shareToken)}`
+                        : "")
+                    }
                     className="text-xs font-semibold text-teal-800 underline-offset-4 hover:underline"
                     style={{
                       cursor:

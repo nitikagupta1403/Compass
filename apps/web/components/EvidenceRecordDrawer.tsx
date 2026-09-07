@@ -7,12 +7,14 @@ import type { EvidenceRecord } from "./evidenceTypes";
 type EvidenceRecordDrawerProps = {
   record: EvidenceRecord | null;
   patientId: string;
+  shareToken?: string;
   onClose: () => void;
 };
 
 export default function EvidenceRecordDrawer({
   record,
   patientId,
+  shareToken,
   onClose,
 }: EvidenceRecordDrawerProps) {
   useEffect(() => {
@@ -107,9 +109,14 @@ export default function EvidenceRecordDrawer({
                   </p>
 
                   <a
-                    href={`/patients/${patientId}/evidence/source?source=${encodeURIComponent(
-                      sourceFile
-                    )}`}
+                    href={
+                      `/patients/${patientId}/evidence/source?source=${encodeURIComponent(
+                        sourceFile
+                      )}` +
+                      (shareToken
+                        ? `&share=${encodeURIComponent(shareToken)}`
+                        : "")
+                    }
                     target="_blank"
                     rel="noopener noreferrer"
                     className="mt-2 inline-block rounded-md text-sm font-semibold text-teal-800 underline-offset-4 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-700 focus-visible:ring-offset-2"
