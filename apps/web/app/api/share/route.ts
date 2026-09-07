@@ -9,6 +9,7 @@ export async function POST(request: Request) {
     const body = await request.json();
 
     const patientId = body?.patientId;
+    const expiryMinutes = body?.expiryMinutes;
 
     if (
       !patientId ||
@@ -17,6 +18,21 @@ export async function POST(request: Request) {
       return NextResponse.json(
         {
           error: "Patient ID is required.",
+        },
+        {
+          status: 400,
+        }
+      );
+    }
+
+    const allowedExpiryMinutes = [60, 360, 1440];
+
+    if (
+      !allowedExpiryMinutes.includes(expiryMinutes)
+    ) {
+      return NextResponse.json(
+        {
+          error: "Invalid link duration.",
         },
         {
           status: 400,
@@ -38,11 +54,11 @@ export async function POST(request: Request) {
     }
 
     const expiresAt =
-      Date.now() + 60 * 60 * 1000;
+      Date.now() + expiryMinutes * 60 * 1000;
 
     const token = createShareToken(
       patientId,
-      60
+      expiryMinutes
     );
 
     return NextResponse.json({
