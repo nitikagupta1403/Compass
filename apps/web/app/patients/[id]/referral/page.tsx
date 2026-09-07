@@ -146,6 +146,20 @@ export default async function ReferralPage({
           <p className="mt-1 text-sm text-slate-500">
             Patient ID: {referral.patientId}
           </p>
+
+          <div className="mt-5 print:hidden">
+            <a
+              href={`/patients/${referral.patientId}/share`}
+              className="inline-flex rounded-full border border-teal-800 bg-teal-900 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-teal-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-700 focus-visible:ring-offset-2"
+              style={{
+                cursor:
+                  'url("/paw-cursor-pink.png") 16 16, pointer',
+              }}
+            >
+              Share with vet →
+            </a>
+          </div>
+
         </header>
 
         {/* REASON FOR REFERRAL */}
@@ -169,81 +183,22 @@ export default async function ReferralPage({
           )}
         </section>
 
-        {/* SEIZURE SUMMARY */}
-
-        <section className="mt-8">
-          <h2 className="text-xl font-semibold text-slate-900">
-            Seizure diary summary
-          </h2>
-
-          <div className="print-compact-grid mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            <Metric
-              label="Logged events"
-              value={
-                referral.seizureDiary.totalLoggedEvents
-              }
-            />
-
-            <Metric
-              label="Unique event days"
-              value={
-                referral.seizureDiary.uniqueEventDays
-              }
-            />
-
-            <Metric
-              label="Multi-event days"
-              value={
-                referral.seizureDiary.multiEventDays
-              }
-            />
-
-            <Metric
-              label="Maximum events/day"
-              value={
-                referral.seizureDiary.maxEventsInOneDay
-              }
-            />
-
-            <Metric
-              label="Diary start"
-              value={
-                referral.seizureDiary.firstEventDate ??
-                "Unknown"
-              }
-            />
-
-            <Metric
-              label="Diary end"
-              value={
-                referral.seizureDiary.lastEventDate ??
-                "Unknown"
-              }
-            />
-          </div>
-
-          <p className="mt-4 text-sm leading-6 text-slate-600">
-            The diary includes both seizure-labelled
-            events and symptomatic or SOS-treated entries.
-            Compass does not automatically classify every
-            logged episode as a confirmed epileptic seizure.
-          </p>
-        </section>
+        {/* HOPE WONDERLAND */}
 
         <section className="mt-10 print:hidden">
-  <CasePanorama
-    patientName={referral.patientName}
-    photoSrc="/hope-profile.jpeg"
-    patient={{
-      patientId: referral.patientId,
-      species: referral.species,
-      breed: referral.breed,
-      sex: referral.sex,
-      dateOfBirth: referral.dateOfBirth,
-      weightKg: referral.weightKg,
-      workingDiagnosis:
-        referral.workingDiagnosis,
-    }}
+      <CasePanorama
+        patientName={referral.patientName}
+        photoSrc="/hope-profile.jpeg"
+        patient={{
+          patientId: referral.patientId,
+          species: referral.species,
+          breed: referral.breed,
+          sex: referral.sex,
+          dateOfBirth: referral.dateOfBirth,
+          weightKg: referral.weightKg,
+          workingDiagnosis:
+            referral.workingDiagnosis,
+        }}
 
     treatmentHistory={referral.medications}
     
@@ -307,6 +262,67 @@ export default async function ReferralPage({
     videoEvidence={referral.videoEvidence}
     questions={referral.unresolvedIssues}
   />
+</section>
+
+{/* SEIZURE SUMMARY */}
+
+<section className="hidden print:block mt-8">
+  <h2 className="text-xl font-semibold text-slate-900">
+    Seizure diary summary
+  </h2>
+
+  <div className="print-compact-grid mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+    <Metric
+      label="Logged events"
+      value={
+        referral.seizureDiary.totalLoggedEvents
+      }
+    />
+
+    <Metric
+      label="Unique event days"
+      value={
+        referral.seizureDiary.uniqueEventDays
+      }
+    />
+
+    <Metric
+      label="Multi-event days"
+      value={
+        referral.seizureDiary.multiEventDays
+      }
+    />
+
+    <Metric
+      label="Maximum events/day"
+      value={
+        referral.seizureDiary.maxEventsInOneDay
+      }
+    />
+
+    <Metric
+      label="Diary start"
+      value={
+        referral.seizureDiary.firstEventDate ??
+        "Unknown"
+      }
+    />
+
+    <Metric
+      label="Diary end"
+      value={
+        referral.seizureDiary.lastEventDate ??
+        "Unknown"
+      }
+    />
+  </div>
+
+  <p className="mt-4 text-sm leading-6 text-slate-600">
+    The diary includes both seizure-labelled
+    events and symptomatic or SOS-treated entries.
+    Compass does not automatically classify every
+    logged episode as a confirmed epileptic seizure.
+  </p>
 </section>
 
 <div className="hidden print:block">
