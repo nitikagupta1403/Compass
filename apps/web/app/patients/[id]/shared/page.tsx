@@ -5,7 +5,12 @@ import { loadHopeVideos } from "@/data/loadVideos";
 import { loadMedications } from "@/data/loadMedications";
 import { loadLaboratory } from "@/data/loadLaboratory";
 import { loadClinicalEvents } from "@/data/loadClinicalEvents";
-import { buildReferralData } from "@/data/buildReferralData";
+
+import {
+  buildReferralData,
+  type ReferralData,
+} from "@/data/buildReferralData";
+
 import CasePanorama from "@/components/CasePanorama";
 
 type Props = {
@@ -17,6 +22,9 @@ type Props = {
     share?: string;
   }>;
 };
+
+type ReferralMedication =
+  ReferralData["medications"][number];
 
 export default async function SharedPatientPage({
   params,
@@ -72,6 +80,52 @@ export default async function SharedPatientPage({
     loadLaboratory(),
     loadClinicalEvents()
   );
+
+  const levetiracetam = referral.medications.filter(
+    (medication) =>
+      medication.activeIngredient?.toLowerCase() ===
+        "levetiracetam" ||
+      medication.name.toLowerCase() ===
+        "levetiracetam"
+  );
+
+  const phenobarbital = referral.medications.filter(
+    (medication) =>
+      medication.activeIngredient?.toLowerCase() ===
+      "phenobarbital"
+  );
+
+  const emergencyPlan = referral.medications.filter(
+    (medication) =>
+      medication.status ===
+      "current-emergency-plan"
+  );
+
+  const getCurrentMedication = (
+    medicationRecords: ReferralMedication[],
+    statuses: string[]
+  ) =>
+    medicationRecords.find(
+      (medication) =>
+        medication.status &&
+        statuses.includes(medication.status)
+    );
+
+  const getCurrentMedicationText = (
+    medicationRecords: ReferralMedication[],
+    statuses: string[]
+  ) => {
+    const current = getCurrentMedication(
+      medicationRecords,
+      statuses
+    );
+
+    if (!current) {
+      return "Current regimen not available.";
+    }
+
+    return current.frequency || current.dose;
+  };
 
   return (
     <main className="min-h-screen bg-slate-100 px-6 py-10">
@@ -164,9 +218,20 @@ export default async function SharedPatientPage({
             }
             earlyChronology={referral.earlyChronology}
             treatment={{
-              daily: "See treatment history",
-              sos: "See treatment history",
-              emergency: "See treatment history",
+              daily: getCurrentMedicationText(
+                phenobarbital,
+                ["current"]
+              ),
+
+              sos: getCurrentMedicationText(
+                levetiracetam,
+                ["current-sos"]
+              ),
+
+              emergency: getCurrentMedicationText(
+                emergencyPlan,
+                ["current-emergency-plan"]
+              ),
             }}
             evidence={{
               laboratoryGroups:
