@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef, useState } from "react";
+import { flushSync } from "react-dom";
 
 import VideoEvidenceView from "./VideoEvidenceView";
 import DrugMonitoringView from "./DrugMonitoringView";
@@ -157,58 +158,44 @@ export default function CasePanorama({
     const cameraRef = useRef<HTMLDivElement>(null);
 
     const moveCamera = async (
-  nextLevel: DepthLevel,
-  direction: "in" | "out" = "in"
-) => {
-  const current = cameraRef.current;
+      nextLevel: DepthLevel,
+      direction: "in" | "out" = "in"
+    ) => {
+      const root = document.documentElement;
 
-  if (!current) {
-    setLevel(nextLevel);
-    return;
-  }
+      const transitionClass =
+        direction === "in"
+          ? "wonderland-camera-in"
+          : "wonderland-camera-out";
 
-  const outgoing =
-    direction === "in"
-      ? [
-          { transform: "scale(1)", opacity: 1 },
-          { transform: "scale(1.16)", opacity: 0 },
-        ]
-      : [
-          { transform: "scale(1)", opacity: 1 },
-          { transform: "scale(0.9)", opacity: 0 },
-        ];
+      const documentWithTransition = document as Document & {
+        startViewTransition?: (
+          callback: () => void
+        ) => {
+          finished: Promise<void>;
+        };
+      };
 
-  await current.animate(outgoing, {
-    duration: 360,
-    easing: "cubic-bezier(0.22, 1, 0.36, 1)",
-    fill: "forwards",
-  }).finished;
-
-  setLevel(nextLevel);
-
-  requestAnimationFrame(() => {
-    const incoming = cameraRef.current;
-
-    if (!incoming) return;
-
-    incoming.animate(
-      direction === "in"
-        ? [
-            { transform: "scale(0.9)", opacity: 0 },
-            { transform: "scale(1)", opacity: 1 },
-          ]
-        : [
-            { transform: "scale(1.1)", opacity: 0 },
-            { transform: "scale(1)", opacity: 1 },
-          ],
-      {
-        duration: 420,
-        easing: "cubic-bezier(0.22, 1, 0.36, 1)",
-        fill: "both",
+      if (!documentWithTransition.startViewTransition) {
+        setLevel(nextLevel);
+        return;
       }
-    );
-  });
-};
+
+      root.classList.add(transitionClass);
+
+      const transition =
+        documentWithTransition.startViewTransition(() => {
+          flushSync(() => {
+            setLevel(nextLevel);
+          });
+        });
+
+      try {
+        await transition.finished;
+      } finally {
+        root.classList.remove(transitionClass);
+      }
+    };
 
   if (level === "hope") {
     return (

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 
 import {
   aggregateTreatmentEdges,
@@ -97,6 +97,50 @@ export default function TreatmentHistoryView({
     const [viewMode, setViewMode] =
       useState<"graph" | "matrix">("graph");
 
+    const treatmentViewRef =
+  useRef<HTMLDivElement>(null);
+
+const switchTreatmentView = async (
+  nextView: "graph" | "matrix"
+) => {
+  if (nextView === viewMode) return;
+
+  const current = treatmentViewRef.current;
+
+    if (current) {
+      await current.animate(
+        [
+          { opacity: 1, transform: "translateY(0)" },
+          { opacity: 0, transform: "translateY(6px)" },
+        ],
+        {
+          duration: 180,
+          easing: "ease-out",
+          fill: "forwards",
+        }
+      ).finished;
+    }
+
+    setViewMode(nextView);
+
+    requestAnimationFrame(() => {
+      const incoming = treatmentViewRef.current;
+      if (!incoming) return;
+
+        incoming.animate(
+          [
+            { opacity: 0, transform: "translateY(6px)" },
+            { opacity: 1, transform: "translateY(0)" },
+          ],
+          {
+            duration: 260,
+            easing: "ease-out",
+            fill: "both",
+          }
+        );
+      });
+    };
+
     const [
       selectedMatrixPair,
       setSelectedMatrixPair,
@@ -175,7 +219,7 @@ export default function TreatmentHistoryView({
               type="button"
               aria-pressed={viewMode === "graph"}
               onClick={() => {
-                setViewMode("graph");
+                switchTreatmentView("graph");
               }}
               className={[
                   "rounded-lg px-4 py-2 text-sm font-semibold transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-500 focus-visible:ring-offset-2",
@@ -191,8 +235,8 @@ export default function TreatmentHistoryView({
                 type="button"
                 aria-pressed={viewMode === "matrix"}
                 onClick={() => {
-                  setViewMode("matrix");
                   setShowAllRelationships(false);
+                  switchTreatmentView("matrix");
                 }}
                 className={[
                     "rounded-lg px-4 py-2 text-sm font-semibold transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-500 focus-visible:ring-offset-2",
@@ -304,6 +348,11 @@ export default function TreatmentHistoryView({
               );
             })()}
 
+          <div
+            ref={treatmentViewRef}
+            className="will-change-transform"
+          >
+
           {viewMode === "graph" && (
             <div className="relative mt-10 h-[720px] w-full overflow-hidden rounded-3xl border border-slate-200 bg-white">
 
@@ -388,6 +437,7 @@ export default function TreatmentHistoryView({
                     ? 0.9
                     : 0.7
                 }
+                
                 />
                 );
             })}
@@ -478,6 +528,7 @@ export default function TreatmentHistoryView({
                     'url("/paw-cursor-pink.png") 16 16, pointer',
                 }}
         >
+          
          <div
             className={[
                 "flex items-center justify-center rounded-full border-2 text-2xl shadow-sm transition duration-200",
@@ -509,8 +560,10 @@ export default function TreatmentHistoryView({
         </p>
         </button>
         );
+      
     })}
     </div>
+    
 )}
 
     {viewMode === "matrix" && (
@@ -824,6 +877,7 @@ export default function TreatmentHistoryView({
     })()}
     </div>
     )}
+  </div>
 
       {selectedNode && (
   <div className="mx-auto mt-12 max-w-3xl rounded-3xl border border-slate-200 bg-slate-50 p-6 shadow-sm">
