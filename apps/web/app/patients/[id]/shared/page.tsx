@@ -1,4 +1,4 @@
-import { verifyShareToken } from "@/lib/shareToken";
+import { verifyActiveShareToken } from "@/lib/shareAccess";
 import { loadPatient } from "@/data/loadPatient";
 import { loadHopeSeizures } from "@/data/loadSeizures";
 import { loadHopeVideos } from "@/data/loadVideos";
@@ -34,7 +34,7 @@ export default async function SharedPatientPage({
   const { share } = await searchParams;
 
   const verified = share
-    ? verifyShareToken(share)
+    ? await verifyActiveShareToken(share)
     : null;
 
   if (

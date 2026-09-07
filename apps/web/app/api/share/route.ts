@@ -1,6 +1,11 @@
 import { NextResponse } from "next/server";
 import { loadPatient } from "@/data/loadPatient";
-import { createShareToken } from "@/lib/shareToken";
+import { createShareAccess } from "@/lib/shareAccess";
+import {
+  createShareToken,
+  verifyShareToken,
+} from "@/lib/shareToken";
+
 
 export const runtime = "nodejs";
 
@@ -57,23 +62,49 @@ export async function POST(request: Request) {
       Date.now() + expiryMinutes * 60 * 1000;
 
     const token = createShareToken(
-      patientId,
-      expiryMinutes
-    );
+        patientId,
+        expiryMinutes
+      );
 
-    return NextResponse.json({
-      token,
-      expiresAt,
-    });
+      const verified =
+        verifyShareToken(token);
 
-  } catch {
-    return NextResponse.json(
-      {
-        error: "Unable to create share link.",
-      },
-      {
-        status: 500,
+      if (!verified) {
+        return NextResponse.json(
+          {
+            error: "Unable to verify generated share token.",
+          },
+          {
+            status: 500,
+          }
+        );
       }
-    );
-  }
+
+      await createShareAccess({
+        shareId: verified.shareId,
+        patientId: verified.patientId,
+        expiresAt: verified.expiresAt,
+      });
+
+      return NextResponse.json({
+        token,
+        expiresAt: verified.expiresAt,
+      });
+      
+
+  } catch (error) {
+  console.error("CREATE SHARE ERROR:", error);
+
+  return NextResponse.json(
+    {
+      error:
+        error instanceof Error
+          ? error.message
+          : "Unable to create share link.",
+    },
+    {
+      status: 500,
+    }
+  );
+}
 }

@@ -1,21 +1,14 @@
 import crypto from "crypto";
-import fs from "fs";
-import os from "os";
-import path from "path";
 
-type SharePayload = {
+export type SharePayload = {
   shareId: string;
   patientId: string;
   expiresAt: number;
 };
 
-const REVOCATION_FILE = path.join(
-  os.tmpdir(),
-  "compass-revoked-share-ids.json"
-);
-
 const getSecret = () => {
-  const secret = process.env.COMPASS_SHARE_SECRET;
+  const secret =
+    process.env.COMPASS_SHARE_SECRET;
 
   if (!secret) {
     throw new Error(
@@ -27,48 +20,14 @@ const getSecret = () => {
 };
 
 const encode = (value: string) =>
-  Buffer.from(value, "utf8").toString("base64url");
+  Buffer.from(value, "utf8").toString(
+    "base64url"
+  );
 
 const decode = (value: string) =>
-  Buffer.from(value, "base64url").toString("utf8");
-
-const readRevokedShareIds = (): Set<string> => {
-  try {
-    if (!fs.existsSync(REVOCATION_FILE)) {
-      return new Set();
-    }
-
-    const raw = fs.readFileSync(
-      REVOCATION_FILE,
-      "utf8"
-    );
-
-    const values = JSON.parse(raw);
-
-    if (!Array.isArray(values)) {
-      return new Set();
-    }
-
-    return new Set(
-      values.filter(
-        (value): value is string =>
-          typeof value === "string"
-      )
-    );
-  } catch {
-    return new Set();
-  }
-};
-
-const writeRevokedShareIds = (
-  revokedIds: Set<string>
-) => {
-  fs.writeFileSync(
-    REVOCATION_FILE,
-    JSON.stringify([...revokedIds]),
+  Buffer.from(value, "base64url").toString(
     "utf8"
   );
-};
 
 export const createShareToken = (
   patientId: string,
@@ -78,7 +37,8 @@ export const createShareToken = (
     shareId: crypto.randomUUID(),
     patientId,
     expiresAt:
-      Date.now() + expiresInMinutes * 60 * 1000,
+      Date.now() +
+      expiresInMinutes * 60 * 1000,
   };
 
   const payloadEncoded = encode(
@@ -108,10 +68,11 @@ export const verifyShareToken = (
     .update(payloadEncoded)
     .digest("base64url");
 
-  const receivedBuffer = Buffer.from(signature);
-  const expectedBuffer = Buffer.from(
-    expectedSignature
-  );
+  const receivedBuffer =
+    Buffer.from(signature);
+
+  const expectedBuffer =
+    Buffer.from(expectedSignature);
 
   if (
     receivedBuffer.length !==
@@ -138,16 +99,7 @@ export const verifyShareToken = (
       !payload.shareId ||
       !payload.patientId ||
       !payload.expiresAt ||
-      payload.expiresAt < Date.now()
-    ) {
-      return null;
-    }
-
-    const revokedShareIds =
-      readRevokedShareIds();
-
-    if (
-      revokedShareIds.has(payload.shareId)
+      payload.expiresAt <= Date.now()
     ) {
       return null;
     }
@@ -156,23 +108,4 @@ export const verifyShareToken = (
   } catch {
     return null;
   }
-};
-
-export const revokeShareToken = (
-  token: string
-) => {
-  const payload = verifyShareToken(token);
-
-  if (!payload) {
-    return false;
-  }
-
-  const revokedShareIds =
-    readRevokedShareIds();
-
-  revokedShareIds.add(payload.shareId);
-
-  writeRevokedShareIds(revokedShareIds);
-
-  return true;
 };

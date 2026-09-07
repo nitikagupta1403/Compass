@@ -1,5 +1,7 @@
 import { NextResponse } from "next/server";
-import { revokeShareToken } from "@/lib/shareToken";
+
+import { verifyShareToken } from "@/lib/shareToken";
+import { revokeShareAccess } from "@/lib/shareAccess";
 
 export const runtime = "nodejs";
 
@@ -19,9 +21,9 @@ export async function POST(request: Request) {
       );
     }
 
-    const revoked = revokeShareToken(token);
+    const verified = verifyShareToken(token);
 
-    if (!revoked) {
+    if (!verified) {
       return NextResponse.json(
         {
           error:
@@ -33,13 +35,25 @@ export async function POST(request: Request) {
       );
     }
 
+    await revokeShareAccess(
+      verified.shareId
+    );
+
     return NextResponse.json({
       revoked: true,
     });
-  } catch {
+  } catch (error) {
+    console.error(
+      "REVOKE SHARE ERROR:",
+      error
+    );
+
     return NextResponse.json(
       {
-        error: "Unable to revoke share link.",
+        error:
+          error instanceof Error
+            ? error.message
+            : "Unable to revoke share link.",
       },
       {
         status: 500,
