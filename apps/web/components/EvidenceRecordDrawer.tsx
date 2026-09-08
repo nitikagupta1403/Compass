@@ -121,7 +121,7 @@ export default function EvidenceRecordDrawer({
                     rel="noopener noreferrer"
                     className="mt-2 inline-block rounded-md text-sm font-semibold text-teal-800 underline-offset-4 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-700 focus-visible:ring-offset-2"
                   >
-                    Open original source →
+                    View source provenance →
                   </a>
                 </div>
               ))}

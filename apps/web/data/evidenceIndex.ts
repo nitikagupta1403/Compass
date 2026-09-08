@@ -114,39 +114,53 @@ export const hopeEvidenceIndex: EvidenceIndexItem[] = [
     status: "verified",
   },
 
-  {
-    id: "EV-0008",
-    date: "2026-05-27",
-    category: "Clinical Record",
-    sourceFile: "Hope_Jun_26.pdf",
-    supports: [
-      "Weight documented as 19 kg",
-      "Serum phenobarbital testing ordered",
-      "Bile acid testing ordered",
-      "Continuation of medication documented",
-    ],
-    status: "verified",
-    notes:
-      "Record contains unrelated text referring to 'CURIE'; Compass excludes this as a Hope clinical fact.",
-  },
+{
+  id: "EV-0008",
+
+  date: "2026-06-20",
+
+  category: "Clinical Record",
+
+  sourceFile:
+    "Animal_Care_Clinical_20_Jun_2026.pdf",
+
+  supports: [
+    "Weight documented as 19 kg",
+    "Epihat 3/4 tablet SOS documented",
+    "Clonazepam advised to stop",
+    "Medazolam intranasal emergency instruction documented",
+    "Gardenal 60 mg one tablet twice daily documented",
+  ],
+
+  status: "verified",
+
+  notes:
+    "Clinical review dated 20 June 2026. Source wording is preserved where clinically important.",
+},
 
   {
-    id: "EV-0009",
-    date: "2026-06-02", 
-    category: "Laboratory",
-    sourceFile: "Phen_levels.pdf",
-    supports: [
-      "Serum phenobarbital 8.8",
-      "Laboratory reference interval 18–45",
-      "Laboratory-labelled subtherapeutic result",
-      "Bile acid 0.70 µmol/L",
-      "Laboratory reference <12 µmol/L",
-      "Bile acid reported normal",
-    ],
-    status: "verified",
-    notes:
-      "Date of birth in this record conflicts with other available records and remains unresolved.",
-  },
+  id: "EV-0009",
+
+  date: "2026-06-02",
+
+  category: "Laboratory",
+
+  sourceFile: "Phen_levels.pdf",
+
+  supports: [
+    "Serum phenobarbital 8.8",
+    "Laboratory reference interval 18–45",
+    "Laboratory-labelled subtherapeutic result",
+    "Bile acid 0.70 µmol/L",
+    "Laboratory reference <12 µmol/L",
+    "Bile acid reported normal",
+  ],
+
+  status: "verified",
+
+  notes:
+    "Animal Care laboratory record dated 2 June 2026. Date of birth in this record conflicts with other available records and remains unresolved.",
+},
 
   {
     id: "VID-0001",

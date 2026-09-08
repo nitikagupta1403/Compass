@@ -104,30 +104,43 @@ export async function GET(
    * prescriptions/
    * Jun_2026.pdf
    */
+  const storageFolders = [
+  "root",
+  "prescriptions",
+  "labs",
+  "videos",
+];
+
+let sourceData: Blob | null = null;
+
+for (const folder of storageFolders) {
   const storagePath =
-    `HOPE-001/prescriptions/${safeFileName}`;
+    `HOPE-001/${folder}/${safeFileName}`;
 
   const { data, error } =
     await supabaseAdmin.storage
       .from(STORAGE_BUCKET)
       .download(storagePath);
 
-  if (error || !data) {
-    console.error(
-      "SUPABASE SOURCE DOWNLOAD ERROR:",
-      error
-    );
-
-    return new Response(
-      "Source document not found",
-      {
-        status: 404,
-      }
-    );
+  if (!error && data) {
+    sourceData = data;
+    break;
   }
+}
+
+if (!sourceData) {
+  return new Response(
+    "Source document not found",
+    {
+      status: 404,
+    }
+  );
+}
 
   const fileBuffer =
-    Buffer.from(await data.arrayBuffer());
+    Buffer.from(
+        await sourceData.arrayBuffer()
+      );
 
   const contentType =
     getContentType(safeFileName);

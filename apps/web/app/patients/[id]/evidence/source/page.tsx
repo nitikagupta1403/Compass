@@ -156,13 +156,7 @@ if (matchingEvidence.length === 0) {
           <p className="mt-3 break-all text-base font-semibold text-slate-900">
               {source}
           </p>
-
-          <div className="mt-4">
-              <span className="inline-flex rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1 text-xs font-semibold text-emerald-700">
-              Indexed source
-              </span>
-          </div>
-
+          
             <a
               href={
                 `/patients/${patient.id}/evidence/source/file?source=${encodeURIComponent(

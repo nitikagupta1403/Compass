@@ -31,6 +31,7 @@ export type Diagnosis = {
   name: string;
   status: string;
   date: string;
+  evidenceStatus?: EvidenceStatus;
 };
 
 export type Allergy = {
@@ -65,6 +66,7 @@ export type Report = {
   date: string;
   title: string;
   summary: string;
+  source?: string;
 };
 
 export type Demographics = {
