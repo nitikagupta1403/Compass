@@ -12,8 +12,6 @@ import PatternsView from "./PatternsView";
 import TreatmentView from "./TreatmentView";
 import EvidenceLandingView from "./EvidenceLandingView";
 import TreatmentHistoryView from "./TreatmentHistoryView";
-import EvidenceRecordDrawer from "./EvidenceRecordDrawer";
-import type { EvidenceRecord } from "./evidenceTypes";
 
 type DepthLevel =
   | "hope"
@@ -151,9 +149,6 @@ export default function CasePanorama({
 }: CasePanoramaProps) {
   const [level, setLevel] =
     useState<DepthLevel>("hope");
-
-  const [focusedEvidence, setFocusedEvidence] =
-    useState<EvidenceRecord | null>(null);
 
   const cameraRef =
     useRef<HTMLDivElement>(null);
@@ -442,11 +437,37 @@ if (level === "treatment") {
             title="Laboratory evidence"
             subtitle="A closer evidence view"
             trail={[
-              { label: "Hope", onClick: () => setLevel("hope") },
-              { label: "Story", onClick: () => moveCamera("know-more", "in")},
-              { label: "Evidence", onClick: () => moveCamera("evidence", "out") },
-              { label: "Laboratory" },
-            ]}
+                {
+                  label: "Hope",
+                  onClick: () => setLevel("hope"),
+                },
+                {
+                  label: "Story",
+                  onClick: () =>
+                    moveCamera("know-more", "out"),
+                },
+                {
+                  label: "First Event",
+                  onClick: () =>
+                    moveCamera("first-event", "out"),
+                },
+                {
+                  label: "Patterns",
+                  onClick: () =>
+                    moveCamera("patterns", "out"),
+                },
+                {
+                  label: "Treatment",
+                  onClick: () =>
+                    moveCamera("treatment", "out"),
+                },
+                {
+                  label: "Evidence",
+                  onClick: () =>
+                    moveCamera("evidence", "out"),
+                },
+                { label: "Laboratory" },
+              ]}
             onZoomOut={() => moveCamera("evidence", "out")}
             depth="source"
           >
@@ -551,130 +572,184 @@ if (level === "evidence") {
     if (level === "videos") {
       return (
         <div ref={cameraRef} className="origin-center">
-          <>
-            <JourneyShell
-            eyebrow="Videos"
-            title="Video evidence"
-            subtitle="A closer evidence view"
-            onZoomOut={() => moveCamera("evidence", "out")}
-            depth="source"
-            trail={[
-              { label: "Hope", onClick: () => setLevel("hope") },
-              { label: "Story", onClick: () => moveCamera("know-more", "in") },
-              { label: "Evidence", onClick: () => moveCamera("evidence", "out") },
-              { label: "Videos" },
-            ]}
-          >
-            <VideoEvidenceView
-              patientId={patient.patientId}
-              shareToken={shareToken}
-              records={videoEvidence.records}
-              onInspectRecord={(record) =>
-                setFocusedEvidence(record)
-              }
-            />
-          </JourneyShell>
-
-          <EvidenceRecordDrawer
-            record={focusedEvidence}
-            patientId={patient.patientId}
-            shareToken={shareToken}
-            onClose={() => setFocusedEvidence(null)}
-          />
-      </>
+          <JourneyShell
+              eyebrow="Videos"
+              title="Video evidence"
+              subtitle="A closer evidence view"
+              onZoomOut={() => moveCamera("evidence", "out")}
+              depth="source"
+              trail={[
+                { label: "Hope", onClick: () => setLevel("hope") },
+                {
+                  label: "Story",
+                  onClick: () => moveCamera("know-more", "out"),
+                },
+                {
+                  label: "First Event",
+                  onClick: () => moveCamera("first-event", "out"),
+                },
+                {
+                  label: "Patterns",
+                  onClick: () => moveCamera("patterns", "out"),
+                },
+                {
+                  label: "Treatment",
+                  onClick: () => moveCamera("treatment", "out"),
+                },
+                {
+                  label: "Evidence",
+                  onClick: () => moveCamera("evidence", "out"),
+                },
+                { label: "Videos" },
+              ]}
+            >
+              <VideoEvidenceView
+                patientId={patient.patientId}
+                shareToken={shareToken}
+                records={videoEvidence.records}
+              />
+            </JourneyShell>
     </div>
   );
 }
 
       if (level === "bile-acids") {
-        const bileAcids =
-          laboratoryGroups.find(
-            (group) =>
-              group.title.toLowerCase() === "bile acids"
-          ) ?? null;
+  const bileAcids =
+    laboratoryGroups.find(
+      (group) =>
+        group.title.toLowerCase() ===
+        "bile acids"
+    ) ?? null;
 
-        return (
-          <div ref={cameraRef} className="origin-center">
-            <>
-              <JourneyShell
-                eyebrow="Bile Acids"
-                title="Bile acid evidence"
-                subtitle="Exact laboratory record"
-                trail={[
-                  { label: "Hope", onClick: () => setLevel("hope") },
-                  { label: "Story", onClick: () => moveCamera("know-more", "in") },
-                  {
-                    label: "Evidence",
-                    onClick: () =>
-                      moveCamera("evidence", "out"),
-                  },
-                  {
-                    label: "Laboratory",
-                    onClick: () =>
-                      moveCamera("laboratory", "out"),
-                  },
-                  { label: "Bile Acids" },
-                ]}
-                onZoomOut={() =>
-                  moveCamera("laboratory", "out")
-                }
-                depth="source"
-              >
-                <BileAcidEvidenceView
-                    patientId={patient.patientId}
-                    shareToken={shareToken}
-                    bileAcids={bileAcids}
-                    onInspectRecord={(record) =>
-                      setFocusedEvidence(record)
-                    }
-                  />
-              </JourneyShell>
+  return (
+    <div
+      ref={cameraRef}
+      className="origin-center"
+    >
+      <JourneyShell
+        eyebrow="Bile Acids"
+        title="Bile acid evidence"
+        subtitle="Exact laboratory record"
+        trail={[
+          {
+            label: "Hope",
+            onClick: () => setLevel("hope"),
+          },
+          {
+            label: "Story",
+            onClick: () =>
+              moveCamera("know-more", "out"),
+          },
+          {
+            label: "First Event",
+            onClick: () =>
+              moveCamera(
+                "first-event",
+                "out"
+              ),
+          },
+          {
+            label: "Patterns",
+            onClick: () =>
+              moveCamera("patterns", "out"),
+          },
+          {
+            label: "Treatment",
+            onClick: () =>
+              moveCamera(
+                "treatment",
+                "out"
+              ),
+          },
+          {
+            label: "Evidence",
+            onClick: () =>
+              moveCamera("evidence", "out"),
+          },
+          {
+            label: "Laboratory",
+              onClick: () =>
+                moveCamera(
+                  "laboratory",
+                  "out"
+                ),
+          },
+          { label: "Bile Acids" },
+        ]}
+        onZoomOut={() =>
+          moveCamera("laboratory", "out")
+        }
+        depth="source"
+      >
+        <BileAcidEvidenceView
+          patientId={patient.patientId}
+          shareToken={shareToken}
+          bileAcids={bileAcids}
+        />
+      </JourneyShell>
+    </div>
+  );
+}
 
-              <EvidenceRecordDrawer
-                record={focusedEvidence}
-                patientId={patient.patientId}
-                shareToken={shareToken}
-                onClose={() => setFocusedEvidence(null)}
-              />
-            </>
-          </div>
-        );
-      }
-              
- if (level === "drug-monitoring") {
-    return (
-      <div ref={cameraRef} className="origin-center">
-        <>
-          <JourneyShell
+if (level === "drug-monitoring") {
+  return (
+    <div
+      ref={cameraRef}
+      className="origin-center"
+    >
+      <JourneyShell
         eyebrow="Drug Monitoring"
         title="Therapeutic drug monitoring"
         subtitle="A closer evidence view"
         trail={[
-          { label: "Hope", onClick: () => setLevel("hope") },
-          { label: "Story", onClick: () => moveCamera("know-more", "in")},
-          { label: "Evidence", onClick: () => moveCamera("evidence", "out") },
+          {
+            label: "Hope",
+            onClick: () => setLevel("hope"),
+          },
+          {
+            label: "Story",
+            onClick: () =>
+              moveCamera("know-more", "out"),
+          },
+          {
+            label: "First Event",
+            onClick: () =>
+              moveCamera(
+                "first-event",
+                "out"
+              ),
+          },
+          {
+            label: "Patterns",
+            onClick: () =>
+              moveCamera("patterns", "out"),
+          },
+          {
+            label: "Treatment",
+            onClick: () =>
+              moveCamera(
+                "treatment",
+                "out"
+              ),
+          },
+          {
+            label: "Evidence",
+            onClick: () =>
+              moveCamera("evidence", "out"),
+          },
           { label: "Drug Monitoring" },
         ]}
-        onZoomOut={() => moveCamera("evidence", "out")}
+        onZoomOut={() =>
+          moveCamera("evidence", "out")
+        }
         depth="source"
       >
         <DrugMonitoringView
           patientId={patient.patientId}
           shareToken={shareToken}
           records={drugMonitoringRecords}
-          onInspectRecord={(record) =>
-            setFocusedEvidence(record)
-          }
         />
       </JourneyShell>
-
-      <EvidenceRecordDrawer
-        record={focusedEvidence}
-        patientId={patient.patientId}
-        shareToken={shareToken}
-        onClose={() => setFocusedEvidence(null)}
-      />
-      </>
     </div>
   );
 }

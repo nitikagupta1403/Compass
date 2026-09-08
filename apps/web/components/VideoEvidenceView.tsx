@@ -1,5 +1,3 @@
-import type { EvidenceRecord } from "./evidenceTypes";
-
 type VideoEvidenceViewProps = {
   patientId: string;
   shareToken?: string;
@@ -16,15 +14,12 @@ type VideoEvidenceViewProps = {
     seizureClassificationAssigned: boolean;
     sourceFile: string;
   }[];
-
-  onInspectRecord?: (record: EvidenceRecord) => void;
 };
 
 export default function VideoEvidenceView({
   patientId,
   shareToken,
   records,
-  onInspectRecord,
 }: VideoEvidenceViewProps) {
   return (
     <div className="mx-auto max-w-3xl">
@@ -54,7 +49,9 @@ export default function VideoEvidenceView({
               <p className="mt-4 text-sm leading-6 text-slate-700">
                 {record.clinicalContext
                   .replaceAll("-", " ")
-                  .replace(/\b\w/g, (char) => char.toUpperCase())}
+                  .replace(/\b\w/g, (char) =>
+                    char.toUpperCase()
+                  )}
               </p>
             )}
 
@@ -77,7 +74,9 @@ export default function VideoEvidenceView({
                 </p>
 
                 <p className="mt-1 text-sm font-semibold text-slate-900">
-                  {record.seizureOnsetCaptured ? "Yes" : "No"}
+                  {record.seizureOnsetCaptured
+                    ? "Yes"
+                    : "No"}
                 </p>
               </div>
 
@@ -87,38 +86,17 @@ export default function VideoEvidenceView({
                 </p>
 
                 <p className="mt-1 text-sm font-semibold text-slate-900">
-                  {record.seizureClassificationAssigned ? "Yes" : "No"}
+                  {record.seizureClassificationAssigned
+                    ? "Yes"
+                    : "No"}
                 </p>
               </div>
             </div>
 
             <p className="mt-4 text-xs font-medium text-slate-500">
-              Time: {record.time} · Duration: {record.durationSeconds} seconds
+              Time: {record.time} · Duration:{" "}
+              {record.durationSeconds} seconds
             </p>
-
-            {onInspectRecord && (
-              <button
-                type="button"
-                onClick={() =>
-                  onInspectRecord({
-                    title: record.id,
-                    date: record.date,
-                    summary:
-                      record.observedEvidence ??
-                      record.clinicalContext ??
-                      `Video evidence recorded at ${record.time}. Duration: ${record.durationSeconds} seconds.`,
-                    sourceFiles: [record.sourceFile],
-                  })
-                }
-                className="mt-4 text-sm font-semibold text-teal-800"
-                style={{
-                  cursor:
-                    'url("/paw-cursor-pink.png") 16 16, pointer',
-                }}
-              >
-                Inspect record →
-              </button>
-            )}
 
             <div className="mt-4 border-t border-slate-200 pt-4">
               <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">
@@ -136,18 +114,18 @@ export default function VideoEvidenceView({
                       record.sourceFile
                     )}` +
                     (shareToken
-                      ? `&share=${encodeURIComponent(shareToken)}`
+                      ? `&share=${encodeURIComponent(
+                          shareToken
+                        )}`
                       : "")
                   }
-                  target="_blank"
-                  rel="noopener noreferrer"
                   className="text-sm font-semibold text-teal-800 underline-offset-4 hover:underline"
                   style={{
                     cursor:
                       'url("/paw-cursor-pink.png") 16 16, pointer',
                   }}
                 >
-                  Open original source →
+                  View source provenance →
                 </a>
               </div>
             </div>

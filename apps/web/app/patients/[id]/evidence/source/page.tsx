@@ -206,27 +206,10 @@ if (matchingEvidence.length === 0) {
           </p>
         </section>
 
-        <div className="mt-8 flex flex-wrap gap-3">
-          {!share && (
-            <a
-              href={`/patients/${patient.id}/evidence?source=${encodeURIComponent(
-                source
-              )}`}
-              className="rounded-full border border-teal-800/20 bg-white px-5 py-2.5 text-sm font-semibold text-teal-800 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
-              style={{
-                cursor:
-                  'url("/paw-cursor-pink.png") 16 16, pointer',
-              }}
-            >
-              View indexed evidence →
-            </a>
-          )}
-
           <ReturnToWonderlandButton
             patientId={patient.id}
             shareToken={share}
           />
-        </div>
 
         <footer className="mt-10 border-t border-slate-200 pt-5 text-xs leading-5 text-slate-500">
           Source identity is preserved exactly as registered
@@ -347,34 +330,17 @@ function SourceUnavailable({
           </div>
         )}
 
-       {sharedAccessInvalid ? (
+        {sharedAccessInvalid ? (
           <p className="mt-6 text-sm font-medium text-slate-500">
             This shared access is no longer available.
           </p>
-        ) : shareToken ? (
-          <a
-            href={`/patients/${patientId}/shared?share=${encodeURIComponent(
-              shareToken
-            )}`}
-            className="mt-6 inline-block text-sm font-semibold text-teal-800 underline-offset-4 hover:underline"
-            style={{
-              cursor:
-                'url("/paw-cursor-pink.png") 16 16, pointer',
-            }}
-          >
-            ← Return to Hope Wonderland
-          </a>
         ) : (
-          <a
-            href={`/patients/${patientId}/evidence`}
-            className="mt-6 inline-block text-sm font-semibold text-teal-800 underline-offset-4 hover:underline"
-            style={{
-              cursor:
-                'url("/paw-cursor-pink.png") 16 16, pointer',
-            }}
-          >
-            Return to evidence index →
-          </a>
+          <div className="mt-6">
+            <ReturnToWonderlandButton
+              patientId={patientId}
+              shareToken={shareToken}
+            />
+          </div>
         )}
       </div>
     </main>

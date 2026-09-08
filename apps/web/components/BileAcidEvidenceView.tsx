@@ -1,6 +1,4 @@
-import type { EvidenceRecord } from "./evidenceTypes";
-
-type BileAcidEvidenceViewProps = {
+ type BileAcidEvidenceViewProps = {
   patientId: string;
   shareToken?: string;
 
@@ -15,15 +13,12 @@ type BileAcidEvidenceViewProps = {
       sourceFiles: string[];
     }[];
   } | null;
-
-  onInspectRecord?: (record: EvidenceRecord) => void;
 };
 
 export default function BileAcidEvidenceView({
   patientId,
   shareToken,
   bileAcids,
-  onInspectRecord,
 }: BileAcidEvidenceViewProps) {
   if (!bileAcids) {
     return (
@@ -34,6 +29,18 @@ export default function BileAcidEvidenceView({
       </div>
     );
   }
+
+  const buildSourceHref = (
+    sourceFile: string
+  ) =>
+    `/patients/${patientId}/evidence/source?source=${encodeURIComponent(
+      sourceFile
+    )}` +
+    (shareToken
+      ? `&share=${encodeURIComponent(
+          shareToken
+        )}`
+      : "");
 
   return (
     <div className="mx-auto max-w-3xl">
@@ -47,62 +54,43 @@ export default function BileAcidEvidenceView({
             {bileAcids.latestSummary}
           </p>
 
-          <p className="mt-3 text-xs font-medium text-slate-500">
-            Source files: {bileAcids.latestSourceFiles.join(" · ")}
-          </p>
+          {bileAcids.latestSourceFiles.length >
+            0 && (
+            <div className="mt-4 border-t border-slate-200 pt-4">
+              <p className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">
+                Source record
+              </p>
 
-          {onInspectRecord && (
-            <button
-              type="button"
-              onClick={() =>
-                onInspectRecord({
-                  title: "Bile acids",
-                  date: bileAcids.latestDate ?? "",
-                  summary: bileAcids.latestSummary,
-                  sourceFiles: bileAcids.latestSourceFiles,
-                })
-              }
-              className="mt-4 text-sm font-semibold text-teal-800"
-              style={{
-                cursor:
-                  'url("/paw-cursor-pink.png") 16 16, pointer',
-              }}
-            >
-              Inspect record →
-            </button>
+              <p className="mt-2 text-xs font-medium text-slate-500">
+                {bileAcids.latestSourceFiles.join(
+                  " · "
+                )}
+              </p>
+
+              <div className="mt-3 flex flex-wrap gap-3">
+                {bileAcids.latestSourceFiles.map(
+                  (sourceFile) => (
+                    <a
+                      key={sourceFile}
+                      href={buildSourceHref(
+                        sourceFile
+                      )}
+                      className="text-xs font-semibold text-teal-800 underline-offset-4 hover:underline"
+                      style={{
+                        cursor:
+                          'url("/paw-cursor-pink.png") 16 16, pointer',
+                      }}
+                    >
+                      View source provenance →
+                    </a>
+                  )
+                )}
+              </div>
+            </div>
           )}
+        </div>
 
-          <div className="mt-4">
-            <p className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">
-              Source record
-            </p>
-
-      <div className="mt-2 flex flex-wrap gap-3">
-        {bileAcids.latestSourceFiles.map((sourceFile) => (
-          <a
-            key={sourceFile}
-            href={
-              `/patients/${patientId}/evidence/source?source=${encodeURIComponent(
-                sourceFile
-              )}` +
-              (shareToken
-                ? `&share=${encodeURIComponent(shareToken)}`
-                : "")
-            }
-            className="text-xs font-semibold text-teal-800 underline-offset-4 hover:underline"
-            style={{
-              cursor:
-                'url("/paw-cursor-pink.png") 16 16, pointer',
-            }}
-          >
-            Open original source →
-          </a>
-        ))}
-      </div>
-    </div>
-  </div>
-
-       {bileAcids.history.map((record) => (
+        {bileAcids.history.map((record) => (
           <div
             key={`${record.date}-${record.summary}`}
             className="rounded-2xl border border-slate-200 bg-slate-50 p-5"
@@ -115,62 +103,42 @@ export default function BileAcidEvidenceView({
               {record.summary}
             </p>
 
-            <p className="mt-3 text-xs font-medium text-slate-500">
-              Source files: {record.sourceFiles.join(" · ")}
-            </p>
+            {record.sourceFiles.length > 0 && (
+              <div className="mt-4 border-t border-slate-200 pt-4">
+                <p className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">
+                  Source record
+                </p>
 
-            {onInspectRecord && (
-              <button
-                type="button"
-                onClick={() =>
-                  onInspectRecord({
-                    title: "Bile acids",
-                    date: record.date,
-                    summary: record.summary,
-                    sourceFiles: record.sourceFiles,
-                  })
-                }
-                className="mt-4 text-sm font-semibold text-teal-800"
-                style={{
-                  cursor:
-                    'url("/paw-cursor-pink.png") 16 16, pointer',
-                }}
-              >
-                Inspect record →
-              </button>
-            )}
+                <p className="mt-2 text-xs font-medium text-slate-500">
+                  {record.sourceFiles.join(
+                    " · "
+                  )}
+                </p>
 
-            <div className="mt-4">
-              <p className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">
-                Source record
-              </p>
-
-              <div className="mt-2 flex flex-wrap gap-3">
-                {record.sourceFiles.map((sourceFile) => (
-                  <a
-                    key={sourceFile}
-                    href={
-                      `/patients/${patientId}/evidence/source?source=${encodeURIComponent(
-                        sourceFile
-                      )}` +
-                      (shareToken
-                        ? `&share=${encodeURIComponent(shareToken)}`
-                        : "")
-                    }
-                    className="text-xs font-semibold text-teal-800 underline-offset-4 hover:underline"
-                    style={{
-                      cursor:
-                        'url("/paw-cursor-pink.png") 16 16, pointer',
-                    }}
-                  >
-                    Open original source →
-                  </a>
-                ))}
+                <div className="mt-3 flex flex-wrap gap-3">
+                  {record.sourceFiles.map(
+                    (sourceFile) => (
+                      <a
+                        key={sourceFile}
+                        href={buildSourceHref(
+                          sourceFile
+                        )}
+                        className="text-xs font-semibold text-teal-800 underline-offset-4 hover:underline"
+                        style={{
+                          cursor:
+                            'url("/paw-cursor-pink.png") 16 16, pointer',
+                        }}
+                      >
+                        View source provenance →
+                      </a>
+                    )
+                  )}
+                </div>
               </div>
-            </div>
+            )}
           </div>
         ))}
-              </div>
+      </div>
     </div>
   );
 }
