@@ -2,6 +2,7 @@
 
 import { useRef, useState } from "react";
 import { flushSync } from "react-dom";
+import { useSearchParams } from "next/navigation";
 
 import VideoEvidenceView from "./VideoEvidenceView";
 import DrugMonitoringView from "./DrugMonitoringView";
@@ -147,8 +148,35 @@ export default function CasePanorama({
   videoEvidence,
   questions,
 }: CasePanoramaProps) {
-  const [level, setLevel] =
-    useState<DepthLevel>("hope");
+      const searchParams = useSearchParams();
+
+      const requestedLevel = searchParams.get("level");
+
+      const validDepthLevels: DepthLevel[] = [
+        "hope",
+        "know-hope",
+        "know-more",
+        "first-event",
+        "patterns",
+        "treatment",
+        "evidence",
+        "laboratory",
+        "bile-acids",
+        "drug-monitoring",
+        "videos",
+        "treatment-history",
+      ];
+
+      const initialLevel: DepthLevel =
+        requestedLevel &&
+        validDepthLevels.includes(
+          requestedLevel as DepthLevel
+        )
+          ? (requestedLevel as DepthLevel)
+          : "hope";
+
+      const [level, setLevel] =
+        useState<DepthLevel>(initialLevel);
 
   const cameraRef =
     useRef<HTMLDivElement>(null);

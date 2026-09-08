@@ -111,8 +111,8 @@ export default function VideoEvidenceView({
                 <a
                   href={
                     `/patients/${patientId}/evidence/source?source=${encodeURIComponent(
-                      record.sourceFile
-                    )}` +
+                        record.sourceFile
+                        )}&returnLevel=videos` +
                     (shareToken
                       ? `&share=${encodeURIComponent(
                           shareToken

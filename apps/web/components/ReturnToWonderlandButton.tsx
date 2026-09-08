@@ -3,18 +3,24 @@
 type Props = {
   patientId: string;
   shareToken?: string;
+  returnLevel?: string;
 };
 
 export default function ReturnToWonderlandButton({
   patientId,
   shareToken,
+  returnLevel,
 }: Props) {
   const returnToWonderland = () => {
+    const levelQuery = returnLevel
+      ? `&level=${encodeURIComponent(returnLevel)}`
+      : "";
+
     if (shareToken) {
       window.location.href =
         `/patients/${patientId}/shared?share=${encodeURIComponent(
           shareToken
-        )}`;
+        )}${levelQuery}`;
 
       return;
     }
@@ -26,7 +32,11 @@ export default function ReturnToWonderlandButton({
     }
 
     window.location.href =
-      `/patients/${patientId}/referral`;
+      `/patients/${patientId}/referral${
+        returnLevel
+          ? `?level=${encodeURIComponent(returnLevel)}`
+          : ""
+      }`;
   };
 
   return (

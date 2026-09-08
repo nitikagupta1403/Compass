@@ -1042,7 +1042,7 @@ const switchTreatmentView = async (
                         window.location.href =
                           `/patients/HOPE-001/evidence/source?source=${encodeURIComponent(
                             instance.sourceFile
-                          )}${shareQuery}`;
+                          )}&returnLevel=treatment-history${shareQuery}`;
                       }}
                       className={[
                         "transition",

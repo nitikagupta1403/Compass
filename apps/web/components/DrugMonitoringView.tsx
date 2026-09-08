@@ -50,8 +50,8 @@ export default function DrugMonitoringView({
                       key={sourceFile}
                       href={
                         `/patients/${patientId}/evidence/source?source=${encodeURIComponent(
-                          sourceFile
-                        )}` +
+                            sourceFile
+                          )}&returnLevel=drug-monitoring` +
                         (shareToken
                           ? `&share=${encodeURIComponent(
                               shareToken

@@ -31,11 +31,11 @@ export default function BileAcidEvidenceView({
   }
 
   const buildSourceHref = (
-    sourceFile: string
-  ) =>
-    `/patients/${patientId}/evidence/source?source=${encodeURIComponent(
-      sourceFile
-    )}` +
+  sourceFile: string
+) =>
+  `/patients/${patientId}/evidence/source?source=${encodeURIComponent(
+    sourceFile
+  )}&returnLevel=bile-acids` +
     (shareToken
       ? `&share=${encodeURIComponent(
           shareToken

@@ -12,10 +12,11 @@ type Props = {
     id: string;
   }>;
 
-  searchParams: Promise<{
-    source?: string;
-    share?: string;
-  }>;
+ searchParams: Promise<{
+  source?: string;
+  share?: string;
+  returnLevel?: string;
+}>;
 };
 
 export default async function EvidenceSourcePage({
@@ -23,7 +24,11 @@ export default async function EvidenceSourcePage({
   searchParams,
 }: Props) {
   const { id } = await params;
-  const { source, share } = await searchParams;
+  const {
+    source,
+    share,
+    returnLevel,
+    } = await searchParams;
 
   const patient = patients.find(
     (patient) => patient.id === id
@@ -87,6 +92,7 @@ if (!source) {
       patientId={patient.id}
       message="No source record was requested."
       shareToken={share}
+      returnLevel={returnLevel}
     />
   );
 }
@@ -111,6 +117,7 @@ if (matchingEvidence.length === 0) {
       message="This source is not registered in the Compass evidence index."
       requestedSource={source}
       shareToken={share}
+      returnLevel={returnLevel}
     />
   );
 }
@@ -209,6 +216,7 @@ if (matchingEvidence.length === 0) {
           <ReturnToWonderlandButton
             patientId={patient.id}
             shareToken={share}
+            returnLevel={returnLevel}
           />
 
         <footer className="mt-10 border-t border-slate-200 pt-5 text-xs leading-5 text-slate-500">
@@ -295,12 +303,14 @@ function SourceUnavailable({
   message,
   requestedSource,
   shareToken,
+  returnLevel,
   sharedAccessInvalid = false,
 }: {
   patientId: string;
   message: string;
   requestedSource?: string;
   shareToken?: string;
+  returnLevel?: string;
   sharedAccessInvalid?: boolean;
 }) {
   return (
@@ -339,6 +349,7 @@ function SourceUnavailable({
             <ReturnToWonderlandButton
               patientId={patientId}
               shareToken={shareToken}
+              returnLevel={returnLevel}
             />
           </div>
         )}
