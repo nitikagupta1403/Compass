@@ -1,4 +1,4 @@
-import { verifyShareToken } from "@/lib/shareToken";
+import { verifyActiveShareToken } from "@/lib/shareAccess";
 import ReturnToWonderlandButton from "@/components/ReturnToWonderlandButton";
 import patients from "@/data/patients";
 import {
@@ -62,7 +62,7 @@ export default async function EvidenceSourcePage({
   }
 
 const verifiedShare = share
-  ? verifyShareToken(share)
+  ? await verifyActiveShareToken(share)
   : null;
 
 if (

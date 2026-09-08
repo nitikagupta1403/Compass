@@ -2,7 +2,7 @@ import { readFile } from "fs/promises";
 import path from "path";
 import { NextRequest } from "next/server";
 
-import { verifyShareToken } from "@/lib/shareToken";
+import { verifyActiveShareToken } from "@/lib/shareAccess";
 
 import {
   hopeEvidenceIndex,
@@ -45,8 +45,9 @@ export async function GET(
  * unexpired, unrevoked, and bound to this patient.
  */
   if (share) {
-    const verifiedShare =
-      verifyShareToken(share);
+    const verifiedShare = share
+      ? await verifyActiveShareToken(share)
+      : null;
 
     if (
       !verifiedShare ||
