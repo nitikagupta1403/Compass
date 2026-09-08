@@ -162,18 +162,20 @@ export const hopeEvidenceIndex: EvidenceIndexItem[] = [
     "Animal Care laboratory record dated 2 June 2026. Date of birth in this record conflicts with other available records and remains unresolved.",
 },
 
-  {
-    id: "VID-0001",
-    date: "2025-07-18",
-    category: "Video",
-    sourceFile: "Hope_fit_video 2026-05-25.mp4",
-    supports: [
-      "Primary owner-recorded video evidence",
-      "Post-event/recovery observations requiring specialist review",
-    ],
-    status: "requires-review",
-    notes:
-      "Owner-confirmed recording date is 2025-07-18. The source filename contains 2026-05-26 and is preserved as a filename-date discrepancy. Not currently linked to a specific seizure diary event.",
+  
+{
+  id: "VID-0001",
+  date: "2025-07-18",
+  category: "Video",
+  sourceFile: "Hope_fit_video 2026-05-25.mp4",
+  supports: [
+    "Primary owner-recorded video evidence",
+    "Video evidence from the 18 July 2025 seizure event sequence",
+    "Post-event/recovery observations requiring specialist review",
+  ],
+  status: "requires-review",
+  notes:
+    "Owner-confirmed video date is 2025-07-18. The current filename contains 2026-05-25; this filename-date discrepancy is preserved. Specialist review remains required.",
 },
 
   {
