@@ -483,6 +483,9 @@ export function buildReferralData(
 
         status:
           medication.status,
+
+        sourceFile:
+          medication.sourceFile,
       })
     ),
 

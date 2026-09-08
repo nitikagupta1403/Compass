@@ -21,10 +21,12 @@ type TreatmentRecord = {
   duration?: string;
   prescribedOn?: string;
   status?: string;
+  sourceFile?: string;
 };
 
 type TreatmentHistoryViewProps = {
   records: TreatmentRecord[];
+  shareToken?: string;
 };
 
 type TreatmentAccent =
@@ -37,6 +39,7 @@ type TreatmentAccent =
   
 export default function TreatmentHistoryView({
   records,
+  shareToken,
 }: TreatmentHistoryViewProps) {
 
   const [timeFilter, setTimeFilter] =
@@ -180,6 +183,7 @@ const switchTreatmentView = async (
                 );
 
           return {
+            neighborId,
             neighborName:
               neighbor?.name ?? neighborId,
             type: edge.type,
@@ -906,15 +910,7 @@ const switchTreatmentView = async (
             ? "record"
             : "records"}
         </span>
-
-        <a
-          href={`/patients/HOPE-001/evidence?treatment=${encodeURIComponent(
-          selectedNode.name
-        )}`}
-          className="text-xs font-semibold text-teal-800 underline-offset-4 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-500 focus-visible:ring-offset-2"
-        >
-          Open evidence index →
-        </a>
+        
       </div>
     </div>
 
@@ -929,10 +925,28 @@ const switchTreatmentView = async (
                 ? selectedRelationships
                 : selectedRelationships.slice(0, 3)
             ).map((relationship) => (
-        <div
+        <button
             key={`${relationship.neighborName}-${relationship.type}`}
-            className="rounded-xl border border-slate-100 bg-slate-50 px-4 py-3"
-        >
+            type="button"
+            onClick={() => {
+              const neighborIndex =
+                aggregatedNodes.findIndex(
+                  (node) =>
+                    node.id === relationship.neighborId
+                );
+
+              if (neighborIndex === -1) return;
+
+              setSelectedNodeIndex(neighborIndex);
+              setSelectedMatrixPair(null);
+              setShowAllRelationships(false);
+            }}
+            className="w-full rounded-xl border border-slate-100 bg-slate-50 px-4 py-3 text-left transition hover:-translate-y-0.5 hover:border-slate-200 hover:bg-white hover:shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-500 focus-visible:ring-offset-2"
+            style={{
+              cursor:
+                'url("/paw-cursor-pink.png") 16 16, pointer',
+            }}
+          >
         <span className="mr-2 rounded-full bg-slate-100 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-slate-600">
             {relationship.type === "same-family"
             ? "Family"
@@ -962,7 +976,7 @@ const switchTreatmentView = async (
                 {relationship.dates.join(" · ")}
             </p>
             )}
-        </div>
+        </button>
     ))}
 
     {selectedRelationships.length > 3 && (
@@ -1017,8 +1031,33 @@ const switchTreatmentView = async (
             {selectedNode.instances.map(
                 (instance) => (
                     <tr
-                    key={instance.id}
-                    className="hover:bg-slate-50/70"
+                      key={instance.id}
+                      onClick={() => {
+                        if (!instance.sourceFile) return;
+
+                        const shareQuery = shareToken
+                          ? `&share=${encodeURIComponent(shareToken)}`
+                          : "";
+
+                        window.location.href =
+                          `/patients/HOPE-001/evidence/source?source=${encodeURIComponent(
+                            instance.sourceFile
+                          )}${shareQuery}`;
+                      }}
+                      className={[
+                        "transition",
+                        instance.sourceFile
+                          ? "cursor-pointer hover:bg-slate-50"
+                          : "",
+                      ].join(" ")}
+                      style={
+                        instance.sourceFile
+                          ? {
+                              cursor:
+                                'url("/paw-cursor-pink.png") 16 16, pointer',
+                            }
+                          : undefined
+                      }
                     >
                     <td className="whitespace-nowrap px-4 py-3 font-semibold text-teal-800">
                         {instance.prescribedOn ??

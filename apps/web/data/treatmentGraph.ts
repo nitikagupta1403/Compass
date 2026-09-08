@@ -22,6 +22,7 @@ export type TreatmentNode = {
 
   prescribedOn?: string;
   status?: string;
+  sourceFile?: string;
 
   sourceRecordCount: number;
 };
@@ -53,7 +54,8 @@ export type TreatmentNode = {
         duration?: string;
         prescribedOn?: string;
         status?: string;
-        };
+        sourceFile?: string;
+      };
 
 export function buildTreatmentGraph(
     records: TreatmentRecordInput[]
@@ -71,6 +73,7 @@ export function buildTreatmentGraph(
       durationStatus: duration.status,
       prescribedOn: record.prescribedOn,
       status: record.status,
+      sourceFile: record.sourceFile,
       sourceRecordCount: 1,
     };
   });

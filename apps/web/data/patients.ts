@@ -33,6 +33,7 @@ const patients: Patient[] = [
         prescribedOn: "2025-06-05",
         status: "historical",
         evidenceStatus: "verified",
+        sourceFile: "Prescription_Hope_5_Jun_25.jpeg",
       },
       {
         name: "Rivotril",
@@ -43,6 +44,7 @@ const patients: Patient[] = [
         duration: "5 days",
         status: "historical",
         evidenceStatus: "verified",
+        sourceFile: "Prescription_Hope_21_June_25.pdf",
       },
       {
         name: "LEVEPIL",
@@ -53,6 +55,7 @@ const patients: Patient[] = [
         duration: "2 months",
         status: "historical",
         evidenceStatus: "verified",
+        sourceFile: "Prescription_Hope_24_july_25.pdf",
       },
       {
         name: "Gardenal",
@@ -63,6 +66,7 @@ const patients: Patient[] = [
         duration: "10 days",
         status: "historical",
         evidenceStatus: "verified",
+        sourceFile: "Prescription_Hope_22_jan_26.pdf",
       },
       {
         name: "Gardenal",
@@ -73,6 +77,7 @@ const patients: Patient[] = [
         duration: "10 days",
         status: "current-unconfirmed",
         evidenceStatus: "verified",
+        sourceFile: "Prescription_Hope_4_May_26.pdf",
       },
     ],
 

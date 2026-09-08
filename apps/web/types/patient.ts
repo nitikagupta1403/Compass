@@ -6,10 +6,15 @@ export type EvidenceStatus =
 
 export type Medication = {
   name: string;
+
   activeIngredient?: string;
+
   dose: string;
+
   frequency: string;
+
   prescribedOn?: string;
+
   duration?: string;
 
   status?:
@@ -18,6 +23,8 @@ export type Medication = {
     | "current-unconfirmed";
 
   evidenceStatus?: EvidenceStatus;
+
+  sourceFile?: string;
 };
 
 export type Diagnosis = {

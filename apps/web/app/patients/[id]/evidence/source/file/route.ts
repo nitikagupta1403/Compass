@@ -1,8 +1,8 @@
-import { readFile } from "fs/promises";
 import path from "path";
 import { NextRequest } from "next/server";
 
 import { verifyActiveShareToken } from "@/lib/shareAccess";
+import { supabaseAdmin } from "@/lib/supabaseAdmin";
 
 import {
   hopeEvidenceIndex,
@@ -10,6 +10,9 @@ import {
 } from "@/data/evidenceIndex";
 
 export const runtime = "nodejs";
+
+const STORAGE_BUCKET =
+  "hope-medical-record";
 
 export async function GET(
   request: NextRequest,
@@ -40,14 +43,13 @@ export async function GET(
   }
 
   /*
- * Shared-access gate:
- * if a share token is supplied, it must be valid,
- * unexpired, unrevoked, and bound to this patient.
- */
+   * Shared-access gate:
+   * if a share token is supplied, it must be valid,
+   * unexpired, unrevoked, and bound to this patient.
+   */
   if (share) {
-    const verifiedShare = share
-      ? await verifyActiveShareToken(share)
-      : null;
+    const verifiedShare =
+      await verifyActiveShareToken(share);
 
     if (
       !verifiedShare ||
@@ -93,65 +95,29 @@ export async function GET(
     });
   }
 
-  const root =
-    process.env.HOPE_MEDICAL_RECORD_ROOT;
-
-  if (!root) {
-    return new Response(
-      "Source storage not configured",
-      {
-        status: 500,
-      }
-    );
-  }
-
   /*
-   * Gate 3:
-   * Search only known clinical-source folders.
+   * For the first storage migration test,
+   * Jun_2026.pdf lives in:
+   *
+   * hope-medical-record/
+   * HOPE-001/
+   * prescriptions/
+   * Jun_2026.pdf
    */
-  const sourceFolders = [
-    root,
-    path.join(root, "01_Prescriptions"),
-    path.join(root, "02_Lab_Reports"),
-    path.join(root, "05_Videos"),
-  ];
+  const storagePath =
+    `HOPE-001/prescriptions/${safeFileName}`;
 
-  let filePath: string | null = null;
+  const { data, error } =
+    await supabaseAdmin.storage
+      .from(STORAGE_BUCKET)
+      .download(storagePath);
 
-  for (const folder of sourceFolders) {
-    const resolvedFolder =
-      path.resolve(folder);
+  if (error || !data) {
+    console.error(
+      "SUPABASE SOURCE DOWNLOAD ERROR:",
+      error
+    );
 
-    const candidate =
-      path.resolve(
-        resolvedFolder,
-        safeFileName
-      );
-
-    /*
-     * Defense in depth:
-     * candidate must remain inside
-     * the allowed folder.
-     */
-    if (
-      candidate !== resolvedFolder &&
-      !candidate.startsWith(
-        `${resolvedFolder}${path.sep}`
-      )
-    ) {
-      continue;
-    }
-
-    try {
-      await readFile(candidate);
-      filePath = candidate;
-      break;
-    } catch {
-      // Try the next allowed folder.
-    }
-  }
-
-  if (!filePath) {
     return new Response(
       "Source document not found",
       {
@@ -160,37 +126,28 @@ export async function GET(
     );
   }
 
-  try {
-    const file =
-      await readFile(filePath);
+  const fileBuffer =
+    Buffer.from(await data.arrayBuffer());
 
-    const contentType =
-      getContentType(safeFileName);
+  const contentType =
+    getContentType(safeFileName);
 
-    return new Response(file, {
-      headers: {
-        "Content-Type": contentType,
+  return new Response(fileBuffer, {
+    headers: {
+      "Content-Type": contentType,
 
-        "Content-Disposition":
-          `inline; filename*=UTF-8''${encodeURIComponent(
-            safeFileName
-          )}`,
+      "Content-Disposition":
+        `inline; filename*=UTF-8''${encodeURIComponent(
+          safeFileName
+        )}`,
 
-        "Cache-Control":
-          "private, no-store, max-age=0",
+      "Cache-Control":
+        "private, no-store, max-age=0",
 
-        "X-Content-Type-Options":
-          "nosniff",
-      },
-    });
-  } catch {
-    return new Response(
-      "Source document not found",
-      {
-        status: 404,
-      }
-    );
-  }
+      "X-Content-Type-Options":
+        "nosniff",
+    },
+  });
 }
 
 function evidenceContainsSource(

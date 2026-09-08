@@ -72,8 +72,10 @@ treatmentHistory: {
   activeIngredient?: string;
   dose: string;
   frequency: string;
+  duration?: string;
   prescribedOn?: string;
   status?: string;
+  sourceFile?: string;
 }[];
 
 treatment: {
@@ -147,17 +149,14 @@ export default function CasePanorama({
   videoEvidence,
   questions,
 }: CasePanoramaProps) {
-    const [level, setLevel] = useState<DepthLevel>("hope");
+  const [level, setLevel] =
+    useState<DepthLevel>("hope");
 
-    const [evidenceContext, setEvidenceContext] =
-      useState<
-        "treatment" | "first-event" | "patterns" | null
-      >(null);
+  const [focusedEvidence, setFocusedEvidence] =
+    useState<EvidenceRecord | null>(null);
 
-    const [focusedEvidence, setFocusedEvidence] =
-      useState<EvidenceRecord | null>(null);
-
-    const cameraRef = useRef<HTMLDivElement>(null);
+  const cameraRef =
+    useRef<HTMLDivElement>(null);
 
     const moveCamera = async (
       nextLevel: DepthLevel,
@@ -317,11 +316,20 @@ if (level === "first-event") {
         title="The story begins"
         subtitle="The first clinical landmark"
         trail={[
-          { label: "Hope", onClick: () => setLevel("hope") },
-          { label: "Story", onClick: () => moveCamera("know-more", "in")},
+          {
+            label: "Hope",
+            onClick: () => setLevel("hope"),
+          },
+          {
+            label: "Story",
+            onClick: () =>
+              moveCamera("know-more", "out"),
+          },
           { label: "First Event" },
         ]}
-        onZoomOut={() => moveCamera("know-more", "out")}
+        onZoomOut={() =>
+          moveCamera("know-more", "out")
+        }
       >
         <FirstEventChronologyView
           firstEventDate={story.firstEventDate}
@@ -329,10 +337,6 @@ if (level === "first-event") {
           onDiscoverPatterns={() =>
             moveCamera("patterns", "in")
           }
-          onSeeEvidence={() => {
-            setEvidenceContext("first-event");
-            moveCamera("evidence", "out");
-          }}
         />
       </JourneyShell>
     </div>
@@ -360,60 +364,72 @@ if (level === "patterns") {
           moveCamera("first-event", "out")
         }
       >
-        <PatternsView
+       <PatternsView
           uniqueEventDays={story.uniqueEventDays}
           multiEventDays={story.multiEventDays}
           totalLoggedEvents={story.totalLoggedEvents}
           maxEventsInOneDay={story.maxEventsInOneDay}
           sleepAssociatedEvents={story.sleepAssociatedEvents}
-          symptomaticOnlyEvents={story.symptomaticOnlyEvents}
+          symptomaticOnlyEvents={
+            story.symptomaticOnlyEvents
+          }
           onFollowTreatment={() =>
             moveCamera("treatment", "in")
           }
-          onSeeEvidence={() => {
-            setEvidenceContext("patterns");
-            moveCamera("evidence", "out");
-          }}
         />
       </JourneyShell>
     </div>
   );
 }
-    if (level === "treatment") {
-      return (
-        <div ref={cameraRef} className="origin-center">
-          <JourneyShell
-            eyebrow="Treatment"
-            title="What changed?"
-            subtitle="The treatment landmark"
-            trail={[
-              { label: "Hope", onClick: () => setLevel("hope") },
-              { label: "Story", onClick: () => moveCamera("know-more", "in") },
-              { label: "First Event", onClick: () => setLevel("first-event") },
-              {
-                label: "Patterns",
-                onClick: () =>
-                  moveCamera("patterns", "out"),
-              },
-              { label: "Treatment" },
-            ]}
-            onZoomOut={() =>
-              moveCamera("patterns", "out")
-            }
-          >
-          <TreatmentView
-            daily={treatment.daily}
-            sos={treatment.sos}
-            emergency={treatment.emergency}
-            onSeeHistory={() =>
-              moveCamera("treatment-history", "in")
-            }
-            onSeeEvidence={() => {
-              setEvidenceContext("treatment");
-              moveCamera("evidence", "in");
-            }}
-          />
-              </JourneyShell>
+
+if (level === "treatment") {
+  return (
+    <div ref={cameraRef} className="origin-center">
+      <JourneyShell
+        eyebrow="Treatment"
+        title="What changed?"
+        subtitle="The treatment landmark"
+        trail={[
+          {
+            label: "Hope",
+            onClick: () => setLevel("hope"),
+          },
+          {
+            label: "Story",
+            onClick: () =>
+              moveCamera("know-more", "out"),
+          },
+          {
+            label: "First Event",
+            onClick: () =>
+              moveCamera("first-event", "out"),
+          },
+          {
+            label: "Patterns",
+            onClick: () =>
+              moveCamera("patterns", "out"),
+          },
+          { label: "Treatment" },
+        ]}
+        onZoomOut={() =>
+          moveCamera("patterns", "out")
+        }
+      >
+        <TreatmentView
+          daily={treatment.daily}
+          sos={treatment.sos}
+          emergency={treatment.emergency}
+          onSeeHistory={() =>
+            moveCamera(
+              "treatment-history",
+              "in"
+            )
+          }
+          onSeeEvidence={() =>
+            moveCamera("evidence", "in")
+          }
+        />
+      </JourneyShell>
     </div>
   );
 }
@@ -458,6 +474,7 @@ if (level === "patterns") {
       >
         <TreatmentHistoryView
           records={treatmentHistory}
+          shareToken={shareToken}
         />
       </JourneyShell>
     </div>
@@ -465,99 +482,68 @@ if (level === "patterns") {
 }
 
 if (level === "evidence") {
-    const evidenceTitle =
-      evidenceContext === "treatment"
-      ? "Evidence beneath treatment"
-      : evidenceContext === "first-event"
-      ? "Evidence beneath the first events"
-      : evidenceContext === "patterns"
-      ? "Evidence beneath the patterns"
-      : "Evidence beneath the story";
-
-  const evidenceSubtitle =
-    evidenceContext === "treatment"
-      ? "Open the records that support the documented treatment history"
-      : evidenceContext === "first-event"
-      ? "Open the records that support the beginning of Hope’s story"
-      : evidenceContext === "patterns"
-      ? "Open the records that support Hope’s longitudinal event patterns"
-      : "Open the records that support each layer";
-
-const evidenceTrail: JourneyTrailItem[] =
-  evidenceContext === "treatment"
-    ? [
-        { label: "Hope", onClick: () => setLevel("hope") },
-        { label: "Story", onClick: () => moveCamera("know-more", "in") },
-        { label: "First Event", onClick: () => setLevel("first-event") },
-        { label: "Patterns", onClick: () => setLevel("patterns") },
-        { label: "Treatment", onClick: () => setLevel("treatment") },
-        { label: "Evidence" },
-      ]
-    : evidenceContext === "patterns"
-    ? [
-        { label: "Hope", onClick: () => setLevel("hope") },
-        { label: "Story", onClick: () => moveCamera("know-more", "in") },
-        { label: "First Event", onClick: () => setLevel("first-event") },
-        { label: "Patterns", onClick: () => setLevel("patterns") },
-        { label: "Evidence" },
-      ]
-    : evidenceContext === "first-event"
-    ? [
-        { label: "Hope", onClick: () => setLevel("hope") },
-        { label: "Story", onClick: () => moveCamera("know-more", "in") },
-        { label: "First Event", onClick: () => setLevel("first-event") },
-        { label: "Evidence" },
-      ]
-    
-    : [
-        { label: "Hope", onClick: () => setLevel("hope") },
-        { label: "Story", onClick: () => moveCamera("know-more", "in") },
-        { label: "Evidence" },
-      ];
-
-    const evidenceZoomOut = () => {
-      if (evidenceContext === "first-event") {
-        moveCamera("first-event", "out");
-        return;
-      }
-
-      if (evidenceContext === "patterns") {
-        moveCamera("patterns", "out");
-        return;
-      }
-
-      moveCamera("treatment", "out");
-    };
   return (
     <div ref={cameraRef} className="origin-center">
       <JourneyShell
         eyebrow="Evidence"
-        title={evidenceTitle}
-        subtitle={evidenceSubtitle}
-        trail={evidenceTrail}
-        onZoomOut={evidenceZoomOut}
+        title="Clinical evidence"
+        subtitle="Inspect the records behind Hope’s clinical story"
+        trail={[
+          {
+            label: "Hope",
+            onClick: () => setLevel("hope"),
+          },
+          {
+            label: "Story",
+            onClick: () =>
+              moveCamera("know-more", "out"),
+          },
+          {
+            label: "First Event",
+            onClick: () =>
+              moveCamera("first-event", "out"),
+          },
+          {
+            label: "Patterns",
+            onClick: () =>
+              moveCamera("patterns", "out"),
+          },
+          {
+            label: "Treatment",
+            onClick: () =>
+              moveCamera("treatment", "out"),
+          },
+          { label: "Evidence" },
+        ]}
+        onZoomOut={() =>
+          moveCamera("treatment", "out")
+        }
         depth="evidence"
       >
-
-    <EvidenceLandingView
-      laboratoryGroups={evidence.laboratoryGroups}
-      drugMonitoring={evidence.drugMonitoring}
-      videos={evidence.videos}
-      questions={questions}
-      context={evidenceContext}
-      onOpenLaboratory={() =>
-        moveCamera("laboratory", "in")
-      }
-
-      onOpenDrugMonitoring={() =>
-        moveCamera("drug-monitoring", "in")
-      }
-
-      onOpenVideos={() =>
-        moveCamera("videos", "in")
-      }
-    />
-              </JourneyShell>
+        <EvidenceLandingView
+          laboratoryGroups={
+            evidence.laboratoryGroups
+          }
+          drugMonitoring={
+            evidence.drugMonitoring
+          }
+          videos={evidence.videos}
+          questions={questions}
+          context="treatment"
+          onOpenLaboratory={() =>
+            moveCamera("laboratory", "in")
+          }
+          onOpenDrugMonitoring={() =>
+            moveCamera(
+              "drug-monitoring",
+              "in"
+            )
+          }
+          onOpenVideos={() =>
+            moveCamera("videos", "in")
+          }
+        />
+      </JourneyShell>
     </div>
   );
 }
