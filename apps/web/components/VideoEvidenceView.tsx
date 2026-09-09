@@ -111,14 +111,15 @@ export default function VideoEvidenceView({
                 <a
                   href={
                     `/patients/${patientId}/evidence/source?source=${encodeURIComponent(
-                        record.sourceFile
-                        )}&returnLevel=videos` +
+                      record.sourceFile
+                    )}&returnLevel=videos` +
                     (shareToken
                       ? `&share=${encodeURIComponent(
                           shareToken
                         )}`
                       : "")
                   }
+                        
                   className="text-sm font-semibold text-teal-800 underline-offset-4 hover:underline"
                   style={{
                     cursor:

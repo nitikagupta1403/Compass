@@ -778,7 +778,7 @@ export function clusterTreatmentGraphByModularity(
         );
     }
 
-    let communities = Array.from(
+    const communities = Array.from(
         { length: n },
         (_, index) => index
     );

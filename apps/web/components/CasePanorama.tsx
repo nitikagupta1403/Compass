@@ -281,9 +281,9 @@ export default function CasePanorama({
 
             <div className="mt-10 flex justify-center">
               <JourneyButton
-                  onClick={() => moveCamera("know-more", "in")}
-                  label="Explore Hope's Story →"
-                />
+                onClick={() => moveCamera("know-more", "in")}
+                label="Explore Hope's Story →"
+              />
             </div>
           </div>
         </div>

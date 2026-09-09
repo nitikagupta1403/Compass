@@ -54,7 +54,7 @@ export default async function EvidenceSourcePage({
    * The evidence index used by this route currently belongs
    * specifically to Hope.
    *
-   * Do not allow another patient route to resolve Hope's
+   * Do not allow another patient route to resolve {"Hope's"}
    * indexed source records.
    */
   if (patient.id !== "HOPE-001") {
