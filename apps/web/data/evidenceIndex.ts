@@ -21,9 +21,17 @@ export type EvidenceIndexItem = {
 export const hopeEvidenceIndex: EvidenceIndexItem[] = [
   {
     id: "EV-0001",
+
     date: "2025-05-28",
+
     category: "Owner Diary",
+
     sourceFile: "Hope_seizure_log.pages",
+
+    sourceFiles: [
+      "03_Hope_Seizure_Diary_updated.pdf",
+    ],
+
     supports: [
       "Longitudinal seizure and symptomatic-event history",
       "Event dates and times",
@@ -32,14 +40,24 @@ export const hopeEvidenceIndex: EvidenceIndexItem[] = [
       "Multi-event day pattern",
       "Owner-described semiology",
     ],
+
     status: "owner-reported",
+
+    notes:
+      "Primary owner-maintained diary source is Hope_seizure_log.pages. 03_Hope_Seizure_Diary_updated.pdf is a Compass PDF export/continuation of the owner diary and is preserved as a separate source representation.",
   },
 
   {
     id: "EV-0002",
     date: "2025-06-05",
     category: "Clinical Record",
+
     sourceFile: "Prescription_Hope_5_Jun_25.jpeg",
+
+    sourceFiles: [
+      "Prescription_Hope_5_June_back_25.jpeg",
+    ],
+
     supports: [
       "First clinically documented seizure history",
       "Stiffened forelegs and drooling",
@@ -47,6 +65,7 @@ export const hopeEvidenceIndex: EvidenceIndexItem[] = [
       "Idiopathic epilepsy suspected",
       "Levetiracetam treatment documented",
     ],
+
     status: "verified",
   },
 
@@ -106,10 +125,10 @@ export const hopeEvidenceIndex: EvidenceIndexItem[] = [
     id: "EV-0007",
     date: "2026-05-04",
     category: "Prescription",
-    sourceFile: "Prescription_Hope_4_May_26.jpeg",
+    sourceFile: "Prescription_Hope_4_May_26.pdf",
     supports: [
       "Phenobarbital regimen documented",
-      "Gardenal 30 mg prescription",
+      "Gardenal 30 mg, 2 tablets morning and 2 tablets night documented",
     ],
     status: "verified",
   },
