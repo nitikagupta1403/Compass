@@ -146,7 +146,7 @@ export const hopeEvidenceIndex: EvidenceIndexItem[] = [
   supports: [
     "Weight documented as 19 kg",
     "Epihat 3/4 tablet SOS documented",
-    "Clonazepam advised to stop",
+    "Clonazepam advised to stop; source spelling 'Clonazipam' preserved in provenance",
     "Medazolam intranasal emergency instruction documented",
     "Gardenal 60 mg one tablet twice daily documented",
   ],
@@ -154,7 +154,7 @@ export const hopeEvidenceIndex: EvidenceIndexItem[] = [
   status: "verified",
 
   notes:
-    "Clinical review dated 20 June 2026. Source wording is preserved where clinically important.",
+    "Clinical review dated 20 June 2026. Source wording is preserved where clinically important, including Medazolam and the source spelling 'Clonazipam'.",
 },
 
   {
