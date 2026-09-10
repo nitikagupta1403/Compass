@@ -1,0 +1,45 @@
+[
+  {
+    "id": "VID-0001",
+    "patientId": "HOPE-001",
+    "date": "2025-07-18",
+    "time": "08:30:03",
+    "sourceFile": "Hope_fit_video 2026-05-25.mp4",
+    "sourceType": "owner-video",
+    "verification": "verified-from-primary-video",
+    "durationSeconds": 166.565,
+    "eventLinkStatus": "unlinked",
+    "linkedSeizureEventId": null,
+    "clinicalContext": "suspected-post-event-recovery",
+    "observedEvidence": "Video documentation of Hope during a suspected post-event/recovery period.",
+    "seizureOnsetCaptured": false,
+    "seizureClassificationAssigned": false,
+    "specialistReviewRequired": true,
+    "sourceDiscrepancy": {
+    "field": "date",
+    "canonicalValue": "2025-07-18",
+    "conflictingSourceValue": "2026-05-26",
+    "source": "video filename",
+    "resolution": "Canonical recording date is owner-confirmed; conflicting filename date retained for auditability."
+  },
+    "notes": "Owner confirms this video was recorded on 18 Jul 2025. The filename contains a conflicting 26 May 2026 date. No specific seizure-diary event has been reliably linked to this video."
+  },
+  {
+    "id": "VID-0002",
+    "patientId": "HOPE-001",
+    "date": "2026-05-26",
+    "time": "12:07:46",
+    "sourceFile": "Hope_fit_video 2026-05-26 at 12.07.46.mp4",
+    "sourceType": "owner-video",
+    "verification": "verified-from-primary-video",
+    "durationSeconds": 23.896,
+    "eventLinkStatus": "unlinked",
+    "linkedSeizureEventId": null,
+    "clinicalContext": "suspected-post-event-recovery",
+    "observedEvidence": "Video documentation of Hope during a suspected post-event/recovery period.",
+    "seizureOnsetCaptured": false,
+    "seizureClassificationAssigned": false,
+    "specialistReviewRequired": true,
+    "notes": "No specific seizure-diary event has been reliably linked to this video. Compass does not independently classify seizure type or infer seizure onset from this recording."
+  }
+]

@@ -1,0 +1,34 @@
+[
+  {
+    "id": "EV-0001",
+    "type": "OwnerNotes",
+    "title": "Hope Seizure Log",
+    "date": null,
+    "sourceFile": "Hope_seizure_log.pages",
+    "status": "PendingExtraction"
+  },
+  {
+    "id": "EV-0002",
+    "type": "Prescription",
+    "title": "Veterinary Prescription",
+    "date": null,
+    "sourceFile": "Prescription_Hope_5_Jun_25.jpeg",
+    "status": "PendingExtraction"
+  },
+  {
+    "id": "EV-0003",
+    "type": "Prescription",
+    "title": "Veterinary Prescription",
+    "date": null,
+    "sourceFile": "Prescription_Hope_21_June_25.pdf",
+    "status": "PendingExtraction"
+  },
+  {
+    "id": "EV-0004",
+    "type": "ECG",
+    "title": "ECG",
+    "date": null,
+    "sourceFile": "ECG_Hope.jpeg",
+    "status": "PendingExtraction"
+  }
+]

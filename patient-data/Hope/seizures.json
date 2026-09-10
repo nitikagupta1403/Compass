@@ -1,0 +1,770 @@
+[
+  {
+    "id": "SZ-0001",
+    "patientId": "HOPE-001",
+    "date": "2025-05-28",
+    "time": "07:00",
+    "duration": "3-4 min",
+    "notes": "First owner-recorded event. Not reported to the veterinarian until after the subsequent events on 4 Jun 2025.",
+    "source": "Hope_seizure_log.pages",
+    "certainty": "owner-logged",
+    "context": "before morning walk; after sniffing lift"
+  },
+  {
+    "id": "SZ-0002",
+    "patientId": "HOPE-001",
+    "date": "2025-06-04",
+    "time": "01:00",
+    "duration": "2-3 min",
+    "context": "sleep",
+    "notes": "Owner-recorded event during sleep.",
+    "source": "Hope_seizure_log.pages",
+    "certainty": "owner-logged"
+  },
+  {
+    "id": "SZ-0003",
+    "patientId": "HOPE-001",
+    "date": "2025-06-04",
+    "time": "05:00",
+    "duration": "3-4 min",
+    "context": "sleep",
+    "notes": "Owner-recorded event during sleep.",
+    "source": "Hope_seizure_log.pages",
+    "certainty": "owner-logged"
+  },
+  {
+    "id": "SZ-0004",
+    "patientId": "HOPE-001",
+    "date": "2025-06-05",
+    "time": "17:30",
+    "duration": "4-5 min",
+    "context": "sleep",
+    "notes": "In sleep; 2 min no breathing; turned blue; medication started",
+    "source": "Hope_seizure_log.pages",
+    "certainty": "owner-logged"
+  },
+  {
+    "id": "SZ-0005",
+    "patientId": "HOPE-001",
+    "date": "2025-06-11",
+    "time": "17:30",
+    "duration": "2-3 min",
+    "context": "sleep",
+    "notes": "In sleep; scared of loud sound; conscious after; no aggression or memory loss reported",
+    "source": "Hope_seizure_log.pages",
+    "certainty": "owner-logged"
+  },
+  {
+    "id": "SZ-0006",
+    "patientId": "HOPE-001",
+    "date": "2025-06-12",
+    "time": "06:00",
+    "duration": "3-4 min",
+    "context": "sleep",
+    "notes": "In sleep; video shared",
+    "source": "Hope_seizure_log.pages",
+    "certainty": "owner-logged"
+  },
+  {
+    "id": "SZ-0007",
+    "patientId": "HOPE-001",
+    "date": "2025-06-21",
+    "time": "07:45",
+    "duration": "3-4 min",
+    "notes": "Tried hard to stand; scared of construction noise; whining throughout",
+    "source": "Hope_seizure_log.pages",
+    "certainty": "owner-logged"
+  },
+  {
+    "id": "SZ-0008",
+    "patientId": "HOPE-001",
+    "date": "2025-06-21",
+    "time": "17:45",
+    "duration": "3-4 min",
+    "context": "half asleep",
+    "notes": "Restless for about an hour before attack",
+    "source": "Hope_seizure_log.pages",
+    "certainty": "owner-logged"
+  },
+  {
+    "id": "SZ-0009",
+    "patientId": "HOPE-001",
+    "date": "2025-06-25",
+    "time": "15:30",
+    "duration": "~1 min",
+    "motorSigns": [
+      "cycling"
+    ],
+    "notes": "Mouth sound, cycling",
+    "source": "Hope_seizure_log.pages",
+    "certainty": "owner-logged"
+  },
+  {
+    "id": "SZ-0010",
+    "patientId": "HOPE-001",
+    "date": "2025-06-26",
+    "time": "14:45",
+    "duration": "~30 sec",
+    "motorSigns": [
+      "cycling"
+    ],
+    "notes": "Mouth sounds, cycling",
+    "source": "Hope_seizure_log.pages",
+    "certainty": "owner-logged"
+  },
+  {
+    "id": "SZ-0011",
+    "patientId": "HOPE-001",
+    "date": "2025-06-29",
+    "time": "14:45",
+    "duration": "~20 sec",
+    "notes": "Mouth sound, foot stretch",
+    "source": "Hope_seizure_log.pages",
+    "certainty": "owner-logged"
+  },
+  {
+    "id": "SZ-0012",
+    "patientId": "HOPE-001",
+    "date": "2025-06-30",
+    "time": "03:00",
+    "duration": "~1 min",
+    "motorSigns": [
+      "head shaking"
+    ],
+    "notes": "Head shaking",
+    "source": "Hope_seizure_log.pages",
+    "certainty": "owner-logged"
+  },
+  {
+    "id": "SZ-0013",
+    "patientId": "HOPE-001",
+    "date": "2025-07-08",
+    "time": "01:30",
+    "duration": "1-2 min",
+    "motorSigns": [
+      "head shaking",
+      "feet cycling"
+    ],
+    "notes": "Started with sounds, head shake, feet cycling",
+    "source": "Hope_seizure_log.pages",
+    "certainty": "owner-logged"
+  },
+  {
+    "id": "SZ-0014",
+    "patientId": "HOPE-001",
+    "date": "2025-07-18",
+    "time": "08:15",
+    "duration": "2 min",
+    "notes": "Quite severe like first times",
+    "source": "Hope_seizure_log.pages",
+    "certainty": "owner-logged"
+  },
+  {
+    "id": "SZ-0015",
+    "patientId": "HOPE-001",
+    "date": "2025-07-18",
+    "time": "08:30",
+    "duration": "3.5-4 min",
+    "notes": "Video available. Started with a cry-like uneasy sound",
+    "source": "Hope_seizure_log.pages",
+    "certainty": "owner-logged"
+  },
+  {
+    "id": "SZ-0016",
+    "patientId": "HOPE-001",
+    "date": "2025-07-19",
+    "time": "07:00",
+    "duration": "3-4 min",
+    "source": "Hope_seizure_log.pages",
+    "certainty": "owner-logged"
+  },
+  {
+    "id": "SZ-0017",
+    "patientId": "HOPE-001",
+    "date": "2025-07-29",
+    "time": "19:06",
+    "duration": "3-4 min",
+    "source": "Hope_seizure_log.pages",
+    "certainty": "owner-logged"
+  },
+  {
+    "id": "SZ-0018",
+    "patientId": "HOPE-001",
+    "date": "2025-08-07",
+    "time": "12:17",
+    "duration": null,
+    "notes": "Bad one",
+    "source": "Hope_seizure_log.pages",
+    "certainty": "owner-logged"
+  },
+  {
+    "id": "SZ-0019",
+    "patientId": "HOPE-001",
+    "date": "2025-08-07",
+    "time": "15:54",
+    "duration": "3 min",
+    "source": "Hope_seizure_log.pages",
+    "certainty": "owner-logged"
+  },
+  {
+    "id": "SZ-0020",
+    "patientId": "HOPE-001",
+    "date": "2025-08-08",
+    "time": "06:45",
+    "duration": "4 min",
+    "source": "Hope_seizure_log.pages",
+    "certainty": "owner-logged"
+  },
+  {
+    "id": "SZ-0021",
+    "patientId": "HOPE-001",
+    "date": "2025-08-19",
+    "time": "16:30",
+    "duration": "2 min",
+    "source": "Hope_seizure_log.pages",
+    "certainty": "owner-logged"
+  },
+  {
+    "id": "SZ-0022",
+    "patientId": "HOPE-001",
+    "date": "2025-08-19",
+    "time": "16:49",
+    "duration": "3 min",
+    "source": "Hope_seizure_log.pages",
+    "certainty": "owner-logged"
+  },
+  {
+    "id": "SZ-0023",
+    "patientId": "HOPE-001",
+    "date": "2025-09-04",
+    "time": "09:30",
+    "duration": "3-4 min",
+    "source": "Hope_seizure_log.pages",
+    "certainty": "owner-logged"
+  },
+  {
+    "id": "SZ-0024",
+    "patientId": "HOPE-001",
+    "date": "2025-09-21",
+    "time": "09:00",
+    "duration": null,
+    "context": "urination",
+    "notes": "While peeing",
+    "source": "Hope_seizure_log.pages",
+    "certainty": "owner-logged"
+  },
+  {
+    "id": "SZ-0025",
+    "patientId": "HOPE-001",
+    "date": "2025-09-21",
+    "time": "10:27",
+    "duration": null,
+    "source": "Hope_seizure_log.pages",
+    "certainty": "owner-logged"
+  },
+  {
+    "id": "SZ-0026",
+    "patientId": "HOPE-001",
+    "date": "2025-09-21",
+    "time": "14:20",
+    "duration": null,
+    "source": "Hope_seizure_log.pages",
+    "certainty": "owner-logged"
+  },
+  {
+    "id": "SZ-0027",
+    "patientId": "HOPE-001",
+    "date": "2025-10-14",
+    "time": "10:30",
+    "duration": "2-3 min",
+    "source": "Hope_seizure_log.pages",
+    "certainty": "owner-logged"
+  },
+  {
+    "id": "SZ-0028",
+    "patientId": "HOPE-001",
+    "date": "2025-10-14",
+    "time": "15:30",
+    "duration": "3 min",
+    "source": "Hope_seizure_log.pages",
+    "certainty": "owner-logged"
+  },
+  {
+    "id": "SZ-0029",
+    "patientId": "HOPE-001",
+    "date": "2025-10-24",
+    "time": "09:00",
+    "duration": "2 min",
+    "source": "Hope_seizure_log.pages",
+    "certainty": "owner-logged"
+  },
+  {
+    "id": "SZ-0030",
+    "patientId": "HOPE-001",
+    "date": "2025-10-24",
+    "time": "09:10",
+    "duration": "3 min",
+    "source": "Hope_seizure_log.pages",
+    "certainty": "owner-logged"
+  },
+  {
+    "id": "SZ-0031",
+    "patientId": "HOPE-001",
+    "date": "2025-10-24",
+    "time": "14:20",
+    "duration": "3 min",
+    "source": "Hope_seizure_log.pages",
+    "certainty": "owner-logged"
+  },
+  {
+    "id": "SZ-0032",
+    "patientId": "HOPE-001",
+    "date": "2025-10-24",
+    "time": "18:30",
+    "duration": "3 min",
+    "source": "Hope_seizure_log.pages",
+    "certainty": "owner-logged"
+  },
+  {
+    "id": "SZ-0033",
+    "patientId": "HOPE-001",
+    "date": "2025-11-04",
+    "time": "00:45",
+    "duration": "3 min",
+    "notes": "Okay severity",
+    "source": "Hope_seizure_log.pages",
+    "certainty": "owner-logged"
+  },
+  {
+    "id": "SZ-0034",
+    "patientId": "HOPE-001",
+    "date": "2025-11-04",
+    "time": "01:00",
+    "duration": "4 min",
+    "notes": "Very severe, tough to get back",
+    "source": "Hope_seizure_log.pages",
+    "certainty": "owner-logged"
+  },
+  {
+    "id": "SZ-0035",
+    "patientId": "HOPE-001",
+    "date": "2025-11-04",
+    "time": "01:20",
+    "duration": "3 min",
+    "notes": "Blood from mouth",
+    "source": "Hope_seizure_log.pages",
+    "certainty": "owner-logged"
+  },
+  {
+    "id": "SZ-0036",
+    "patientId": "HOPE-001",
+    "date": "2025-11-04",
+    "time": "06:00",
+    "duration": "3 min",
+    "notes": "Okay to severe",
+    "source": "Hope_seizure_log.pages",
+    "certainty": "owner-logged"
+  },
+  {
+    "id": "SZ-0037",
+    "patientId": "HOPE-001",
+    "date": "2025-11-18",
+    "time": "23:05",
+    "duration": "2 min",
+    "context": "sleep",
+    "notes": "In sleep",
+    "source": "Hope_seizure_log.pages",
+    "certainty": "owner-logged"
+  },
+  {
+    "id": "SZ-0038",
+    "patientId": "HOPE-001",
+    "date": "2025-11-18",
+    "time": "23:30",
+    "duration": "3 min",
+    "notes": "Severe. Blood from mouth",
+    "source": "Hope_seizure_log.pages",
+    "certainty": "owner-logged"
+  },
+  {
+    "id": "SZ-0039",
+    "patientId": "HOPE-001",
+    "date": "2025-11-18",
+    "time": "00:30",
+    "duration": "3-4 min",
+    "notes": "Very severe, tough to get back, lots of blood from mouth",
+    "source": "Hope_seizure_log.pages",
+    "certainty": "owner-logged",
+    "dataQualityNote": "Date/time retained exactly from source; chronology requires verification."
+  },
+  {
+    "id": "SZ-0040",
+    "patientId": "HOPE-001",
+    "date": "2025-11-18",
+    "time": "07:00",
+    "duration": "2-3 min",
+    "notes": "Okay severe",
+    "source": "Hope_seizure_log.pages",
+    "certainty": "owner-logged"
+  },
+  {
+    "id": "SZ-0041",
+    "patientId": "HOPE-001",
+    "date": "2025-12-09",
+    "time": "17:30",
+    "duration": "3 min",
+    "notes": "Severe. Blood from mouth",
+    "source": "Hope_seizure_log.pages",
+    "certainty": "owner-logged"
+  },
+  {
+    "id": "SZ-0042",
+    "patientId": "HOPE-001",
+    "date": "2025-12-09",
+    "time": "18:00",
+    "duration": "2 min",
+    "notes": "Okay severity",
+    "source": "Hope_seizure_log.pages",
+    "certainty": "owner-logged"
+  },
+  {
+    "id": "SZ-0043",
+    "patientId": "HOPE-001",
+    "date": "2025-12-10",
+    "time": "02:00",
+    "duration": "3 min",
+    "notes": "Severe",
+    "source": "Hope_seizure_log.pages",
+    "certainty": "owner-logged"
+  },
+  {
+    "id": "SZ-0044",
+    "patientId": "HOPE-001",
+    "date": "2025-12-14",
+    "time": "19:06",
+    "duration": "2 min",
+    "notes": "Severe",
+    "source": "Hope_seizure_log.pages",
+    "certainty": "owner-logged"
+  },
+  {
+    "id": "SZ-0045",
+    "patientId": "HOPE-001",
+    "date": "2025-12-14",
+    "time": "19:30",
+    "duration": "3 min",
+    "notes": "Severe",
+    "source": "Hope_seizure_log.pages",
+    "certainty": "owner-logged"
+  },
+  {
+    "id": "SZ-0046",
+    "patientId": "HOPE-001",
+    "date": "2025-12-30",
+    "time": "21:10",
+    "duration": "3 min",
+    "notes": "Okay severe",
+    "source": "Hope_seizure_log.pages",
+    "certainty": "owner-logged"
+  },
+  {
+    "id": "SZ-0047",
+    "patientId": "HOPE-001",
+    "date": "2025-12-30",
+    "time": "21:20",
+    "duration": "2 min",
+    "notes": "Okay severe",
+    "source": "Hope_seizure_log.pages",
+    "certainty": "owner-logged"
+  },
+  {
+    "id": "SZ-0048",
+    "patientId": "HOPE-001",
+    "date": "2025-12-31",
+    "time": "17:00",
+    "duration": "3 min",
+    "notes": "Okay severe",
+    "source": "Hope_seizure_log.pages",
+    "certainty": "owner-logged"
+  },
+  {
+    "id": "SZ-0049",
+    "patientId": "HOPE-001",
+    "date": "2026-01-13",
+    "time": null,
+    "duration": null,
+    "eventType": "prodromal-or-symptomatic-event",
+    "notes": "Gave SOS as was symptomatic",
+    "source": "Hope_seizure_log.pages",
+    "certainty": "owner-logged"
+  },
+  {
+    "id": "SZ-0050",
+    "patientId": "HOPE-001",
+    "date": "2026-01-20",
+    "time": "18:45",
+    "duration": "3 min",
+    "source": "Hope_seizure_log.pages",
+    "certainty": "owner-logged"
+  },
+  {
+    "id": "SZ-0051",
+    "patientId": "HOPE-001",
+    "date": "2026-01-20",
+    "time": "19:00",
+    "duration": "5 min",
+    "postIctalSigns": [
+      "unable to stand for 2-3 min"
+    ],
+    "source": "Hope_seizure_log.pages",
+    "certainty": "owner-logged"
+  },
+  {
+    "id": "SZ-0052",
+    "patientId": "HOPE-001",
+    "date": "2026-02-18",
+    "time": "10:00",
+    "duration": null,
+    "eventType": "fit-symptoms",
+    "rescueMedication": "SOS given",
+    "notes": "Fit Symptoms; gave SOS as was symptomatic",
+    "source": "Hope_seizure_log.pages",
+    "certainty": "owner-logged"
+  },
+  {
+    "id": "SZ-0053",
+    "patientId": "HOPE-001",
+    "date": "2026-03-04",
+    "time": "09:00",
+    "duration": null,
+    "eventType": "fit-symptoms",
+    "rescueMedication": "SOS given",
+    "notes": "Fit Symptoms; gave SOS as was symptomatic",
+    "source": "Hope_seizure_log.pages",
+    "certainty": "owner-logged"
+  },
+  {
+    "id": "SZ-0054",
+    "patientId": "HOPE-001",
+    "date": "2026-03-04",
+    "time": "18:40",
+    "duration": "3 min",
+    "notes": "Severe",
+    "source": "Hope_seizure_log.pages",
+    "certainty": "owner-logged"
+  },
+  {
+    "id": "SZ-0055",
+    "patientId": "HOPE-001",
+    "date": "2026-03-31",
+    "time": "09:00",
+    "duration": "5 min",
+    "notes": "Severe. Blood from mouth",
+    "source": "Hope_seizure_log.pages",
+    "certainty": "owner-logged"
+  },
+  {
+    "id": "SZ-0056",
+    "patientId": "HOPE-001",
+    "date": "2026-03-31",
+    "time": "11:00",
+    "duration": "5 min",
+    "motorSigns": [
+      "head shaking",
+      "feet cycling"
+    ],
+    "notes": "Started with sounds, head shake, feet cycling",
+    "source": "Hope_seizure_log.pages",
+    "certainty": "owner-logged"
+  },
+  {
+    "id": "SZ-0057",
+    "patientId": "HOPE-001",
+    "date": "2026-03-31",
+    "time": "12:30",
+    "duration": "5 min",
+    "notes": "Severe",
+    "source": "Hope_seizure_log.pages",
+    "certainty": "owner-logged"
+  },
+  {
+    "id": "SZ-0058",
+    "patientId": "HOPE-001",
+    "date": "2026-03-31",
+    "time": "08:15",
+    "duration": "5 min",
+    "notes": "Okay severity",
+    "source": "Hope_seizure_log.pages",
+    "certainty": "owner-logged"
+  },
+  {
+    "id": "SZ-0059",
+    "patientId": "HOPE-001",
+    "date": "2026-03-31",
+    "time": "21:42",
+    "duration": "3 min",
+    "notes": "Mild",
+    "source": "Hope_seizure_log.pages",
+    "certainty": "owner-logged"
+  },
+  {
+    "id": "SZ-0060",
+    "patientId": "HOPE-001",
+    "date": "2026-04-02",
+    "time": "05:49",
+    "duration": "4 min",
+    "notes": "Severe",
+    "source": "Hope_seizure_log.pages",
+    "certainty": "owner-logged"
+  },
+  {
+    "id": "SZ-0061",
+    "patientId": "HOPE-001",
+    "date": "2026-04-15",
+    "time": "10:35",
+    "duration": "4 min",
+    "notes": "Severe",
+    "source": "Hope_seizure_log.pages",
+    "certainty": "owner-logged"
+  },
+  {
+    "id": "SZ-0062",
+    "patientId": "HOPE-001",
+    "date": "2026-05-02",
+    "time": "21:26",
+    "duration": "2 min",
+    "notes": "Okay severe",
+    "source": "Hope_seizure_log.pages",
+    "certainty": "owner-logged"
+  },
+  {
+    "id": "SZ-0063",
+    "patientId": "HOPE-001",
+    "date": "2026-05-04",
+    "time": "13:18",
+    "duration": "3 min",
+    "context": "sleep",
+    "notes": "During Sleep",
+    "source": "Hope_seizure_log.pages",
+    "certainty": "owner-logged"
+  },
+  {
+    "id": "SZ-0064",
+    "patientId": "HOPE-001",
+    "date": "2026-05-04",
+    "time": "16:00",
+    "duration": null,
+    "notes": null,
+    "source": "Hope_seizure_log.pages",
+    "certainty": "owner-logged"
+  },
+  {
+    "id": "SZ-0065",
+    "patientId": "HOPE-001",
+    "date": "2026-05-04",
+    "time": "16:40",
+    "duration": "4 min",
+    "context": "sleep",
+    "notes": "During Sleep",
+    "source": "Hope_seizure_log.pages",
+    "certainty": "owner-logged"
+  },
+  {
+    "id": "SZ-0066",
+    "patientId": "HOPE-001",
+    "date": "2026-05-04",
+    "time": "23:00",
+    "duration": "4 min",
+    "notes": "Okay severe",
+    "source": "Hope_seizure_log.pages",
+    "certainty": "owner-logged"
+  },
+  {
+    "id": "SZ-0067",
+    "patientId": "HOPE-001",
+    "date": "2026-05-05",
+    "time": "05:00",
+    "duration": "3 min",
+    "notes": "Okay severe",
+    "source": "Hope_seizure_log.pages",
+    "certainty": "owner-logged"
+  },
+  {
+    "id": "SZ-0068",
+    "patientId": "HOPE-001",
+    "date": "2026-06-20",
+    "time": "10:53",
+    "duration": "3 min",
+    "source": "Hope_seizure_log.pages",
+    "certainty": "owner-logged"
+  },
+  {
+    "id": "SZ-0069",
+    "patientId": "HOPE-001",
+    "date": "2026-06-20",
+    "time": "14:00",
+    "duration": "3 min",
+    "source": "Hope_seizure_log.pages",
+    "certainty": "owner-logged"
+  },
+  {
+    "id": "SZ-0070",
+    "patientId": "HOPE-001",
+    "date": "2026-06-21",
+    "time": "05:00",
+    "duration": "3 min",
+    "source": "Hope_seizure_log.pages",
+    "certainty": "owner-logged"
+  },
+  {
+    "id": "SZ-0071",
+    "patientId": "HOPE-001",
+    "date": "2026-06-21",
+    "time": "07:00",
+    "duration": "3 min",
+    "source": "Hope_seizure_log.pages",
+    "certainty": "owner-logged"
+  },
+  {
+    "id": "SZ-0072",
+    "patientId": "HOPE-001",
+    "date": "2026-08-17",
+    "time": "00:30",
+    "duration": "4 min",
+    "notes": "Severity described by owner as severe/moderate across the events on this date; event-specific severity not specified.",
+    "source": "Hope_seizure_log.pages",
+    "certainty": "owner-logged"
+  },
+  {
+    "id": "SZ-0073",
+    "patientId": "HOPE-001",
+    "date": "2026-08-17",
+    "time": "06:00",
+    "duration": "4 min",
+    "notes": "Severity described by owner as severe/moderate across the events on this date; event-specific severity not specified.",
+    "source": "Hope_seizure_log.pages",
+    "certainty": "owner-logged"
+  },
+  {
+    "id": "SZ-0074",
+    "patientId": "HOPE-001",
+    "date": "2026-08-17",
+    "time": "17:00",
+    "duration": "4 min",
+    "notes": "Severity described by owner as severe/moderate across the events on this date; event-specific severity not specified.",
+    "source": "Hope_seizure_log.pages",
+    "certainty": "owner-logged"
+  },
+  {
+    "id": "SZ-0075",
+    "patientId": "HOPE-001",
+    "date": "2026-08-24",
+    "time": null,
+    "duration": null,
+    "eventType": "prodromal-or-symptomatic-event",
+    "rescueMedication": "SOS given",
+    "notes": "SOS medication given by owner; no confirmed seizure event details recorded.",
+    "source": "Hope_seizure_log.pages",
+    "certainty": "owner-logged"
+  }
+]

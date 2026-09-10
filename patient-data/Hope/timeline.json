@@ -1,0 +1,81 @@
+[
+  {
+    "date": "2025-05-28",
+    "eventId": "CE-0001",
+    "category": "Seizure",
+    "title": "First documented seizure",
+    "summary": "4-5 minute episode with stiffened forelegs and drooling, followed by post-seizure confusion.",
+    "certainty": "owner-reported"
+  },
+  {
+    "date": "2025-06-04",
+    "eventId": "CE-0002",
+    "category": "Seizure",
+    "title": "Second reported seizure",
+    "summary": "Second episode reported retrospectively in the 5 June clinical note; later gasping was noted.",
+    "certainty": "date-derived-from-relative-report"
+  },
+  {
+    "date": "2025-06-05",
+    "eventId": "CE-0003",
+    "category": "Assessment",
+    "title": "Idiopathic epilepsy suspected",
+    "summary": "Cornerstone Pet Clinic documented suspected idiopathic epilepsy."
+  },
+  {
+    "date": "2025-06-05",
+    "eventId": "CE-0004",
+    "category": "Medication",
+    "title": "Levetiracetam treatment documented",
+    "summary": "Epihat-LC (levetiracetam) 3.4 mL morning and night."
+  },
+  {
+    "date": "2025-06-21",
+    "eventId": "CE-0005",
+    "category": "Medication",
+    "title": "Adjunct seizure medications prescribed",
+    "summary": "Diamox and clonazepam prescribed alongside levetiracetam."
+  },
+  {
+    "date": "2025-07-24",
+    "eventId": "CE-0006",
+    "category": "Medication",
+    "title": "Levetiracetam tablet formulation documented",
+    "summary": "LEVEPIL 500 mg, three-quarter tablet morning and night."
+  },
+  {
+    "date": "2026-01-22",
+    "eventId": "CE-0007",
+    "category": "Seizure",
+    "title": "Recurrent seizures documented",
+    "summary": "Recurrent seizures documented during a telephonic consultation."
+  },
+  {
+    "date": "2026-01-22",
+    "eventId": "CE-0008",
+    "category": "Medication",
+    "title": "Phenobarbital prescribed",
+    "summary": "Gardenal 60 mg, three-quarter tablet twice daily for 10 days."
+  },
+  {
+    "date": "2026-05-04",
+    "eventId": "CE-0009",
+    "category": "Medication",
+    "title": "Phenobarbital regimen documented",
+    "summary": "Gardenal 30 mg, two tablets twice daily for 10 days."
+  },
+  {
+    "date": "2026-06-02",
+    "eventId": "CE-0010",
+    "category": "Therapeutic Drug Monitoring",
+    "title": "Phenobarbital below laboratory reference range",
+    "summary": "Serum phenobarbital 8.8; laboratory reference range 18-45; report labelled subtherapeutic."
+  },
+  {
+    "date": "2026-06-02",
+    "eventId": "CE-0011",
+    "category": "Laboratory",
+    "title": "Bile acid reported normal",
+    "summary": "Random/post-prandial bile acid 0.70 umol/L; laboratory reference <12 umol/L."
+  }
+]

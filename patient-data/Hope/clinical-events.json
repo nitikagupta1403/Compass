@@ -1,0 +1,203 @@
+[
+  {
+    "id": "CE-0001",
+    "patientId": "HOPE-001",
+    "type": "Seizure",
+    "title": "First owner-recorded seizure event",
+    "occurredAt": "2025-05-28T07:00:00",
+    "datePrecision": "owner-diary-exact-time",
+    "description": "Owner diary records an event lasting approximately 3-4 minutes before the morning walk, after Hope sniffed the lift. Owner states this first event was not reported to the veterinarian until after the 4 June events.",
+    "evidence": [
+      "owner-seizure-diary",
+      "Prescription_Hope_5_Jun_25.jpeg"
+    ],
+    "verification": "owner-diary-primary-history",
+    "sourceDiscrepancy": {
+      "clinicalRecordSummary": "The 5 June clinical record describes the 28 May episode as lasting approximately 4-5 minutes with stiffened forelegs and drooling, followed by post-seizure confusion.",
+      "resolution": "Do not reconcile the duration. Preserve owner diary duration 3-4 minutes and clinic-note duration 4-5 minutes as separate source statements."
+    }
+  },
+  {
+    "id": "CE-0002",
+    "patientId": "HOPE-001",
+    "type": "Seizure",
+    "title": "Owner-recorded seizure event during sleep",
+    "occurredAt": "2025-06-04T01:00:00",
+    "datePrecision": "owner-diary-exact-time",
+    "description": "Owner diary records an event during sleep lasting approximately 2-3 minutes.",
+    "evidence": [
+      "owner-seizure-diary"
+    ],
+    "verification": "owner-diary-primary-history"
+  },
+  {
+    "id": "CE-0012",
+    "patientId": "HOPE-001",
+    "type": "Seizure",
+    "title": "Second owner-recorded seizure event on 4 June",
+    "occurredAt": "2025-06-04T05:00:00",
+    "datePrecision": "owner-diary-exact-time",
+    "description": "Owner diary records a second event during sleep on 4 June, lasting approximately 3-4 minutes.",
+    "evidence": [
+      "owner-seizure-diary"
+    ],
+    "verification": "owner-diary-primary-history"
+  },
+  {
+    "id": "CE-0013",
+    "patientId": "HOPE-001",
+    "type": "SourceDiscrepancy",
+    "title": "Clinic note compresses owner-recorded seizure history",
+    "occurredAt": "2025-06-05",
+    "datePrecision": "record-date",
+    "description": "The 5 June Cornerstone note summarizes the pre-consultation history as two seizure episodes, while the owner diary contains three events before consultation: 28 May at 07:00 and 4 June at 01:00 and 05:00. The clinic note also gives the 28 May duration as 4-5 minutes whereas the owner diary records 3-4 minutes.",
+    "evidence": [
+      "owner-seizure-diary",
+      "Prescription_Hope_5_Jun_25.jpeg"
+    ],
+    "verification": "cross-source-discrepancy-preserved"
+  },
+  {
+    "id": "CE-0003",
+    "patientId": "HOPE-001",
+    "type": "ClinicalAssessment",
+    "title": "Idiopathic epilepsy suspected",
+    "occurredAt": "2025-06-05",
+    "description": "Cornerstone Pet Clinic documented 'Idiopathic epilepsy suspected.' The clinical note itself summarizes the history as two seizure episodes; the owner diary separately documents three pre-consultation events.",
+    "evidence": [
+      "Prescription_Hope_5_Jun_25.jpeg",
+      "owner-seizure-diary"
+    ],
+    "verification": "verified-from-primary-record-with-history-discrepancy"
+  },
+  {
+    "id": "CE-0004",
+    "patientId": "HOPE-001",
+    "type": "MedicationStart",
+    "title": "Levetiracetam treatment documented",
+    "occurredAt": "2025-06-05",
+    "medicationRef": "MEDORD-0001",
+    "description": "Epihat-LC (levetiracetam) 3.4 mL morning and night was documented as the initial antiseizure treatment.",
+    "evidence": [
+      "Prescription_Hope_5_Jun_25.jpeg"
+    ],
+    "verification": "verified-from-primary-record-and-owner"
+  },
+  {
+    "id": "CE-0005",
+    "patientId": "HOPE-001",
+    "type": "MedicationChange",
+    "title": "Short-course adjunct seizure medications prescribed",
+    "occurredAt": "2025-06-21",
+    "description": "Diamox and clonazepam were prescribed for 5 days alongside continued Epihat-LC.",
+    "evidence": [
+      "Prescription_Hope_21_June_25.pdf"
+    ],
+    "verification": "verified-from-primary-record-and-owner"
+  },
+  {
+    "id": "CE-0006",
+    "patientId": "HOPE-001",
+    "type": "MedicationChange",
+    "title": "Levetiracetam tablet formulation documented",
+    "occurredAt": "2025-07-24",
+    "medicationRef": "MEDORD-0016",
+    "description": "LEVEPIL 500 mg prescription display states 0.7 tablet morning and night, while written instructions state three-quarter tablet every 8-12 hours. Owner confirms actual administration was 0.7 tablet morning and night.",
+    "evidence": [
+      "Prescription_Hope_24_july_25.pdf"
+    ],
+    "verification": "verified-from-primary-record-and-owner-with-source-discrepancy"
+  },
+  {
+    "id": "CE-0007",
+    "patientId": "HOPE-001",
+    "type": "SeizureRecurrence",
+    "title": "Recurrent seizures documented",
+    "occurredAt": "2026-01-22",
+    "description": "Telephonic clinical record documents recurrent seizures while levetiracetam and clonazepam were reported as current medications.",
+    "evidence": [
+      "Prescription_Hope_22_jan_26.pdf"
+    ],
+    "verification": "verified-from-primary-record"
+  },
+  {
+    "id": "CE-0008",
+    "patientId": "HOPE-001",
+    "type": "MedicationStart",
+    "title": "Phenobarbital prescribed",
+    "occurredAt": "2026-01-22",
+    "medicationRef": "MEDORD-0021",
+    "description": "Gardenal 60 mg prescription display states 0.7 tablet morning and night for 10 days, while written instructions state three-quarter tablet twice daily. Owner confirms actual administration was 0.7 tablet morning and night.",
+    "evidence": [
+      "Prescription_Hope_22_jan_26.pdf"
+    ],
+    "verification": "verified-from-primary-record-and-owner-with-source-discrepancy"
+  },
+  {
+    "id": "CE-0009",
+    "patientId": "HOPE-001",
+    "type": "MedicationPrescription",
+    "title": "Phenobarbital regimen documented",
+    "occurredAt": "2026-05-04",
+    "medicationRef": "MEDORD-0022",
+    "description": "Gardenal 30 mg, two tablets morning and two tablets night, was prescribed for 10 days. Hepamust 7.5 mL morning and night was also prescribed for 10 days.",
+    "evidence": [
+      "Prescription_Hope_4_May_26.pdf"
+    ],
+    "verification": "verified-from-primary-record-and-owner"
+  },
+  {
+    "id": "CE-0014",
+    "patientId": "HOPE-001",
+    "type": "ClinicalManagement",
+    "title": "Animal Care review: medication continuation and obesity diet",
+    "occurredAt": "2026-05-27",
+    "description": "Animal Care advised an obesity diet based on 17 kg body weight, review after one month, continuation of the same medication for one month, and daily Et Liv syrup. VetExpert Obesity food was prescribed. The same record contains 'ADVISE 2D ECHO FOR CURIE', which is treated as unrelated source contamination and is not attributed to Hope.",
+    "evidence": [
+      "Hope_Jun_26.pdf"
+    ],
+    "verification": "verified-from-primary-record-with-source-contamination-flag"
+  },
+  {
+    "id": "CE-0010",
+    "patientId": "HOPE-001",
+    "type": "TherapeuticDrugMonitoring",
+    "title": "Serum phenobarbital below laboratory reference range",
+    "occurredAt": "2026-06-02",
+    "description": "Serum phenobarbital result was 8.8 against the laboratory reference range 18-45 and the laboratory report labelled the result subtherapeutic.",
+    "evidence": [
+      "Phen_levels.pdf"
+    ],
+    "verification": "verified-from-laboratory-record"
+  },
+  {
+    "id": "CE-0011",
+    "patientId": "HOPE-001",
+    "type": "LaboratoryResult",
+    "title": "Random/post-prandial bile acid reported normal",
+    "occurredAt": "2026-06-02",
+    "description": "Bile acid result was 0.70 umol/L with laboratory reference <12 umol/L; the report states normal.",
+    "evidence": [
+      "Phen_levels.pdf"
+    ],
+    "verification": "verified-from-laboratory-record"
+  },
+  {
+    "id": "CE-0015",
+    "patientId": "HOPE-001",
+    "type": "MedicationChange",
+    "title": "Current phenobarbital maintenance and rescue plan documented",
+    "occurredAt": "2026-06-20",
+    "medicationRef": "MEDORD-0027",
+    "description": "Gardenal 60 mg was prescribed at one tablet twice daily after food, always. The record states Epihat three-quarter tablet SOS, clonazepam should be stopped, and Medazolam up to 1.9 mL intranasally in emergency using the clinic's original wording. Owner confirms current maintenance phenobarbital 60 mg one tablet morning and night, and actual SOS use of levetiracetam 500 mg three-quarter tablet.",
+    "evidence": [
+      "Jun_2026.pdf"
+    ],
+    "verification": "verified-from-primary-record-and-owner",
+    "sourceDiscrepancy": {
+      "primaryRecord": "Epihat 3/4 tablet SOS",
+      "ownerActualUse": "Levetiracetam 500 mg, 3/4 tablet SOS",
+      "resolution": "Preserve both statements without assuming the source line independently verifies the 500 mg strength."
+    }
+  }
+]

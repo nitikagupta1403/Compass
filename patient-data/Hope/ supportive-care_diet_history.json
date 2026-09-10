@@ -1,0 +1,31 @@
+{
+  "patientId": "HOPE-001",
+  "dietHistory": [
+    {
+      "date": "2025-07-09",
+      "from": "Origin Original",
+      "to": "Dog Expert Renal Dry Food",
+      "status": "owner-verified",
+      "notes": "Changed by veterinarian on 9 Jul 2025."
+    },
+    {
+      "date": "2025-07-24",
+      "diet": "Dog Expert Renal Dry Food",
+      "status": "owner-verified",
+      "notes": "Continued."
+    },
+    {
+      "date": "2026-01-22",
+      "diet": "Vet Expert Renal Dry Food",
+      "status": "owner-verified",
+      "notes": "Continued."
+    },
+    {
+      "date": "2026-05-27",
+      "from": "Vet Expert Renal Dry Food",
+      "to": "Pet Needs Vet Expert Obesity",
+      "status": "owner-verified-with-primary-record-support",
+      "notes": "Diet changed after consultation with Dr. Lakshmi / Animal Care."
+    }
+  ]
+}

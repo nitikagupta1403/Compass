@@ -1,0 +1,240 @@
+[
+  {
+    "id": "LABEV-0001",
+    "patientId": "HOPE-001",
+    "date": "2025-06-13",
+    "facility": "Cornerstone Pet Clinic",
+    "sourceFile": "Prescription_Hope_13_June_25.jpeg",
+    "sourceType": "primary-record",
+    "verification": "verified-from-primary-record",
+    "panels": [
+      {
+        "name": "HEMATOLOGY (CBC) - DOG",
+        "analytes": [
+          {"name":"Hb","result":15.9,"unit":"g/dL","referenceRange":"11.9-18.9","sourceFlag":null},
+          {"name":"RBC","result":6.44,"unit":"10^6/uL","referenceRange":"4.9-7.8","sourceFlag":null},
+          {"name":"HCT","result":46.9,"unit":"%","referenceRange":"35-57","sourceFlag":null},
+          {"name":"MCV","result":67.1,"unit":"fL","referenceRange":"66-77","sourceFlag":null},
+          {"name":"MCHC","result":36.4,"unit":"g/dL","referenceRange":"32.0-36.3","sourceFlag":null,"notes":"Numerically above the printed reference range, but no H flag is printed in the source."},
+          {"name":"RDW","result":12.4,"unit":"%","referenceRange":"11-14","sourceFlag":null},
+          {"name":"WBC","result":10.2,"unit":"10^3/uL","referenceRange":"5-17","sourceFlag":null},
+          {"name":"Lymph","result":21.2,"unit":"%","referenceRange":"8-21","sourceFlag":"H"},
+          {"name":"MID","result":0.5,"unit":"10^9/uL","referenceRange":"0.1-1.4","sourceFlag":null},
+          {"name":"Gran","result":76.8,"unit":"%","referenceRange":"58-85","sourceFlag":null},
+          {"name":"PLT","result":310,"unit":"10^3/uL","referenceRange":"150-620","sourceFlag":null},
+          {"name":"MPV","result":8.6,"unit":"fL","referenceRange":"6.0-10.1","sourceFlag":null}
+        ]
+      },
+      {
+        "name": "Serum Electrolytes - Dog",
+        "analytes": [
+          {"name":"Sodium","sourceName":"Na.","result":145,"unit":"mEq/L","referenceRange":"140-153","sourceFlag":null},
+          {"name":"Chloride","sourceName":"Cl.","result":107,"unit":"mEq/L","referenceRange":"102-117","sourceFlag":null},
+          {"name":"Potassium","sourceName":"K.","result":7.1,"unit":"mEq/L","referenceRange":"3.8-5.6","sourceFlag":"H"}
+        ]
+      },
+      {
+        "name": "Other chemistry",
+        "analytes": [
+          {"name":"Ammonia","result":58.4,"unit":"ug/dL","referenceRange":"45-120","sourceFlag":null},
+          {"name":"Random blood glucose","result":80,"unit":"mg/dL","referenceRange":"74-143","sourceFlag":null}
+        ]
+      }
+    ],
+    "notes": "Source report dated 13 Jun 2025; source flags preserved exactly."
+  },
+  {
+    "id": "LABEV-0002",
+    "patientId": "HOPE-001",
+    "date": "2025-06-15",
+    "facility": "Cornerstone Pet Clinic",
+    "sourceFile": "Precription_Hope_15_jun_25.pdf",
+    "sourceType": "primary-record",
+    "verification": "verified-from-primary-record",
+    "panels": [
+      {
+        "name": "Bile Acid Stimulation test",
+        "analytes": [
+          {"name":"Preprandial serum bile acids","sourceName":"PRSBA","result":3.3,"unit":"umol/L","referenceRange":"0-8.6","sourceFlag":null},
+          {"name":"2 hr Postprandial serum bile acids","sourceName":"POSBA","result":16.7,"unit":"umol/L","referenceRange":"0-29.8","sourceFlag":null},
+          {"name":"Ammonia","result":5,"unit":null,"referenceRange":null,"sourceFlag":"L","notes":"Source prints 'Ammonia = L 5' without a unit or reference interval."}
+        ]
+      }
+    ]
+  },
+  {
+    "id": "LABEV-0003",
+    "patientId": "HOPE-001",
+    "date": "2025-07-06",
+    "facility": "Cornerstone Pet Clinic",
+    "sourceFile": "ClinicalNote_Hope_6_July_25.pdf",
+    "sourceType": "primary-record",
+    "verification": "verified-from-primary-record",
+    "panels": [
+      {
+        "name":"HEMATOLOGY (CBC) - DOG",
+        "analytes":[
+          {"name":"Hb","result":17.5,"unit":"g/dL","referenceRange":"11.9-18.9","sourceFlag":null},
+          {"name":"RBC","result":6.3,"unit":"10^6/uL","referenceRange":"4.9-7.8","sourceFlag":null},
+          {"name":"HCT","result":48.7,"unit":"%","referenceRange":"35-57","sourceFlag":null},
+          {"name":"MCV","result":76.5,"unit":"fL","referenceRange":"66-77","sourceFlag":null},
+          {"name":"MCHC","result":35.9,"unit":"g/dL","referenceRange":"32.0-36.3","sourceFlag":null},
+          {"name":"RDW","result":12.8,"unit":"%","referenceRange":"11-14","sourceFlag":null},
+          {"name":"WBC","result":9.8,"unit":"10^3/uL","referenceRange":"5-17","sourceFlag":null},
+          {"name":"Lymph","result":18.9,"unit":"%","referenceRange":"8-21","sourceFlag":null},
+          {"name":"MID","result":1.6,"unit":"10^9/uL","referenceRange":"0.1-1.4","sourceFlag":"H"},
+          {"name":"Gran","result":64.5,"unit":"%","referenceRange":"58-85","sourceFlag":null},
+          {"name":"PLT","result":253,"unit":"10^3/uL","referenceRange":"150-620","sourceFlag":null},
+          {"name":"MPV","result":7.2,"unit":"fL","referenceRange":"6.0-10.1","sourceFlag":null}
+        ]
+      },
+      {
+        "name":"LIVER FUNCTION TEST (LFT) - DOG",
+        "analytes":[
+          {"name":"TB","result":0.2,"unit":"mg/dL","referenceRange":"0-0.4","sourceFlag":null},
+          {"name":"SGPT","result":80.0,"unit":"U/L","referenceRange":"10-109","sourceFlag":null},
+          {"name":"ALP","result":94.6,"unit":"U/L","referenceRange":"1-114","sourceFlag":null},
+          {"name":"TP","result":6.3,"unit":"g/dL","referenceRange":"5.4-7.4","sourceFlag":null},
+          {"name":"Alb","result":2.8,"unit":"g/dL","referenceRange":"2.3-3.1","sourceFlag":null},
+          {"name":"Glob","result":3.5,"unit":"g/dL","referenceRange":"2.7-4.4","sourceFlag":null},
+          {"name":"A:G","result":0.8,"unit":"Ratio","referenceRange":"0.75-1.9","sourceFlag":null}
+        ]
+      },
+      {
+        "name":"KIDNEY FUNCTION TEST (KFT) - DOG",
+        "analytes":[
+          {"name":"S.Cr","result":1.5,"unit":"mg/dL","referenceRange":"0.5-1.4","sourceFlag":"H"},
+          {"name":"BUN","result":12.3,"unit":"mg/dL","referenceRange":"6-27","sourceFlag":null}
+        ]
+      }
+    ]
+  },
+  {
+    "id": "LABEV-0004",
+    "patientId": "HOPE-001",
+    "date": "2025-09-05",
+    "facility": "Cornerstone Pet Clinic",
+    "sourceFile": "ClinicalNote_Hope_5_Sep_25.pdf",
+    "sourceType": "primary-record",
+    "verification": "verified-from-primary-record",
+    "panels": [
+      {
+        "name":"HEMATOLOGY (CBC) - DOG",
+        "analytes":[
+          {"name":"Hb","result":16.4,"unit":"g/dL","referenceRange":"11.9-18.9","sourceFlag":null},
+          {"name":"RBC","result":6.3,"unit":"10^6/uL","referenceRange":"4.9-7.8","sourceFlag":null},
+          {"name":"HCT","result":43.7,"unit":"%","referenceRange":"35-57","sourceFlag":null},
+          {"name":"MCV","result":69.3,"unit":"fL","referenceRange":"66-77","sourceFlag":null},
+          {"name":"MCHC","result":37.5,"unit":"g/dL","referenceRange":"32.0-36.3","sourceFlag":"H"},
+          {"name":"RDW","result":11.8,"unit":"%","referenceRange":"11-14","sourceFlag":null},
+          {"name":"WBC","result":8.2,"unit":"10^3/uL","referenceRange":"5-17","sourceFlag":null},
+          {"name":"Lymph","result":22.1,"unit":"%","referenceRange":"8-21","sourceFlag":null,"notes":"Numerically above the printed reference range, but no H flag is printed in the source."},
+          {"name":"MID","result":0.7,"unit":"10^9/uL","referenceRange":"0.1-1.4","sourceFlag":null},
+          {"name":"Gran","result":69.4,"unit":"%","referenceRange":"58-85","sourceFlag":null},
+          {"name":"PLT","result":332,"unit":"10^3/uL","referenceRange":"150-620","sourceFlag":null},
+          {"name":"MPV","result":8.0,"unit":"fL","referenceRange":"6.0-10.1","sourceFlag":null}
+        ]
+      },
+      {
+        "name":"LIVER FUNCTION TEST (LFT) - DOG",
+        "analytes":[
+          {"name":"TB","result":0.4,"unit":"mg/dL","referenceRange":"0-0.4","sourceFlag":null},
+          {"name":"SGPT","result":146,"unit":"U/L","referenceRange":"10-109","sourceFlag":"H"},
+          {"name":"ALP","result":153,"unit":"U/L","referenceRange":"1-114","sourceFlag":"H"},
+          {"name":"TP","result":5.9,"unit":"g/dL","referenceRange":"5.4-7.4","sourceFlag":null},
+          {"name":"Alb","result":2.6,"unit":"g/dL","referenceRange":"2.3-3.1","sourceFlag":null},
+          {"name":"Glob","result":3.3,"unit":"g/dL","referenceRange":"2.7-4.4","sourceFlag":null},
+          {"name":"A:G","result":0.79,"unit":"Ratio","referenceRange":"0.75-1.9","sourceFlag":null}
+        ]
+      },
+      {
+        "name":"KIDNEY FUNCTION TEST (KFT) - DOG",
+        "analytes":[
+          {"name":"S.Cr","result":0.9,"unit":"mg/dL","referenceRange":"0.5-1.4","sourceFlag":null},
+          {"name":"BUN","result":11.97,"unit":"mg/dL","referenceRange":"6-27","sourceFlag":null}
+        ]
+      },
+      {
+        "name":"Canine / Dogs",
+        "analytes":[
+          {"name":"Serum Calcium","result":14.1,"unit":null,"referenceRange":"7.5-11.3 mg/dL","sourceFlag":"H","sourceUnitText":"/dL","notes":"Source prints 'Serum Calcium = H 14.1/dL'; unit text is incomplete, so no unit is inferred."},
+          {"name":"Serum Phosphorus","result":3.5,"unit":"mg/dL","referenceRange":"2.1-6.3","sourceFlag":null}
+        ]
+      }
+    ]
+  },
+  {
+    "id": "LABEV-0005",
+    "patientId": "HOPE-001",
+    "date": "2026-05-04",
+    "orderedOn": "2026-05-03",
+    "facility": "Cornerstone Pet Clinic",
+    "sourceFile": "Prescription_Hope_4_May_26.jpeg",
+    "supportingSourceFile": "Prescription_Hope_3_may_26.pdf",
+    "sourceType": "primary-record",
+    "verification": "verified-from-primary-record",
+    "panels": [
+      {
+        "name":"HEMATOLOGY (CBC) - DOG",
+        "analytes":[
+          {"name":"Hb","result":15.6,"unit":"g/dL","referenceRange":"11.9-18.9","sourceFlag":null},
+          {"name":"RBC","result":6.67,"unit":"10^6/uL","referenceRange":"4.9-7.8","sourceFlag":null},
+          {"name":"HCT","result":50.4,"unit":"%","referenceRange":"35-57","sourceFlag":null},
+          {"name":"MCV","result":75.6,"unit":"fL","referenceRange":"66-77","sourceFlag":null},
+          {"name":"MCHC","result":30.9,"unit":"g/dL","referenceRange":"32.0-36.3","sourceFlag":"L"},
+          {"name":"RDW","result":11.2,"unit":"%","referenceRange":"11-14","sourceFlag":null},
+          {"name":"WBC","result":14.14,"unit":"10^3/uL","referenceRange":"5-17","sourceFlag":null},
+          {"name":"Lymph","result":26.68,"unit":"%","referenceRange":"8-21","sourceFlag":"H"},
+          {"name":"MID","result":1.2,"unit":"10^9/uL","referenceRange":"0.1-1.4","sourceFlag":null},
+          {"name":"Gran","result":64.52,"unit":"%","referenceRange":"58-85","sourceFlag":null},
+          {"name":"PLT","result":242,"unit":"10^3/uL","referenceRange":"150-620","sourceFlag":null},
+          {"name":"MPV","result":9.3,"unit":"fL","referenceRange":"6.0-10.1","sourceFlag":null}
+        ]
+      },
+      {
+        "name":"LIVER FUNCTION TEST (LFT) - DOG",
+        "analytes":[
+          {"name":"TB","result":0.4,"unit":"mg/dL","referenceRange":"0-0.4","sourceFlag":null},
+          {"name":"SGPT","result":83.90,"unit":"U/L","referenceRange":"10-109","sourceFlag":null},
+          {"name":"ALP","result":108,"unit":"U/L","referenceRange":"1-114","sourceFlag":null},
+          {"name":"TP","result":6.1,"unit":"g/dL","referenceRange":"5.4-7.4","sourceFlag":null},
+          {"name":"Alb","result":3.1,"unit":"g/dL","referenceRange":"2.3-3.1","sourceFlag":null},
+          {"name":"Glob","result":3.0,"unit":"g/dL","referenceRange":"2.7-4.4","sourceFlag":null},
+          {"name":"A:G","result":1.0,"unit":"Ratio","referenceRange":"0.75-1.9","sourceFlag":null}
+        ]
+      },
+      {
+        "name":"KIDNEY FUNCTION TEST (KFT) - DOG",
+        "analytes":[
+          {"name":"S.Cr","result":0.71,"unit":"mg/dL","referenceRange":"0.5-1.4","sourceFlag":null},
+          {"name":"BUN","result":12.4,"unit":"mg/dL","referenceRange":"6-27","sourceFlag":null}
+        ]
+      }
+    ],
+    "notes":"CBC/LFT/KFT charges are documented on the 3 May 2026 invoice; result sheet itself is dated 4 May 2026."
+  },
+  {
+    "id": "LABEV-0006",
+    "patientId": "HOPE-001",
+    "date": "2026-06-02",
+    "facility": "The Animal Care Clinic-Jubilee Hills",
+    "sourceFile": "Phen_levels.pdf",
+    "sourceType": "primary-record",
+    "verification": "verified-from-primary-record",
+    "deduplication":"Phen_levels.pdf and RecentPres.pdf represent the same underlying diagnostic event; stored once.",
+    "panels": [
+      {
+        "name":"Serum Phenobarbital",
+        "analytes":[
+          {"name":"Phenobarbitone level dogs","result":8.8,"unit":null,"referenceRange":"18-45","sourceFlag":null,"sourceInterpretation":"subtherapeutic levels","notes":"Units column in source is NIL; no unit inferred."}
+        ]
+      },
+      {
+        "name":"Veterinary Specific Bile Acid Post Prandial/Random",
+        "analytes":[
+          {"name":"Random/Post Prandial Bile Acid","sourceName":"Ramdom/POst Prandial Bile Acid","result":0.70,"unit":"umol/l","referenceRange":"<12","sourceFlag":null,"sourceInterpretation":"normal report"}
+        ]
+      }
+    ]
+  }
+]

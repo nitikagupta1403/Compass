@@ -1,0 +1,26 @@
+{
+  "id": "HOPE-001",
+  "name": "Hope",
+  "species": "Dog",
+  "breed": "Beagle",
+  "sex": "Male",
+  "dateOfBirth": "2023-05-29",
+  "weightKg": 19,
+  "owner": "Nitika Gupta",
+  "status": "Active",
+  "clinicalProblem": "Recurrent seizure disorder",
+  "primaryDiagnosis": [
+    "Idiopathic epilepsy / idiopathic seizures"
+  ],
+  "diagnosisStatus": "documented-working-diagnosis",
+  "dateOfBirthVerification": "owner-confirmed-supported-by-maternal-birth-record",
+  "sourceDiscrepancies": [
+    {
+      "field": "dateOfBirth",
+      "canonicalValue": "2023-05-29",
+      "conflictingSourceValue": "2022-05-26",
+      "source": "Animal Care EMR",
+      "resolution": "Canonical DOB based on owner confirmation and contemporaneous Cornerstone maternal birth record; conflicting source value retained for auditability."
+    }
+  ]
+}

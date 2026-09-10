@@ -1,0 +1,531 @@
+[
+  {
+    "id": "MEDORD-0001",
+    "patientId": "HOPE-001",
+    "prescribedOn": "2025-06-05",
+    "drug": "Epihat-LC",
+    "activeIngredient": "Levetiracetam",
+    "form": "syrup",
+    "strength": "100 mL bottle",
+    "dose": {
+      "amount": 3.4,
+      "unit": "mL"
+    },
+    "schedule": "3.4 mL morning and 3.4 mL night",
+    "status": "historical",
+    "sourceFile": "Prescription_Hope_5_Jun_25.jpeg",
+    "verification": "verified-from-primary-record-and-owner",
+    "notes": "Owner confirms this was the actual regimen started on 5 Jun 2025."
+  },
+  {
+    "id": "MEDORD-0002",
+    "patientId": "HOPE-001",
+    "prescribedOn": "2025-06-05",
+    "drug": "Nervitoss",
+    "activeIngredient": null,
+    "form": "syrup",
+    "dose": {
+      "amount": 4,
+      "unit": "mL"
+    },
+    "schedule": "night",
+    "status": "historical",
+    "sourceFile": "owner-medication-history",
+    "verification": "owner-verified",
+    "notes": "Owner identifies this as a nerve-support syrup used during the initial treatment phase."
+  },
+  {
+    "id": "MEDORD-0003",
+    "patientId": "HOPE-001",
+    "prescribedOn": "2025-06-05",
+    "drug": "Electrodutch",
+    "activeIngredient": null,
+    "form": "drops",
+    "strength": "30 mL bottle",
+    "dose": {
+      "amount": 10,
+      "unit": "drops"
+    },
+    "schedule": "10 drops morning and 10 drops night",
+    "actualUseEndDate": "2025-07-09",
+    "status": "historical",
+    "sourceFile": "owner-medication-history",
+    "verification": "owner-verified",
+    "notes": "Owner reports this was continued until 9 Jul 2025."
+  },
+  {
+    "id": "MEDORD-0004",
+    "patientId": "HOPE-001",
+    "prescribedOn": "2025-06-21",
+    "drug": "Epihat-LC",
+    "activeIngredient": "Levetiracetam",
+    "form": "syrup",
+    "dose": {
+      "amount": 3.4,
+      "unit": "mL"
+    },
+    "schedule": "3.4 mL morning and 3.4 mL night",
+    "status": "historical",
+    "sourceFile": "Prescription_Hope_21_June_25.pdf",
+    "verification": "verified-from-primary-record-and-owner",
+    "notes": "Levetiracetam continued when the regimen changed on 21 Jun 2025."
+  },
+  {
+    "id": "MEDORD-0005",
+    "patientId": "HOPE-001",
+    "prescribedOn": "2025-06-21",
+    "drug": "Diamox",
+    "activeIngredient": "Acetazolamide",
+    "strength": "250 mg",
+    "form": "tablet",
+    "dose": {
+      "amount": 0.5,
+      "unit": "tablet"
+    },
+    "schedule": "0.5 tablet morning and 0.5 tablet evening",
+    "duration": "5 days",
+    "status": "historical",
+    "sourceFile": "Prescription_Hope_21_June_25.pdf",
+    "verification": "verified-from-primary-record-and-owner"
+  },
+  {
+    "id": "MEDORD-0006",
+    "patientId": "HOPE-001",
+    "prescribedOn": "2025-06-21",
+    "drug": "Rivotril",
+    "activeIngredient": "Clonazepam",
+    "strength": "0.5 mg",
+    "form": "tablet",
+    "dose": {
+      "amount": 2,
+      "unit": "tablets"
+    },
+    "schedule": "2 tablets twice daily",
+    "duration": "5 days",
+    "status": "historical",
+    "sourceFile": "Prescription_Hope_21_June_25.pdf",
+    "verification": "verified-from-primary-record-and-owner"
+  },
+  {
+    "id": "MEDORD-0007",
+    "patientId": "HOPE-001",
+    "prescribedOn": "2025-07-09",
+    "drug": "Epihat-LC",
+    "activeIngredient": "Levetiracetam",
+    "form": "syrup",
+    "dose": {
+      "amount": 3.4,
+      "unit": "mL"
+    },
+    "schedule": "3.4 mL morning and 3.4 mL night",
+    "status": "historical",
+    "sourceFile": "Prescription_Hope_9_july_25.pdf",
+    "verification": "verified-from-primary-record-and-owner"
+  },
+  {
+    "id": "MEDORD-0008",
+    "patientId": "HOPE-001",
+    "prescribedOn": "2025-07-09",
+    "drug": "Diamox",
+    "activeIngredient": "Acetazolamide",
+    "strength": "250 mg",
+    "form": "tablet",
+    "dose": {
+      "amount": 0.5,
+      "unit": "tablet"
+    },
+    "schedule": "0.5 tablet morning and 0.5 tablet night as required",
+    "usageType": "PRN",
+    "status": "historical",
+    "sourceFile": "Prescription_Hope_9_july_25.pdf",
+    "verification": "verified-from-primary-record-and-owner"
+  },
+  {
+    "id": "MEDORD-0009",
+    "patientId": "HOPE-001",
+    "prescribedOn": "2025-07-09",
+    "drug": "Rivotril",
+    "activeIngredient": "Clonazepam",
+    "strength": "0.5 mg",
+    "form": "tablet",
+    "dose": {
+      "amount": 2,
+      "unit": "tablets"
+    },
+    "schedule": "2 tablets morning and 2 tablets night as required",
+    "usageType": "PRN",
+    "status": "historical",
+    "sourceFile": "Prescription_Hope_9_july_25.pdf",
+    "verification": "verified-from-primary-record-and-owner"
+  },
+  {
+    "id": "MEDORD-0010",
+    "patientId": "HOPE-001",
+    "prescribedOn": "2025-07-09",
+    "drug": "Neurokind Pet",
+    "activeIngredient": null,
+    "form": "syrup",
+    "strength": "210 mL bottle",
+    "dose": {
+      "amount": 5,
+      "unit": "mL"
+    },
+    "schedule": "5 mL morning and 5 mL night",
+    "status": "historical",
+    "sourceFile": "Prescription_Hope_9_july_25.pdf",
+    "verification": "verified-from-primary-record-and-owner"
+  },
+  {
+    "id": "MEDORD-0011",
+    "patientId": "HOPE-001",
+    "prescribedOn": "2025-07-09",
+    "drug": "Et Liv-UD / SamPET Forte",
+    "activeIngredient": null,
+    "form": "syrup",
+    "strength": "100 mL bottle",
+    "dose": {
+      "amount": 5,
+      "unit": "mL"
+    },
+    "schedule": "5 mL twice weekly",
+    "status": "historical",
+    "sourceFile": "Prescription_Hope_9_july_25.pdf",
+    "verification": "owner-verified-with-source-support",
+    "notes": "Product naming retained exactly as owner reported; equivalence between the two names is not independently established."
+  },
+  {
+    "id": "MEDORD-0012",
+    "patientId": "HOPE-001",
+    "prescribedOn": "2025-07-24",
+    "drug": "Diamox",
+    "activeIngredient": "Acetazolamide",
+    "strength": "250 mg",
+    "form": "tablet",
+    "dose": {
+      "amount": 0.5,
+      "unit": "tablet"
+    },
+    "schedule": "0.5 tablet morning and 0.5 tablet night as required",
+    "usageType": "PRN",
+    "status": "historical",
+    "sourceFile": "Prescription_Hope_24_july_25.pdf",
+    "verification": "verified-from-primary-record-and-owner"
+  },
+  {
+    "id": "MEDORD-0013",
+    "patientId": "HOPE-001",
+    "prescribedOn": "2025-07-24",
+    "drug": "Rivotril",
+    "activeIngredient": "Clonazepam",
+    "strength": "0.5 mg",
+    "form": "tablet",
+    "dose": {
+      "amount": 2,
+      "unit": "tablets"
+    },
+    "schedule": "2 tablets morning and 2 tablets night as required",
+    "usageType": "PRN",
+    "status": "historical",
+    "sourceFile": "Prescription_Hope_24_july_25.pdf",
+    "verification": "verified-from-primary-record-and-owner"
+  },
+  {
+    "id": "MEDORD-0014",
+    "patientId": "HOPE-001",
+    "prescribedOn": "2025-07-24",
+    "drug": "Neurokind Pet",
+    "activeIngredient": null,
+    "form": "syrup",
+    "strength": "210 mL bottle",
+    "dose": {
+      "amount": 5,
+      "unit": "mL"
+    },
+    "schedule": "5 mL morning and 5 mL night",
+    "status": "historical",
+    "sourceFile": "Prescription_Hope_24_july_25.pdf",
+    "verification": "verified-from-primary-record-and-owner"
+  },
+  {
+    "id": "MEDORD-0015",
+    "patientId": "HOPE-001",
+    "prescribedOn": "2025-07-24",
+    "drug": "Et Liv-UD",
+    "activeIngredient": null,
+    "form": "syrup",
+    "strength": "100 mL bottle",
+    "dose": {
+      "amount": 5,
+      "unit": "mL"
+    },
+    "schedule": "5 mL twice weekly",
+    "status": "historical",
+    "sourceFile": "Prescription_Hope_24_july_25.pdf",
+    "verification": "owner-verified-with-source-support"
+  },
+  {
+    "id": "MEDORD-0016",
+    "patientId": "HOPE-001",
+    "prescribedOn": "2025-07-24",
+    "drug": "LEVEPIL",
+    "activeIngredient": "Levetiracetam",
+    "strength": "500 mg",
+    "form": "tablet",
+    "dose": {
+      "amount": 0.7,
+      "unit": "tablet"
+    },
+    "schedule": "0.7 tablet morning and 0.7 tablet night",
+    "status": "historical",
+    "sourceFile": "Prescription_Hope_24_july_25.pdf",
+    "verification": "verified-from-primary-record-and-owner",
+    "notes": "Owner confirms actual administration as 0.7 tablet morning and night. Prescription display shows 0.7-0-0.7; written instruction separately states 3/4 tablet every 8-12 hours. Both are preserved as a source discrepancy."
+  },
+  {
+    "id": "MEDORD-0017",
+    "patientId": "HOPE-001",
+    "prescribedOn": "2026-01-22",
+    "drug": "Epihat-LC",
+    "activeIngredient": "Levetiracetam",
+    "form": "syrup",
+    "dose": {
+      "amount": 3.4,
+      "unit": "mL"
+    },
+    "schedule": "3.4 mL morning and 3.4 mL night",
+    "status": "historical",
+    "sourceFile": "Prescription_Hope_22_jan_26.pdf",
+    "verification": "owner-verified"
+  },
+  {
+    "id": "MEDORD-0018",
+    "patientId": "HOPE-001",
+    "prescribedOn": "2026-01-22",
+    "drug": "Rivotril",
+    "activeIngredient": "Clonazepam",
+    "strength": "0.5 mg",
+    "form": "tablet",
+    "dose": {
+      "amount": 2,
+      "unit": "tablets"
+    },
+    "schedule": "2 tablets morning and 2 tablets night as required",
+    "usageType": "PRN",
+    "status": "historical",
+    "sourceFile": "Prescription_Hope_22_jan_26.pdf",
+    "verification": "owner-verified"
+  },
+  {
+    "id": "MEDORD-0019",
+    "patientId": "HOPE-001",
+    "prescribedOn": "2026-01-22",
+    "drug": "Neurokind Pet",
+    "activeIngredient": null,
+    "form": "syrup",
+    "strength": "210 mL bottle",
+    "dose": {
+      "amount": 5,
+      "unit": "mL"
+    },
+    "schedule": "5 mL morning and 5 mL night",
+    "status": "historical",
+    "sourceFile": "Prescription_Hope_22_jan_26.pdf",
+    "verification": "verified-from-primary-record-and-owner"
+  },
+  {
+    "id": "MEDORD-0020",
+    "patientId": "HOPE-001",
+    "prescribedOn": "2026-01-22",
+    "drug": "Et Liv-UD",
+    "activeIngredient": null,
+    "form": "syrup",
+    "strength": "100 mL bottle",
+    "dose": {
+      "amount": 5,
+      "unit": "mL"
+    },
+    "schedule": "5 mL twice weekly",
+    "status": "historical",
+    "sourceFile": "Prescription_Hope_22_jan_26.pdf",
+    "verification": "verified-from-primary-record-and-owner"
+  },
+  {
+    "id": "MEDORD-0021",
+    "patientId": "HOPE-001",
+    "prescribedOn": "2026-01-22",
+    "drug": "Gardenal",
+    "activeIngredient": "Phenobarbital",
+    "strength": "60 mg",
+    "form": "tablet",
+    "dose": {
+      "amount": 0.7,
+      "unit": "tablet"
+    },
+    "schedule": "0.7 tablet morning and 0.7 tablet night",
+    "duration": "10 days",
+    "status": "historical",
+    "sourceFile": "Prescription_Hope_22_jan_26.pdf",
+    "verification": "verified-from-primary-record-and-owner",
+    "notes": "Owner confirms actual administration as 0.7 tablet twice daily. Source prescription wording has previously been read as 3/4 tablet twice daily; both should remain visible as a discrepancy."
+  },
+  {
+    "id": "MEDORD-0022",
+    "patientId": "HOPE-001",
+    "prescribedOn": "2026-05-04",
+    "drug": "Gardenal",
+    "activeIngredient": "Phenobarbital",
+    "strength": "30 mg",
+    "form": "tablet",
+    "dose": {
+      "amount": 2,
+      "unit": "tablets"
+    },
+    "schedule": "2 tablets morning and 2 tablets night",
+    "duration": "10 days",
+    "status": "historical",
+    "sourceFile": "Prescription_Hope_4_May_26.pdf",
+    "verification": "verified-from-primary-record-and-owner"
+  },
+  {
+    "id": "MEDORD-0023",
+    "patientId": "HOPE-001",
+    "prescribedOn": "2026-05-04",
+    "drug": "Hepamust",
+    "activeIngredient": null,
+    "form": "syrup",
+    "strength": "200 mL bottle",
+    "dose": {
+      "amount": 7.5,
+      "unit": "mL"
+    },
+    "schedule": "7.5 mL morning and 7.5 mL night",
+    "status": "historical",
+    "sourceFile": "Prescription_Hope_4_May_26.pdf",
+    "verification": "verified-from-primary-record-and-owner"
+  },
+  {
+    "id": "MEDORD-0024",
+    "patientId": "HOPE-001",
+    "prescribedOn": "2026-05-27",
+    "drug": "Gardenal",
+    "activeIngredient": "Phenobarbital",
+    "strength": "30 mg",
+    "form": "tablet",
+    "dose": {
+      "amount": 2,
+      "unit": "tablets"
+    },
+    "schedule": "2 tablets morning and 2 tablets night",
+    "duration": "1 month",
+    "status": "historical",
+    "sourceFile": "Animal_Care_Clinic_27_May_2026",
+    "verification": "owner-verified-with-primary-record-support",
+    "notes": "Owner reports Dr. Lakshmi advised continuation of the same May regimen for one month."
+  },
+  {
+    "id": "MEDORD-0025",
+    "patientId": "HOPE-001",
+    "prescribedOn": "2026-05-27",
+    "drug": "Hepamust",
+    "activeIngredient": null,
+    "form": "syrup",
+    "strength": "200 mL bottle",
+    "dose": {
+      "amount": 7.5,
+      "unit": "mL"
+    },
+    "schedule": "7.5 mL morning and 7.5 mL night",
+    "duration": "1 month",
+    "status": "historical",
+    "sourceFile": "owner-medication-history",
+    "verification": "owner-verified",
+    "notes": "Continued as part of the same May regimen per owner report."
+  },
+  {
+    "id": "MEDORD-0026",
+    "patientId": "HOPE-001",
+    "prescribedOn": "2026-05-27",
+    "drug": "Et Liv",
+    "activeIngredient": null,
+    "form": "syrup",
+    "dose": {
+      "amount": null,
+      "unit": "mL"
+    },
+    "schedule": "daily",
+    "status": "historical",
+    "sourceFile": "Animal_Care_Clinic_27_May_2026",
+    "verification": "owner-verified-with-primary-record-support",
+    "notes": "Daily use advised; exact daily dose not yet confirmed."
+  },
+  {
+    "id": "MEDORD-0027",
+    "patientId": "HOPE-001",
+    "prescribedOn": "2026-06-20",
+    "drug": "Gardenal",
+    "activeIngredient": "Phenobarbital",
+    "strength": "60 mg",
+    "form": "tablet",
+    "dose": {
+      "amount": 1,
+      "unit": "tablet"
+    },
+    "schedule": "1 tablet morning and 1 tablet night",
+    "status": "current",
+    "sourceFile": "Animal_Care_Clinical_20_Jun_2026.pdf",
+    "verification": "verified-from-primary-record-and-owner",
+    "notes": "The 20 Jun 2026 clinical record documents Gardenal 60 mg, 1 tablet twice daily. Owner confirms Hope remains on this maintenance regimen as of 9 Sep 2026."
+  },
+  {
+    "id": "MEDORD-0028",
+    "patientId": "HOPE-001",
+    "prescribedOn": "2026-06-20",
+    "drug": "Levetiracetam",
+    "activeIngredient": "Levetiracetam",
+    "strength": "500 mg",
+    "form": "tablet",
+    "dose": {
+      "amount": 0.75,
+      "unit": "tablet"
+    },
+    "schedule": "3/4 tablet as SOS",
+    "usageType": "SOS",
+    "status": "current-sos",
+    "sourceFile": "Animal_Care_Clinical_20_Jun_2026.pdf",
+    "verification": "verified-from-primary-record-and-owner",
+    "notes": "The 20 Jun 2026 clinical record uses the source wording 'Epihat' and documents 3/4 tablet SOS. Compass normalizes this to levetiracetam based on the established medication identity in Hope's records; owner confirms levetiracetam is the current SOS medication."
+  },
+  {
+    "id": "MEDORD-0029",
+    "patientId": "HOPE-001",
+    "prescribedOn": "2026-06-20",
+    "drug": "Medazolam",
+    "activeIngredient": null,
+    "form": "intranasal emergency medication",
+    "dose": {
+      "amount": 1.9,
+      "unit": "mL"
+    },
+    "schedule": "up to 1.9 mL intranasally in emergency; original clinic administration wording preserved verbatim and requires clinical interpretation",
+    "usageType": "emergency",
+    "status": "current-emergency-plan",
+    "sourceFile": "Animal_Care_Clinical_20_Jun_2026.pdf",
+    "verification": "verified-from-primary-record-and-owner",
+    "notes": "The drug name 'Medazolam' and the intranasal emergency instruction are preserved exactly from the 20 Jun 2026 clinical record. Compass does not reinterpret or correct the source terminology."
+  },
+  {
+    "id": "MEDORD-0030",
+    "patientId": "HOPE-001",
+    "prescribedOn": "2026-06-20",
+    "drug": "Clonazepam",
+    "activeIngredient": "Clonazepam",
+    "strength": "0.5 mg",
+    "form": "tablet",
+    "schedule": "STOP",
+    "status": "stopped",
+    "actualUseEndDate": "2026-06-20",
+    "sourceFile": "Animal_Care_Clinical_20_Jun_2026.pdf",
+    "verification": "verified-from-primary-record-and-owner",
+    "notes": "The 20 Jun 2026 clinical record explicitly advises stopping clonazepam. Earlier Hope records use the brand name Rivotril for clonazepam. Owner confirms it was stopped."
+      }
+    ]
